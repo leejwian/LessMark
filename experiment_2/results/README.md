@@ -1,6 +1,6 @@
 # 실험 2 결과
 
-실행 중인 본실험의 상태는 실행 스크립트의 `status`로, 완료된 후보의 결과는 `report`로 확인한다. 이 폴더에는 원본 C₀에서 수행한 분류 백본 점검이 있다. 본실험 강도 선정 결과와 체크포인트의 기본 경로는 `/data/lerra_parameter_watermark_protocol/runs/experiment_2_strength_selection`이다. `--output`으로 지정한 경우 해당 경로에 기록한다. [42개 조합의 본실험 강도표](../config/FIVE_STRENGTH_CANDIDATES_REVIEW.csv)
+실행 중인 본실험의 상태는 실행 스크립트의 `status`로, 완료된 후보의 결과는 `report`로 확인한다. 이 폴더에는 원본 C₀에서 수행한 분류 백본 점검이 있다. 본실험의 결과와 체크포인트는 서버 설정 `LERRA_OUTPUT`에 저장한다. 설정을 생략하면 저장소 루트의 `runs/experiment_2_strength_selection/`을 사용한다. [42개 조합의 본실험 강도표](../config/FIVE_STRENGTH_CANDIDATES_REVIEW.csv)
 
 ## 분류 백본의 저에너지 방향 점검 · 원본 C₀
 

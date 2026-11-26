@@ -14,7 +14,7 @@
 | --- | --- |
 | 설정 요약 | [비교 실험 요약표](EXPERIMENT_SUMMARY_KO.md) |
 | 실행 설정 | [설계 JSON](config/NEXT_EXPERIMENT_DESIGN.json) · [옵티마이저·배치·난수 설정](config/STRENGTH_TRAINING.json) · [FFHQ 방향 계산용 사진 목록](config/LESSMARK_FFHQ_TRAIN_1000.csv) |
-| 코드 | [실행 스크립트](run_strength_selection.sh) · [강도 선정 코드](code/run_strength_selection.py) · [분류 학습](code/classification_backend.py) · [생성 학습](code/generation_backend.py) · [삽입·복호](code/strength_watermarks.py) · [설계 검증기](code/verify_design.py) |
+| 코드 | [공통 실행 명령](../lessmark) · [강도 선정 코드](code/run_strength_selection.py) · [분류 학습](code/classification_backend.py) · [생성 학습](code/generation_backend.py) · [삽입·복호](code/strength_watermarks.py) · [설계 검증기](code/verify_design.py) |
 | 결과 | [본실험 산출물과 예비 점검의 구분](results/README.md) · [출력 파일 목록](EXPERIMENT_DESIGN_KO.md#section-8) |
 
 ## 강도 선정 실행

@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+    cat <<'HELP'
+사용법: ./lessmark <명령> [옵션]
+
+준비 및 입력
+  plan                         7개 조건 × 6개 방법의 210개 강도 후보 출력
+  inputs [--verify]            입력 파일 목록 점검 (--verify는 등록 SHA-256 대조)
+  copy-inputs [--dry-run] 대상   원본 서버의 등록 입력을 rsync로 복사
+  check-env                    학습 서버의 Python 패키지와 CUDA 연산 점검
+  verify                       설계·모델·분할·보정 사진의 일치 여부 검증
+
+학습 및 결과
+  parallel --foreground        현재 세션에서 선택한 GPU에 워커 배정
+  parallel --foreground --check  워커를 시작하기 전에 GPU 배정 가능 여부 점검
+  parallel                     사용자 systemd 서비스로 워커 실행
+  run --condition 조건          한 조건 실행 또는 재개
+  status --clean               GPU별 작업과 공통 대조군 상태 확인
+  report [--verify-artifacts]  완료 후보의 BER와 선정표 집계
+  retry-mail [결과폴더]         SMTP 사용 시 대기 중인 오류 알림 재전송
+
+서버 설정은 저장소 루트의 server.env, 설치·전송 절차는 docs/assets.md를 참고하세요.
+HELP
+}
+
+action="${1:-help}"
+case "$action" in
+    help|-h|--help) usage; exit 0 ;;
+esac
+shift
+
+repo="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd -- "$repo"
+if [[ -f server.env ]]; then
+    set -a
+    source ./server.env
+    set +a
+fi
+
+export LERRA_PYTHON="${LERRA_PYTHON:-python3}"
+export LERRA_OUTPUT="${LERRA_OUTPUT:-$repo/runs/experiment_2_strength_selection}"
+export PYTHONPATH="$repo${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+
+case "$action" in
+    inputs)       exec "$LERRA_PYTHON" scripts/assets.py "$@" ;;
+    copy-inputs)  exec bash scripts/copy_inputs.sh "$@" ;;
+    check-env)    exec "$LERRA_PYTHON" scripts/check_environment.py "$@" ;;
+    verify)       exec "$LERRA_PYTHON" experiment_2/code/verify_design.py "$@" ;;
+    plan)         exec "$LERRA_PYTHON" -m experiment_2.code.run_strength_selection plan "$@" ;;
+    run|report)   exec "$LERRA_PYTHON" -m experiment_2.code.run_strength_selection "$action" --output "$LERRA_OUTPUT" "$@" ;;
+    parallel)     exec "$LERRA_PYTHON" -m experiment_2.parallel_strength.launch "$@" ;;
+    status)       exec "$LERRA_PYTHON" -m experiment_2.parallel_strength.status "$@" ;;
+    retry-mail)
+        if (( $# > 1 )); then
+            echo "Usage: ./lessmark retry-mail [campaign-output-directory]" >&2
+            exit 2
+        fi
+        output="${1:-$LERRA_OUTPUT}"
+        exec "$LERRA_PYTHON" -m runtime.comparison.protocol_v2.notifications --retry-pending "${output%/}.alerts"
+        ;;
+    *)
+        echo "알 수 없는 명령: $action" >&2
+        usage >&2
+        exit 2
+        ;;
+esac

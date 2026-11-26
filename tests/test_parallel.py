@@ -170,7 +170,7 @@ class GPUAdmission(unittest.TestCase):
 def _tiny_job(root, design, plan, condition):
     import torch
     from experiment_2.code import run_strength_selection as study
-    from experiment_2.code.test_strength_campaign import TinyBackend, bind_watermark, prepare_assets
+    from tests.tiny_backend import TinyBackend, bind_watermark, prepare_assets
 
     class Backend(TinyBackend):
         def quality(self, directory, *, progress_dir=None):

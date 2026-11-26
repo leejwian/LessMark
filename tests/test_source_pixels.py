@@ -14,7 +14,7 @@ import numpy as np
 from PIL import Image
 import torch
 
-from experiment_2.code.generation_backend import _RealTrainingPhotos
+from experiment_2.code.generation_backend import CONFIG, _RealTrainingPhotos
 from experiment_2.code.input_paths import read_registered_json
 from experiment_2.parallel_strength import source_pixels as cache
 from runtime.comparison.protocol_v2.generative_reference import _seed
@@ -114,9 +114,8 @@ class SourcePixelTests(unittest.TestCase):
         self.assertTrue(torch.equal(self.install().image(0, 3), native.image(0, 3)))
 
     def test_real_registered_batches(self):
-        cfg = Path(__file__).resolve().parents[1] / 'config'
-        design = read_registered_json(cfg / 'NEXT_EXPERIMENT_DESIGN.json')
-        seed = json.loads((cfg / 'STRENGTH_TRAINING.json').read_text())['unet']['seed']
+        design = read_registered_json(CONFIG / 'NEXT_EXPERIMENT_DESIGN.json')
+        seed = json.loads((CONFIG / 'STRENGTH_TRAINING.json').read_text())['unet']['seed']
         for domain in ('imagenet', 'caltech256'):
             manifest = design['embedding']['native_generator_training']['train_pools'][domain]['manifest']
             if not Path(manifest['path']).is_file():
