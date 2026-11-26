@@ -1,0 +1,83 @@
+{
+  "shared_arm_seed": 100,
+  "classification": {
+    "seed": 100,
+    "microbatch": 4,
+    "accumulation": 16,
+    "optimizer": {
+      "name": "SGD",
+      "lr": 0.01,
+      "momentum": 0.9,
+      "weight_decay": 0.0005,
+      "nesterov": false
+    },
+    "schedule": {
+      "kind": "multistep",
+      "lr": 0.01,
+      "milestones_epochs": [
+        100,
+        150
+      ],
+      "gamma": 0.1
+    },
+    "gradient_clip": 5.0,
+    "validation_batch": 64
+  },
+  "unet": {
+    "seed": 7698,
+    "batch_size": 32,
+    "microbatch_size": 1,
+    "optimizer": "AdamW",
+    "lr": 0.0001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "schedule": "constant",
+    "transform": "center_crop256_seeded_horizontal_flip",
+    "precision": "float32",
+    "selected_weights": "raw"
+  },
+  "sit_b_2": {
+    "seed": 7698,
+    "batch_size": 32,
+    "microbatch_size": 1,
+    "optimizer": "AdamW",
+    "lr": 0.0001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "schedule": "constant",
+    "transform": "center_crop256_seeded_horizontal_flip",
+    "precision": "float32",
+    "selected_weights": "raw"
+  },
+  "styleswin": {
+    "seed": 7698,
+    "batch_size": 32,
+    "microbatch_size": 4,
+    "optimizer": "Adam",
+    "lr": 5e-05,
+    "d_lr": 0.0002,
+    "betas": [
+      0.0,
+      0.99
+    ],
+    "eps": 1e-08,
+    "g_reg_every": 10000000,
+    "r1_every": 16,
+    "r1_gamma": 10.0,
+    "bcr_real": 10.0,
+    "bcr_fake": 10.0,
+    "d_clip": 5.0,
+    "schedule": "constant",
+    "transform": "resize256_bilinear_imagenet_normalize",
+    "precision": "float32",
+    "selected_weights": "raw"
+  }
+}

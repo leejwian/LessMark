@@ -1,0 +1,45 @@
+{
+  "comparison_methods": {
+    "uchida": {
+      "display_name": "VanillaMark",
+      "aliases": [
+        "Uchida"
+      ]
+    },
+    "greedy": {
+      "display_name": "GreedyMark",
+      "aliases": [
+        "Greedy",
+        "Greedy Residuals"
+      ]
+    },
+    "neuralmark": {
+      "display_name": "NeuralMark",
+      "aliases": []
+    },
+    "deepmarks": {
+      "display_name": "DeepMark",
+      "aliases": [
+        "DeepMarks"
+      ]
+    },
+    "tattooed": {
+      "display_name": "TATOOED",
+      "aliases": [
+        "TATTOOED"
+      ]
+    },
+    "lerra": {
+      "display_name": "LessMark",
+      "aliases": [
+        "LERRA",
+        "Ours",
+        "LessMark (Ours)",
+        "LERRA (Ours)",
+        "LERRA-direct",
+        "LERRA_direct",
+        "lessmark_training_free"
+      ]
+    }
+  }
+}

@@ -1,0 +1,2238 @@
+{
+  "schema": "selected42_pristine_test_tables_v1",
+  "created_at": "2026-11-14T11:11:09+09:00",
+  "all_42_native_BER0": true,
+  "formula_accuracy_difference": "Clean_accuracy_percent - Watermarked_accuracy_percent",
+  "formula_BER_percent": "100 * bit_errors / bit_count",
+  "sources_verified": "result, trial, contract and selection JSON SHA256/size; all42 identities; class_correct/count accuracy; all30 64-pair metric means; source selection equality",
+  "rows": [
+    {
+      "condition": "mobilenet_v3_large_w1p6_cifar100",
+      "method": "lerra",
+      "display_row": [
+        "CIFAR-100",
+        "MobileNetV3-Large",
+        "LessMark",
+        "63.58",
+        "63.58",
+        "0.00",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 63.580000000000005,
+        "watermarked_accuracy_percent": 63.580000000000005,
+        "accuracy_difference_C_minus_W_pp": 0.0,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 0.24,
+      "selected_candidate_id": "mobilenet_v3_large_w1p6_cifar100__lerra__alpha_0p24",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__lerra__nonlearning__s0/output/result.json",
+        "bytes": 44432,
+        "sha256": "1b21b47c8e45f645f5d0369a1c41d3716b100f649288cf7fda67c5927edb6f6a"
+      },
+      "trial": {
+        "bytes": 528,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__lerra__nonlearning__s0/trial.json",
+        "sha256": "0bb5d88408533277a7a6938947cbfb3dce2da2712b9729bda268457f357eb268"
+      },
+      "contract": {
+        "bytes": 37735,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__lerra__nonlearning__s0/output/contract.json",
+        "sha256": "2553b6da92a9fa4b7e0c5ce6373aeba95db1d6ff864baaf0060f0e67cf4237b0"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/mobilenet_v3_large_w1p6_cifar100__lerra/selection.json",
+        "bytes": 9373,
+        "sha256": "b9792a99958ae01375cada829916c6dbbed59e9177bd919a533588773475548f"
+      },
+      "display_method": "LessMark"
+    },
+    {
+      "condition": "mobilenet_v3_large_w1p6_cifar100",
+      "method": "uchida",
+      "display_row": [
+        "CIFAR-100",
+        "MobileNetV3-Large",
+        "VanillaMark",
+        "66.69",
+        "65.32",
+        "1.37",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 66.69,
+        "watermarked_accuracy_percent": 65.32,
+        "accuracy_difference_C_minus_W_pp": 1.3700000000000045,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "matched_additional_training_clean"
+      },
+      "strength": 0.1,
+      "selected_candidate_id": "mobilenet_v3_large_w1p6_cifar100__uchida__lambda_0p1__lr_0p01__epoch_150",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__uchida__nonlearning__s0/output/result.json",
+        "bytes": 44811,
+        "sha256": "0237d6e31722c4835eb6f9d39264ccf4e7a1074baf8e3b38d19e21fc07ccf5cb"
+      },
+      "trial": {
+        "bytes": 532,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__uchida__nonlearning__s0/trial.json",
+        "sha256": "8618649ba8c7eb70baac3768ff9793218f071ecae7ce5461942f7abebe18d4fe"
+      },
+      "contract": {
+        "bytes": 37925,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__uchida__nonlearning__s0/output/contract.json",
+        "sha256": "c97a6f2ea49a14729fc2aadbf762e1ba89636ede5344e97d69114a0aad4e4e45"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/mobilenet_v3_large_w1p6_cifar100__uchida/selection.json",
+        "bytes": 17369,
+        "sha256": "873357e019deaef0148f7cb5b73029509eb1f63378f71b19950b6b6c31b5e4bf"
+      },
+      "display_method": "VanillaMark"
+    },
+    {
+      "condition": "mobilenet_v3_large_w1p6_cifar100",
+      "method": "greedy",
+      "display_row": [
+        "CIFAR-100",
+        "MobileNetV3-Large",
+        "GreedyMark",
+        "63.58",
+        "64.18",
+        "-0.60",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 63.580000000000005,
+        "watermarked_accuracy_percent": 64.18,
+        "accuracy_difference_C_minus_W_pp": -0.6000000000000014,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 0.03,
+      "selected_candidate_id": "protected__mobilenet_v3_large_w1p6_cifar100__greedy",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__greedy__nonlearning__s0/output/result.json",
+        "bytes": 43793,
+        "sha256": "19e09d4fec78b21e0b3b54d5805b4164bb99d3b8f711ca4ed9cc7df7de816d2f"
+      },
+      "trial": {
+        "bytes": 531,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__greedy__nonlearning__s0/trial.json",
+        "sha256": "704f6dc90381f83b6870a3d29593ae41dcf4510ccbbf31b07fe60262c1b6c45e"
+      },
+      "contract": {
+        "bytes": 37583,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__greedy__nonlearning__s0/output/contract.json",
+        "sha256": "a2dc6f0cd50505f20605baf4a8d402dceee1d3abba82a51b49c781c16024930a"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/mobilenet_v3_large_w1p6_cifar100__greedy/selection.json",
+        "bytes": 7882,
+        "sha256": "1a6e9f2439d890439a14a44a4096271256c46f57b3379a26c283f7e92111d46d"
+      },
+      "display_method": "GreedyMark"
+    },
+    {
+      "condition": "mobilenet_v3_large_w1p6_cifar100",
+      "method": "neuralmark",
+      "display_row": [
+        "CIFAR-100",
+        "MobileNetV3-Large",
+        "NeuralMark",
+        "63.58",
+        "63.87",
+        "-0.29",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 63.580000000000005,
+        "watermarked_accuracy_percent": 63.870000000000005,
+        "accuracy_difference_C_minus_W_pp": -0.28999999999999915,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 1.0,
+      "selected_candidate_id": "protected__mobilenet_v3_large_w1p6_cifar100__neuralmark",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__neuralmark__nonlearning__s0/output/result.json",
+        "bytes": 43951,
+        "sha256": "07a731a5bec788826194323003332dfc396b8d9d15088f3a036c188b71f2233e"
+      },
+      "trial": {
+        "bytes": 543,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__neuralmark__nonlearning__s0/trial.json",
+        "sha256": "0158af53444e7b89cac0b0c47e83971a8b02326a5c028b997091dfc035100548"
+      },
+      "contract": {
+        "bytes": 37596,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__neuralmark__nonlearning__s0/output/contract.json",
+        "sha256": "bcdf9795c38a50885fc047525e28f6f1eb1ae01844afa5e0ee96336af89c64bd"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/mobilenet_v3_large_w1p6_cifar100__neuralmark/selection.json",
+        "bytes": 8001,
+        "sha256": "404bf002e65b276306408b16b6110858301b7f1850885521d71b8eb926312f4e"
+      },
+      "display_method": "NeuralMark"
+    },
+    {
+      "condition": "mobilenet_v3_large_w1p6_cifar100",
+      "method": "deepmarks",
+      "display_row": [
+        "CIFAR-100",
+        "MobileNetV3-Large",
+        "DeepMark",
+        "57.07",
+        "58.15",
+        "-1.08",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 57.07,
+        "watermarked_accuracy_percent": 58.15,
+        "accuracy_difference_C_minus_W_pp": -1.0799999999999983,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "matched_additional_training_clean"
+      },
+      "strength": 240.0,
+      "selected_candidate_id": "mobilenet_v3_large_w1p6_cifar100__deepmarks__continue_adam_fast__update_107526",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__deepmarks__nonlearning__s0/output/result.json",
+        "bytes": 44825,
+        "sha256": "4de14fc29c3655a01b0bbfbddcc33d790019ccd9a18db7fa64b71d6d384472a3"
+      },
+      "trial": {
+        "bytes": 497,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__deepmarks__nonlearning__s0/trial.json",
+        "sha256": "2143c3aac0d65730aa63365a6fd7c361b59a1b4e430721d2a5e818cf759a8a59"
+      },
+      "contract": {
+        "bytes": 37883,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__deepmarks__nonlearning__s0/output/contract.json",
+        "sha256": "2c511136acd200337e6ebbc807a7b3122199d414ba5f360d9c1609934c2ca9f0"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/rescue_selection.json",
+        "bytes": 29677,
+        "sha256": "520163c1b6b7201f3af43e1c1b77858902dffdc13b2cdfd0ee871f78a6298248"
+      },
+      "display_method": "DeepMark"
+    },
+    {
+      "condition": "mobilenet_v3_large_w1p6_cifar100",
+      "method": "tattooed",
+      "display_row": [
+        "CIFAR-100",
+        "MobileNetV3-Large",
+        "TATOOED",
+        "63.58",
+        "63.65",
+        "-0.07",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 63.580000000000005,
+        "watermarked_accuracy_percent": 63.65,
+        "accuracy_difference_C_minus_W_pp": -0.06999999999999318,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 0.0009,
+      "selected_candidate_id": "protected__mobilenet_v3_large_w1p6_cifar100__tattooed",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__tattooed__nonlearning__s0/output/result.json",
+        "bytes": 44560,
+        "sha256": "6d2a6869f0b2cb1ee607c149acf9b414e325cdae5e44ea68e484498ba7a4742b"
+      },
+      "trial": {
+        "bytes": 537,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__tattooed__nonlearning__s0/trial.json",
+        "sha256": "a1950a810229e5910811c0ebc37e6658c4f4ae561ce32e3afb7145694c0d30fc"
+      },
+      "contract": {
+        "bytes": 37594,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/mobilenet_v3_large_w1p6_cifar100__tattooed__nonlearning__s0/output/contract.json",
+        "sha256": "59353b904056d1a89c51755a179113b755d8c7bff8a29ad5139fa2ecbd9b951d"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/mobilenet_v3_large_w1p6_cifar100__tattooed/selection.json",
+        "bytes": 7886,
+        "sha256": "b773ecf86742b8b636b71b193bbedc9e39badb4d9bffb3bf2e1294e11ecee20d"
+      },
+      "display_method": "TATOOED"
+    },
+    {
+      "condition": "resnet18_cifar100",
+      "method": "lerra",
+      "display_row": [
+        "CIFAR-100",
+        "ResNet18",
+        "LessMark",
+        "75.48",
+        "75.46",
+        "0.02",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 75.48,
+        "watermarked_accuracy_percent": 75.46000000000001,
+        "accuracy_difference_C_minus_W_pp": 0.01999999999999602,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 0.8,
+      "selected_candidate_id": "resnet18_cifar100__lerra__alpha_0p8",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__lerra__nonlearning__s0/output/result.json",
+        "bytes": 43575,
+        "sha256": "c09afede5e2537e509426b842f6f507f3a1f9e2ba482c4ffc07541054ffff4ba"
+      },
+      "trial": {
+        "bytes": 483,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__lerra__nonlearning__s0/trial.json",
+        "sha256": "d4a3500bd1c21f4ff7038e3d8fc4d27dddb23a8d319667ca2c7024ecff013c33"
+      },
+      "contract": {
+        "bytes": 25658,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__lerra__nonlearning__s0/output/contract.json",
+        "sha256": "633e6af24381e6f49c18e7643f80fc422b9daa165b7e233a5b8e494dd2194228"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/resnet18_cifar100__lerra/selection.json",
+        "bytes": 9232,
+        "sha256": "e9b710766a5c5baadabdcb145b6221d47261c96c2a71e780cb08c96d92a8ee6d"
+      },
+      "display_method": "LessMark"
+    },
+    {
+      "condition": "resnet18_cifar100",
+      "method": "uchida",
+      "display_row": [
+        "CIFAR-100",
+        "ResNet18",
+        "VanillaMark",
+        "75.48",
+        "76.07",
+        "-0.59",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 75.48,
+        "watermarked_accuracy_percent": 76.07000000000001,
+        "accuracy_difference_C_minus_W_pp": -0.5900000000000034,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 0.003,
+      "selected_candidate_id": "protected__resnet18_cifar100__uchida",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__uchida__nonlearning__s0/output/result.json",
+        "bytes": 42992,
+        "sha256": "cc6efe93a2369ca46a54579e05cb97c280b078a589cf74be3ad7e67d37258bcb"
+      },
+      "trial": {
+        "bytes": 486,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__uchida__nonlearning__s0/trial.json",
+        "sha256": "4d45fcf112646ad763a8531367b0677f8f85ab44ad2a916319017a138d37e9b5"
+      },
+      "contract": {
+        "bytes": 25577,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__uchida__nonlearning__s0/output/contract.json",
+        "sha256": "94bbec8870f6422fbb3de4ba809d8f7a9529e9403a5f1ab905b40381ac4f646b"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/resnet18_cifar100__uchida/selection.json",
+        "bytes": 7871,
+        "sha256": "c5ccebd89b2936efb081b4dd4be6d7d02cc13a14778189c8e779882c38443c2a"
+      },
+      "display_method": "VanillaMark"
+    },
+    {
+      "condition": "resnet18_cifar100",
+      "method": "greedy",
+      "display_row": [
+        "CIFAR-100",
+        "ResNet18",
+        "GreedyMark",
+        "75.48",
+        "75.14",
+        "0.34",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 75.48,
+        "watermarked_accuracy_percent": 75.14,
+        "accuracy_difference_C_minus_W_pp": 0.3400000000000034,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 0.03,
+      "selected_candidate_id": "protected__resnet18_cifar100__greedy",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__greedy__nonlearning__s0/output/result.json",
+        "bytes": 42978,
+        "sha256": "10be2ea6846d3f62a68b9086905f0dcca7bb78a924139a701126bdf0b6b144ab"
+      },
+      "trial": {
+        "bytes": 486,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__greedy__nonlearning__s0/trial.json",
+        "sha256": "2ebe564d12cabc00f11266565bc87f70cb8f51d2718db083a04a87fd4489bef6"
+      },
+      "contract": {
+        "bytes": 25573,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__greedy__nonlearning__s0/output/contract.json",
+        "sha256": "667c998d6d19923e05cbc4daf1e2e87c86bb2571704ec5b4020108fa5e473829"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/resnet18_cifar100__greedy/selection.json",
+        "bytes": 7820,
+        "sha256": "1cb4cf4942032e51b06dfd9dfb1e52f1347e34f0916aaf7b6afba11c4bba7c40"
+      },
+      "display_method": "GreedyMark"
+    },
+    {
+      "condition": "resnet18_cifar100",
+      "method": "neuralmark",
+      "display_row": [
+        "CIFAR-100",
+        "ResNet18",
+        "NeuralMark",
+        "75.48",
+        "74.59",
+        "0.89",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 75.48,
+        "watermarked_accuracy_percent": 74.59,
+        "accuracy_difference_C_minus_W_pp": 0.8900000000000006,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 1.0,
+      "selected_candidate_id": "protected__resnet18_cifar100__neuralmark",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__neuralmark__nonlearning__s0/output/result.json",
+        "bytes": 43143,
+        "sha256": "f10958b43a7eb0c139d6ebf4e77241421d3d7e00803e55d333e26df6837254b5"
+      },
+      "trial": {
+        "bytes": 498,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__neuralmark__nonlearning__s0/trial.json",
+        "sha256": "390da7c2ef6d4eae64646f7faa4b43ecbc74dae5e299d40d527b1b894e8744ac"
+      },
+      "contract": {
+        "bytes": 25586,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__neuralmark__nonlearning__s0/output/contract.json",
+        "sha256": "536d3b9fe77d9c161f064497b336d7ed3d58e897e7b3130095e2b1f655097a93"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/resnet18_cifar100__neuralmark/selection.json",
+        "bytes": 6992,
+        "sha256": "bc603e45ce9df85f1fd4819be07992fdc9553b114dce51200bf2070e2dfa3d19"
+      },
+      "display_method": "NeuralMark"
+    },
+    {
+      "condition": "resnet18_cifar100",
+      "method": "deepmarks",
+      "display_row": [
+        "CIFAR-100",
+        "ResNet18",
+        "DeepMark",
+        "75.61",
+        "75.63",
+        "-0.02",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 75.61,
+        "watermarked_accuracy_percent": 75.63,
+        "accuracy_difference_C_minus_W_pp": -0.01999999999999602,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "matched_additional_training_clean"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "resnet18_cifar100__deepmarks__lambda_30__lr_0p0001__epoch_50",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__deepmarks__nonlearning__s0/output/result.json",
+        "bytes": 44210,
+        "sha256": "0b4ab4e141d4e85c194c2f06572993a4db179e7239bd5bc00d425d6d71172547"
+      },
+      "trial": {
+        "bytes": 496,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__deepmarks__nonlearning__s0/trial.json",
+        "sha256": "f75b4cc49d6a37dcf08790ce10a0f09a62e5ab747a0e621f653695e9481b6c27"
+      },
+      "contract": {
+        "bytes": 25901,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__deepmarks__nonlearning__s0/output/contract.json",
+        "sha256": "17b7b92b758c01abf743ac566c4ccad31e60fbabe7d3383ba7d9c93d15414ddf"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/resnet18_cifar100__deepmarks/selection.json",
+        "bytes": 16971,
+        "sha256": "7c3aa225a957c0f8d72b2aacb2e73eebb124e528aba75d3aa9617eb6ed688987"
+      },
+      "display_method": "DeepMark"
+    },
+    {
+      "condition": "resnet18_cifar100",
+      "method": "tattooed",
+      "display_row": [
+        "CIFAR-100",
+        "ResNet18",
+        "TATOOED",
+        "75.48",
+        "75.52",
+        "-0.04",
+        "0.00"
+      ],
+      "metrics": {
+        "clean_accuracy_percent": 75.48,
+        "watermarked_accuracy_percent": 75.52,
+        "accuracy_difference_C_minus_W_pp": -0.03999999999999204,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "images": 10000,
+        "replicates": 1,
+        "reference": "original_public_clean"
+      },
+      "strength": 0.00027,
+      "selected_candidate_id": "protected__resnet18_cifar100__tattooed",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__tattooed__nonlearning__s0/output/result.json",
+        "bytes": 43780,
+        "sha256": "45abf8e83082483d1bd8077e72d475efe3708f5cf5fac0b6aba31f338a8e9ba7"
+      },
+      "trial": {
+        "bytes": 492,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__tattooed__nonlearning__s0/trial.json",
+        "sha256": "dd5dcf1f2a043c3b7a294e551164985c7561de1cdbea27fd12c441a414736165"
+      },
+      "contract": {
+        "bytes": 25585,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/resnet18_cifar100__tattooed__nonlearning__s0/output/contract.json",
+        "sha256": "c283c829ae5a3ce4e84906522186bf166252eadd6fd05958ca9064d0bdaddb3f"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/resnet18_cifar100__tattooed/selection.json",
+        "bytes": 6995,
+        "sha256": "a81803d6c8610ec7de835d501068d0ff9b77d61f1885094df4eeb2e19f4be1a7"
+      },
+      "display_method": "TATOOED"
+    },
+    {
+      "condition": "unet_imagenet",
+      "method": "lerra",
+      "display_row": [
+        "ImageNet",
+        "U-Net",
+        "LessMark",
+        "0.0007349740101",
+        "0.9721192835",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.0007349740101418297,
+        "SSIM_dimensionless": 0.972119283469732,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.24,
+      "selected_candidate_id": "unet_imagenet__lerra__alpha_0p24",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__lerra__eval_s0__none/output/result.json",
+        "bytes": 295005,
+        "sha256": "758b0ec1f562e4da8245439be71dd79785594e6bff31c26f2ea2355e21c49570"
+      },
+      "trial": {
+        "bytes": 526,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__lerra__eval_s0__none/trial.json",
+        "sha256": "a3399bf499aea6d1e5c9ec693f307ce214ed0c147104baf9ee82f8610262629f"
+      },
+      "contract": {
+        "bytes": 4644619,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__lerra__eval_s0__none/output/contract.json",
+        "sha256": "4fd6457bc93089ecd5406fc82183de6ca4dacbbb5d1428f84ed3060ae11b3b99"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_imagenet__lerra/selection.json",
+        "bytes": 9569,
+        "sha256": "48c6f32af8605e17c321004909c0e039f44889f350fe83e3b5325162279d009d"
+      },
+      "display_method": "LessMark"
+    },
+    {
+      "condition": "unet_imagenet",
+      "method": "uchida",
+      "display_row": [
+        "ImageNet",
+        "U-Net",
+        "VanillaMark",
+        "0.0006264602295",
+        "0.9631657139",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.0006264602295447673,
+        "SSIM_dimensionless": 0.9631657139292865,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.003,
+      "selected_candidate_id": "protected__unet_imagenet__uchida",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__uchida__eval_s0__none/output/result.json",
+        "bytes": 295095,
+        "sha256": "2fc59873500c05ae85d4a52ac6e874589cf6c53712878efa5f5f017d131fe8f8"
+      },
+      "trial": {
+        "bytes": 529,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__uchida__eval_s0__none/trial.json",
+        "sha256": "b4dd7992e4dde20120597a2f9ced718c48f801daa639c05fe61ee68f9c8ca7af"
+      },
+      "contract": {
+        "bytes": 4644556,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__uchida__eval_s0__none/output/contract.json",
+        "sha256": "82dd175b4dfa4fb0f7cd8f35df921be046fa5562be2b2a15ea78daf5ac420e47"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_imagenet__uchida/selection.json",
+        "bytes": 7210,
+        "sha256": "9e0eb108a3fd58755c020f576f5abf85b740c5ca2905a5ae93a78f7e5375ae36"
+      },
+      "display_method": "VanillaMark"
+    },
+    {
+      "condition": "unet_imagenet",
+      "method": "greedy",
+      "display_row": [
+        "ImageNet",
+        "U-Net",
+        "GreedyMark",
+        "0.06190768541",
+        "0.3554665114",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.06190768541360974,
+        "SSIM_dimensionless": 0.35546651139035745,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.03,
+      "selected_candidate_id": "unet_imagenet__greedy__lambda_0p03__lr_0p0001__update_1024",
+      "selection_quality_tier": 2,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__greedy__eval_s0__none/output/result.json",
+        "bytes": 294556,
+        "sha256": "e7e56e36ee886e0ba4320541d261cd30d17f8b5bca9117322e5b20427c9306b4"
+      },
+      "trial": {
+        "bytes": 530,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__greedy__eval_s0__none/trial.json",
+        "sha256": "cc635bde1be78a6ffc0aee671a8839a1983b020902af0f9105e5580a9e7def26"
+      },
+      "contract": {
+        "bytes": 4644716,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__greedy__eval_s0__none/output/contract.json",
+        "sha256": "d64f042d2273b5e4155b834cf88aabede139a614af28174a3bdab70be0b33950"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_imagenet__greedy/selection.json",
+        "bytes": 34427,
+        "sha256": "de96f00f1180f1cb46654ecd5fbba6dee56d701e48e45c8c45f35b7d921e0c2f"
+      },
+      "display_method": "GreedyMark"
+    },
+    {
+      "condition": "unet_imagenet",
+      "method": "neuralmark",
+      "display_row": [
+        "ImageNet",
+        "U-Net",
+        "NeuralMark",
+        "0.001140513936",
+        "0.9541580140",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.0011405139357238993,
+        "SSIM_dimensionless": 0.9541580140062783,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "unet_imagenet__neuralmark__lambda_30__lr_0p0001__update_2048",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__neuralmark__eval_s0__none/output/result.json",
+        "bytes": 295390,
+        "sha256": "cb6aa94c9d6fa8f32c94ecef02b5ae401f7495d092d5e6f08bc9a0f4bc68d18a"
+      },
+      "trial": {
+        "bytes": 542,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__neuralmark__eval_s0__none/trial.json",
+        "sha256": "b312c21efb61f1b804c56c957907d69747061d1e55353c3445797cdb2df79748"
+      },
+      "contract": {
+        "bytes": 4644736,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__neuralmark__eval_s0__none/output/contract.json",
+        "sha256": "da24a80d0c246f47f6488523b5d84dc713fd37bd74d05441736b8774f77661cb"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_imagenet__neuralmark/selection.json",
+        "bytes": 34708,
+        "sha256": "e503d1f81cdda01f1d7fb29264946825328b2d3b396d6430abb09d9bbe61c392"
+      },
+      "display_method": "NeuralMark"
+    },
+    {
+      "condition": "unet_imagenet",
+      "method": "deepmarks",
+      "display_row": [
+        "ImageNet",
+        "U-Net",
+        "DeepMark",
+        "0.0003272120273",
+        "0.9842758504",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.0003272120273262575,
+        "SSIM_dimensionless": 0.9842758504062249,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.1,
+      "selected_candidate_id": "protected__unet_imagenet__deepmarks",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__deepmarks__eval_s0__none/output/result.json",
+        "bytes": 294812,
+        "sha256": "bb810af98431a22a7f66b086f2afff7ded26e230bdede981e1ebfbcfa0958fb1"
+      },
+      "trial": {
+        "bytes": 538,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__deepmarks__eval_s0__none/trial.json",
+        "sha256": "730fc330fd68b710d18bd776b9dbeb0859383758920fd944ff4920464fcb335c"
+      },
+      "contract": {
+        "bytes": 4644574,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__deepmarks__eval_s0__none/output/contract.json",
+        "sha256": "8dfbc4c2dbad2e74ba86b7f33300330849e957092223c6b693385007f9e7b553"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_imagenet__deepmarks/selection.json",
+        "bytes": 7243,
+        "sha256": "33cfa488dcb6743a8683167b500715e5232cbefeb944b4dac4a9dcdcf8da25a3"
+      },
+      "display_method": "DeepMark"
+    },
+    {
+      "condition": "unet_imagenet",
+      "method": "tattooed",
+      "display_row": [
+        "ImageNet",
+        "U-Net",
+        "TATOOED",
+        "0.0002683210058",
+        "0.9820575736",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.00026832100575990776,
+        "SSIM_dimensionless": 0.9820575736219264,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.00027,
+      "selected_candidate_id": "protected__unet_imagenet__tattooed",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__tattooed__eval_s0__none/output/result.json",
+        "bytes": 295323,
+        "sha256": "af9f1ee44adf621f313f1807cab6fecd38fc0c2c9722a8664bf42ee20b846b74"
+      },
+      "trial": {
+        "bytes": 535,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__tattooed__eval_s0__none/trial.json",
+        "sha256": "585c3a7d0c213c68470fb68b56eeaaa3a577ec77a6aebc2f3235d394b983d803"
+      },
+      "contract": {
+        "bytes": 4644271,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_imagenet__tattooed__eval_s0__none/output/contract.json",
+        "sha256": "9b9837ab2b95b5d8aedbf8a289c59d0f6ea5f1d2380b66163dccfc68606f2be2"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_imagenet__tattooed/selection.json",
+        "bytes": 6907,
+        "sha256": "6f00df65745f130f462de1eaffa86e26c3a5d5bebb52b1275828f47cec9e9c5a"
+      },
+      "display_method": "TATOOED"
+    },
+    {
+      "condition": "sit_b_2_imagenet",
+      "method": "lerra",
+      "display_row": [
+        "ImageNet",
+        "SiT-B/2",
+        "LessMark",
+        "3.604498203e-05",
+        "0.9979700271",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 3.604498203400304e-05,
+        "SSIM_dimensionless": 0.9979700271288873,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 3.2,
+      "selected_candidate_id": "sit_b_2_imagenet__lerra__alpha_3p2",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__lerra__eval_s0__none/output/result.json",
+        "bytes": 291032,
+        "sha256": "478d1521cba298db3b7aa9b91002c859f8bc354043bd1909460cdf0c00920bff"
+      },
+      "trial": {
+        "bytes": 535,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__lerra__eval_s0__none/trial.json",
+        "sha256": "eb161f7a2d3de195b784b05440969c9e92f50455b02a6a1aacfabf64da924140"
+      },
+      "contract": {
+        "bytes": 4647825,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__lerra__eval_s0__none/output/contract.json",
+        "sha256": "6c4a54a50be9beb20ff45070dc124ecef8a7fbfd1c8a7f171c329329a3a4be78"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_imagenet__lerra/selection.json",
+        "bytes": 9331,
+        "sha256": "d156a8199939195d7ee0b511472265d4d45063b17338ccf88021938d999f0955"
+      },
+      "display_method": "LessMark"
+    },
+    {
+      "condition": "sit_b_2_imagenet",
+      "method": "uchida",
+      "display_row": [
+        "ImageNet",
+        "SiT-B/2",
+        "VanillaMark",
+        "7.986432783e-05",
+        "0.9966309713",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 7.986432782602402e-05,
+        "SSIM_dimensionless": 0.9966309713060394,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.01,
+      "selected_candidate_id": "protected__sit_b_2_imagenet__uchida",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__uchida__eval_s0__none/output/result.json",
+        "bytes": 290808,
+        "sha256": "12f0f3cbb5cc7da35494d0b81dc021421ec035d8519869752b519261c72bb316"
+      },
+      "trial": {
+        "bytes": 538,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__uchida__eval_s0__none/trial.json",
+        "sha256": "9e19e8ee6c64729558b98ca8ea384415d39c4f815ac16d6f929e2c4a3135c07b"
+      },
+      "contract": {
+        "bytes": 4647771,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__uchida__eval_s0__none/output/contract.json",
+        "sha256": "05c068ef706e3bfeb6814a976584c18a5189569b932b73cddd08fc0e1c65bbc3"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_imagenet__uchida/selection.json",
+        "bytes": 7266,
+        "sha256": "426675a158b915cc86683c7564f99e6bf15ec4a9f96a58a446f04cc1a0f736a4"
+      },
+      "display_method": "VanillaMark"
+    },
+    {
+      "condition": "sit_b_2_imagenet",
+      "method": "greedy",
+      "display_row": [
+        "ImageNet",
+        "SiT-B/2",
+        "GreedyMark",
+        "0.003481500576",
+        "0.9043582303",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.003481500575704626,
+        "SSIM_dimensionless": 0.9043582302940133,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.03,
+      "selected_candidate_id": "sit_b_2_imagenet__greedy__lambda_0p03__lr_0p0001__update_512",
+      "selection_quality_tier": 2,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__greedy__eval_s0__none/output/result.json",
+        "bytes": 290485,
+        "sha256": "9587b62261a372a246b58038f335f4514ad2b1b7d8e68431c30f36041ffe781b"
+      },
+      "trial": {
+        "bytes": 539,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__greedy__eval_s0__none/trial.json",
+        "sha256": "a171243cfe79d1d46527254a35947a9940b1744da50ecfd0a972ef81c2dfce50"
+      },
+      "contract": {
+        "bytes": 4647920,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__greedy__eval_s0__none/output/contract.json",
+        "sha256": "259d9266bee97b6b879561edfc1deb7e8cb0c3ddcb0080c7270c1096c6d9d611"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_imagenet__greedy/selection.json",
+        "bytes": 34646,
+        "sha256": "f3b85963c8497caf4e78b1d1c60aadbef11416581eea10ccc9bba8c53aa0b670"
+      },
+      "display_method": "GreedyMark"
+    },
+    {
+      "condition": "sit_b_2_imagenet",
+      "method": "neuralmark",
+      "display_row": [
+        "ImageNet",
+        "SiT-B/2",
+        "NeuralMark",
+        "2.953745899e-05",
+        "0.9985200370",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 2.953745898786834e-05,
+        "SSIM_dimensionless": 0.9985200369980739,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "sit_b_2_imagenet__neuralmark__lambda_30__lr_0p0001__update_1024",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__neuralmark__eval_s0__none/output/result.json",
+        "bytes": 291143,
+        "sha256": "bf15c5cee763e31903e1ff29b47cf74c718b331f41a07646244dd38c46f07561"
+      },
+      "trial": {
+        "bytes": 551,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__neuralmark__eval_s0__none/trial.json",
+        "sha256": "47cc45d12d2d35f29c73b6a539f1da9a95fdc9c279a56e0f7b90ca8824702ee1"
+      },
+      "contract": {
+        "bytes": 4647942,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__neuralmark__eval_s0__none/output/contract.json",
+        "sha256": "a68be22d7eb5797ae68fe94fb1845b1ba2346d539190bfeeaf74baecd1f5d785"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_imagenet__neuralmark/selection.json",
+        "bytes": 34984,
+        "sha256": "1aed3d31731f8e9360bda54c9e6ac02fb4936331b3c0576ac12d3aa0b0e1f3f3"
+      },
+      "display_method": "NeuralMark"
+    },
+    {
+      "condition": "sit_b_2_imagenet",
+      "method": "deepmarks",
+      "display_row": [
+        "ImageNet",
+        "SiT-B/2",
+        "DeepMark",
+        "1.653354139e-05",
+        "0.9991139907",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 1.6533541393754804e-05,
+        "SSIM_dimensionless": 0.9991139907407282,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.03,
+      "selected_candidate_id": "protected__sit_b_2_imagenet__deepmarks",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__deepmarks__eval_s0__none/output/result.json",
+        "bytes": 291034,
+        "sha256": "db062a6d3871ff908fbc5083cfad8b27124d9fd430abb16c14fa61ce4c2a6614"
+      },
+      "trial": {
+        "bytes": 547,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__deepmarks__eval_s0__none/trial.json",
+        "sha256": "98a9aa396646e0767f22ea3aa1c4d23112eabdbac568c9e228b87b6f144590d2"
+      },
+      "contract": {
+        "bytes": 4647789,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__deepmarks__eval_s0__none/output/contract.json",
+        "sha256": "96f45fd5274ed475076a4aaf75b81b8e1344d87efdd97c7b742baad9f5c54b7d"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_imagenet__deepmarks/selection.json",
+        "bytes": 7306,
+        "sha256": "ac70a0fb35db6adece52953eee0002099cd0c5c4a2724d4fa6c460ecf2379882"
+      },
+      "display_method": "DeepMark"
+    },
+    {
+      "condition": "sit_b_2_imagenet",
+      "method": "tattooed",
+      "display_row": [
+        "ImageNet",
+        "SiT-B/2",
+        "TATOOED",
+        "0.0002947685988",
+        "0.9897493264",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.00029476859884998186,
+        "SSIM_dimensionless": 0.9897493263726935,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.0009,
+      "selected_candidate_id": "protected__sit_b_2_imagenet__tattooed",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__tattooed__eval_s0__none/output/result.json",
+        "bytes": 291392,
+        "sha256": "172e1e8daed3f5cdc182b4467b026b603924772926a11942b9bb5c5e779aa75f"
+      },
+      "trial": {
+        "bytes": 544,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__tattooed__eval_s0__none/trial.json",
+        "sha256": "681abab4c58f85c1a6905424123ae3933a5d24d8dcc7d925bc2c7cf852eccf99"
+      },
+      "contract": {
+        "bytes": 4647479,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_imagenet__tattooed__eval_s0__none/output/contract.json",
+        "sha256": "19c96c27dbc24533ddfb04ef5f1143e553f1c54af2bd1d113bdb770ee86734b8"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_imagenet__tattooed/selection.json",
+        "bytes": 6947,
+        "sha256": "2194690180fa3220a2902d2dca7781c399920f875c0a920d409a6374582df470"
+      },
+      "display_method": "TATOOED"
+    },
+    {
+      "condition": "styleswin256_ffhq",
+      "method": "lerra",
+      "display_row": [
+        "FFHQ",
+        "StyleSwin-256",
+        "LessMark",
+        "7.073956317e-08",
+        "0.9999960945",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 7.073956317127694e-08,
+        "SSIM_dimensionless": 0.9999960945044764,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 3.84,
+      "selected_candidate_id": "styleswin256_ffhq__lerra__alpha_3p84",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/styleswin-range-extension-20261116/trials/styleswin256_ffhq__lerra__r1__eval_s0__none/output/result.json",
+        "bytes": 295769,
+        "sha256": "bdc64666854f54712e208f4984c7eb50f658585c0a032ef547f2fcbb8c23cd42"
+      },
+      "trial": {
+        "bytes": 525,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/styleswin-range-extension-20261116/trials/styleswin256_ffhq__lerra__r1__eval_s0__none/trial.json",
+        "sha256": "5980d6c72e36ec9215528f5dc2255feaf3400aea505b939aeb976f182b52ad57"
+      },
+      "contract": {
+        "bytes": 936330,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/styleswin-range-extension-20261116/trials/styleswin256_ffhq__lerra__r1__eval_s0__none/output/contract.json",
+        "sha256": "9a7b4afdf2ed24d16daee50414280c400791f2b9d7a55ef6ac5de105e7a532b3"
+      },
+      "selection": {
+        "bytes": 349345,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/styleswin-range-extension-20261116/selections/round_1.json",
+        "sha256": "a57fba17eff3dbd388de9f49ea862001b9a5daf2002e690fb0407720fd191f14"
+      },
+      "display_method": "LessMark"
+    },
+    {
+      "condition": "styleswin256_ffhq",
+      "method": "uchida",
+      "display_row": [
+        "FFHQ",
+        "StyleSwin-256",
+        "VanillaMark",
+        "3.932327586e-05",
+        "0.9965973423",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 3.9323275859397556e-05,
+        "SSIM_dimensionless": 0.996597342265162,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.1,
+      "selected_candidate_id": "styleswin256_ffhq__uchida__lambda_0p1__lr_0p0001__update_1024",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__uchida__eval_s0__none/output/result.json",
+        "bytes": 292741,
+        "sha256": "46a49d6b7273c35b1cd99f29953380a5c8d12a0dd32fa412c653c0c50bef3f27"
+      },
+      "trial": {
+        "bytes": 542,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__uchida__eval_s0__none/trial.json",
+        "sha256": "a9fe8b1a2971bf1993e5d5234c221c690a193b74836083b6c648e3709fac6b1e"
+      },
+      "contract": {
+        "bytes": 936427,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__uchida__eval_s0__none/output/contract.json",
+        "sha256": "c808d71e1fb5baf2d491d44718fb7e0b699c4bf5774932012851f43714367f2d"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/styleswin256_ffhq__uchida/selection.json",
+        "bytes": 82154,
+        "sha256": "92d9aae5af70927f8fc47268ef8e878de0b94ccbb050098a80a8930fd7aa667b"
+      },
+      "display_method": "VanillaMark"
+    },
+    {
+      "condition": "styleswin256_ffhq",
+      "method": "greedy",
+      "display_row": [
+        "FFHQ",
+        "StyleSwin-256",
+        "GreedyMark",
+        "0.0001242788204",
+        "0.9911021396",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.00012427882036134552,
+        "SSIM_dimensionless": 0.9911021395541086,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.3,
+      "selected_candidate_id": "styleswin256_ffhq__greedy__lambda_0p3__lr_0p0003__update_256",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__greedy__eval_s0__none/output/result.json",
+        "bytes": 292776,
+        "sha256": "1e329506b13cc145b69fea7b5305c25d51799ab287d45d16acd29cb8e31473ec"
+      },
+      "trial": {
+        "bytes": 542,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__greedy__eval_s0__none/trial.json",
+        "sha256": "eb8d4da20c54326f2a6a9b6fcec7526e4706bed54b7dc8484576af48b5955790"
+      },
+      "contract": {
+        "bytes": 936423,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__greedy__eval_s0__none/output/contract.json",
+        "sha256": "5db7d6ac5542756e28047af77b6c80a4939ded253a881b0a13c4f3279411b3a0"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/styleswin256_ffhq__greedy/selection.json",
+        "bytes": 84598,
+        "sha256": "9295d0391a363a8fdda0ea71f67b9102ef19a96151e322c64656328509fbfea8"
+      },
+      "display_method": "GreedyMark"
+    },
+    {
+      "condition": "styleswin256_ffhq",
+      "method": "neuralmark",
+      "display_row": [
+        "FFHQ",
+        "StyleSwin-256",
+        "NeuralMark",
+        "6.544983383e-07",
+        "0.9999509796",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 6.544983383296078e-07,
+        "SSIM_dimensionless": 0.99995097960437,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "styleswin256_ffhq__neuralmark__lambda_30__lr_0p0001__update_1024",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__neuralmark__eval_s0__none/output/result.json",
+        "bytes": 292514,
+        "sha256": "230c698914397ff0094a860d0faf3b2f47bba4bbfa350709ce37dcafd1231fac"
+      },
+      "trial": {
+        "bytes": 554,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__neuralmark__eval_s0__none/trial.json",
+        "sha256": "b832179fa7a9d85ef1eb78827e5f29e4fe2da55e656eadfa693962797c49cfd0"
+      },
+      "contract": {
+        "bytes": 936447,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__neuralmark__eval_s0__none/output/contract.json",
+        "sha256": "c95f61d70aa517171363feb0c70bd51ec796f487b01375c3fc8f177973acf107"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/styleswin256_ffhq__neuralmark/selection.json",
+        "bytes": 79899,
+        "sha256": "bc83ef0e623277d5854dd017bd0d4fdf9f15f73e07d81d99f8b719bfa2382092"
+      },
+      "display_method": "NeuralMark"
+    },
+    {
+      "condition": "styleswin256_ffhq",
+      "method": "deepmarks",
+      "display_row": [
+        "FFHQ",
+        "StyleSwin-256",
+        "DeepMark",
+        "2.259022055e-05",
+        "0.9980413651",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 2.2590220547325732e-05,
+        "SSIM_dimensionless": 0.9980413651156488,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "styleswin256_ffhq__deepmarks__lambda_30__lr_0p0001__update_2048",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__deepmarks__eval_s0__none/output/result.json",
+        "bytes": 293051,
+        "sha256": "ccaf376dd71d8d59d4ad1fc6219f1a8ded56ce16c465ce7348443f950a99aa07"
+      },
+      "trial": {
+        "bytes": 551,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__deepmarks__eval_s0__none/trial.json",
+        "sha256": "818a65f16fd716e5abd5e55c7db652e688a47122bf17ae3f3bbcabca4c7bedd4"
+      },
+      "contract": {
+        "bytes": 936442,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__deepmarks__eval_s0__none/output/contract.json",
+        "sha256": "b042237b7e358e97bd760ecfcb109aec91f51deb9a4301d3b5ac012b537e29f8"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/styleswin256_ffhq__deepmarks/selection.json",
+        "bytes": 82431,
+        "sha256": "f7af702223189cf5afdcc51ffff2a9d625b7afb83f610aaeec0db3488a5dde53"
+      },
+      "display_method": "DeepMark"
+    },
+    {
+      "condition": "styleswin256_ffhq",
+      "method": "tattooed",
+      "display_row": [
+        "FFHQ",
+        "StyleSwin-256",
+        "TATOOED",
+        "0.3058646104",
+        "0.1117365697",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.3058646104093078,
+        "SSIM_dimensionless": 0.11173656966580905,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.2187,
+      "selected_candidate_id": "styleswin256_ffhq__tattooed__gamma_0p2187__lr_0__update_0",
+      "selection_quality_tier": 2,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__tattooed__eval_s0__none/output/result.json",
+        "bytes": 291181,
+        "sha256": "cb9a3d622bf533c3f9dd5a5757fd5ad74e3d30e79e87a57997abe3bbebc7308e"
+      },
+      "trial": {
+        "bytes": 548,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__tattooed__eval_s0__none/trial.json",
+        "sha256": "0f953b06140eea1b3df8055be58121547960cfe427f6f22331e25f2e2aa284d5"
+      },
+      "contract": {
+        "bytes": 936107,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/styleswin256_ffhq__tattooed__eval_s0__none/output/contract.json",
+        "sha256": "f8f661d137cbcaf6f4bf28c26e654c43e42f53f240e90077f4c54c06a9b56dca"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/styleswin256_ffhq__tattooed/selection.json",
+        "bytes": 80937,
+        "sha256": "1e8fbb8f95f1871586bf0eb1cb7f8b48cb5bae019aeddfc44e99a6b98a164689"
+      },
+      "display_method": "TATOOED"
+    },
+    {
+      "condition": "unet_caltech256",
+      "method": "lerra",
+      "display_row": [
+        "Caltech256",
+        "U-Net",
+        "LessMark",
+        "0.0002546596396",
+        "0.9910395433",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.00025465963964447515,
+        "SSIM_dimensionless": 0.9910395433436555,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.12,
+      "selected_candidate_id": "unet_caltech256__lerra__alpha_0p12",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__lerra__eval_s0__none/output/result.json",
+        "bytes": 296542,
+        "sha256": "fe057b6912e2370c3069c79cd4a63210c288420df193c622bff78694c355b051"
+      },
+      "trial": {
+        "bytes": 534,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__lerra__eval_s0__none/trial.json",
+        "sha256": "f3a8cb4253b1dd5a6b83d9b91a44fbd60a66cafb72a575b6d2d3ddaff4495cc8"
+      },
+      "contract": {
+        "bytes": 5683626,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__lerra__eval_s0__none/output/contract.json",
+        "sha256": "bea004646c8400064b8ebd5e2045b892881658357751a10ea031cd01b7641e6a"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_caltech256__lerra/selection.json",
+        "bytes": 108582,
+        "sha256": "481d00f8d7ea039493aabce09ffc9b1a67c3d928f759fad79bd855c8ee6ee97b"
+      },
+      "display_method": "LessMark"
+    },
+    {
+      "condition": "unet_caltech256",
+      "method": "uchida",
+      "display_row": [
+        "Caltech256",
+        "U-Net",
+        "VanillaMark",
+        "0.0003223717753",
+        "0.9873272792",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.00032237177528329574,
+        "SSIM_dimensionless": 0.9873272792384057,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.1,
+      "selected_candidate_id": "unet_caltech256__uchida__lambda_0p1__lr_0p0001__update_256",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__uchida__eval_s0__none/output/result.json",
+        "bytes": 296263,
+        "sha256": "d9e8e2ca20586e336078f2c7da726e1f30aba8e47bcc317952961763d3937aa8"
+      },
+      "trial": {
+        "bytes": 536,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__uchida__eval_s0__none/trial.json",
+        "sha256": "41c4aa239f5dce1effe7407c05a0f9ef50bc445ee23da46a178b964ea10b5b79"
+      },
+      "contract": {
+        "bytes": 5683724,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__uchida__eval_s0__none/output/contract.json",
+        "sha256": "6168e1a8b4f81e0b03abb538c1e985a8d66503603c34e9510d37b01538e0c4e0"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_caltech256__uchida/selection.json",
+        "bytes": 79996,
+        "sha256": "98e1acf13f4a0758c6a0bd13ba8560227d0491d3c8c2c9a1c7c557a908534349"
+      },
+      "display_method": "VanillaMark"
+    },
+    {
+      "condition": "unet_caltech256",
+      "method": "greedy",
+      "display_row": [
+        "Caltech256",
+        "U-Net",
+        "GreedyMark",
+        "0.04433920882",
+        "0.5181087751",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.04433920882485275,
+        "SSIM_dimensionless": 0.51810877514535,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.03,
+      "selected_candidate_id": "unet_caltech256__greedy__lambda_0p03__lr_0p0001__update_1024",
+      "selection_quality_tier": 2,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__greedy__eval_s0__none/output/result.json",
+        "bytes": 294463,
+        "sha256": "ae8ce5da57bf83bec1b69ef31a9a6a3915cd8c5834c2b88e4508d9ba1f9b893c"
+      },
+      "trial": {
+        "bytes": 536,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__greedy__eval_s0__none/trial.json",
+        "sha256": "af2b2ee4f35437eb09ae00668c114888f9548e0b74be8ad9cb8f92ef6d074836"
+      },
+      "contract": {
+        "bytes": 5683727,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__greedy__eval_s0__none/output/contract.json",
+        "sha256": "dd350d651334c32a32ca18a9419df5abc31a9cbd5ac4f3e86d6df5dff7cd0bda"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_caltech256__greedy/selection.json",
+        "bytes": 82660,
+        "sha256": "3d62f20feb43ac236e7f0c117473a145e4c3d03350a833eec89715e43c399dc2"
+      },
+      "display_method": "GreedyMark"
+    },
+    {
+      "condition": "unet_caltech256",
+      "method": "neuralmark",
+      "display_row": [
+        "Caltech256",
+        "U-Net",
+        "NeuralMark",
+        "0.00113267807",
+        "0.9588320426",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.0011326780701802193,
+        "SSIM_dimensionless": 0.9588320425650473,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.3,
+      "selected_candidate_id": "unet_caltech256__neuralmark__lambda_0p3__lr_0p0001__update_2048",
+      "selection_quality_tier": 2,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__neuralmark__eval_s0__none/output/result.json",
+        "bytes": 296247,
+        "sha256": "032670c59d5ef6804faeeb53f0e8667b71c605f265f30fe2899b66aa8d537671"
+      },
+      "trial": {
+        "bytes": 548,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__neuralmark__eval_s0__none/trial.json",
+        "sha256": "1d0f726c73b5ebc5b8e815de828f92e424d73a758c472bc2287a9bc25a74bdbc"
+      },
+      "contract": {
+        "bytes": 5683749,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__neuralmark__eval_s0__none/output/contract.json",
+        "sha256": "b83aeed291a7ad5933341f02202fcb5c8250a450a7c3eea6a847fde412c7e20a"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_caltech256__neuralmark/selection.json",
+        "bytes": 77909,
+        "sha256": "43c2818ae191a07236fea2e12c1bf35ffdc0d44713a8d9a267337c54176e53dc"
+      },
+      "display_method": "NeuralMark"
+    },
+    {
+      "condition": "unet_caltech256",
+      "method": "deepmarks",
+      "display_row": [
+        "Caltech256",
+        "U-Net",
+        "DeepMark",
+        "0.000193180496",
+        "0.9914236252",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.0001931804960105741,
+        "SSIM_dimensionless": 0.9914236252220172,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "unet_caltech256__deepmarks__lambda_30__lr_0p0001__update_256",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__deepmarks__eval_s0__none/output/result.json",
+        "bytes": 296527,
+        "sha256": "15725ee88625d452d9e381524e83ed6df9a30d10b34f580e95260394832f8884"
+      },
+      "trial": {
+        "bytes": 545,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__deepmarks__eval_s0__none/trial.json",
+        "sha256": "8bc7d5db176de875886466bdcc1d8e3da38ed6688fd58970d252f750f7f46503"
+      },
+      "contract": {
+        "bytes": 5683738,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__deepmarks__eval_s0__none/output/contract.json",
+        "sha256": "5cd8374f78a5a562633a2df3bf6f7d4a579fbf79ac518079ed738947bda88269"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_caltech256__deepmarks/selection.json",
+        "bytes": 80176,
+        "sha256": "7fa6244f5d292cfda79ef24302e188d9323898afb0d7ac9463aa69a1ca5ca4d7"
+      },
+      "display_method": "DeepMark"
+    },
+    {
+      "condition": "unet_caltech256",
+      "method": "tattooed",
+      "display_row": [
+        "Caltech256",
+        "U-Net",
+        "TATOOED",
+        "0.0002135627363",
+        "0.9862012475",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.00021356273625592392,
+        "SSIM_dimensionless": 0.9862012474929926,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.00027,
+      "selected_candidate_id": "unet_caltech256__tattooed__gamma_0p00027__lr_0__update_0",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__tattooed__eval_s0__none/output/result.json",
+        "bytes": 296709,
+        "sha256": "c65eab566fb6cc07190e8326f47f9d3cdf73d968cf4cb7117b4b614820ca6753"
+      },
+      "trial": {
+        "bytes": 542,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__tattooed__eval_s0__none/trial.json",
+        "sha256": "a03ba46ae76a6f7113a3c8b37fa924074bfafaeecc37a11a533a2782702aea0d"
+      },
+      "contract": {
+        "bytes": 5683410,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/unet_caltech256__tattooed__eval_s0__none/output/contract.json",
+        "sha256": "bd691812c0eba2f0c47b260390bb8e6c12e48d911a540f5d341d98cf87f8a941"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/unet_caltech256__tattooed/selection.json",
+        "bytes": 72164,
+        "sha256": "ce2d9e6d9084e9929206d35ca3d2c81a450d8f83fc8c9eeed0659edc921fce0f"
+      },
+      "display_method": "TATOOED"
+    },
+    {
+      "condition": "sit_b_2_caltech256",
+      "method": "lerra",
+      "display_row": [
+        "Caltech256",
+        "SiT-B/2",
+        "LessMark",
+        "4.978656225e-05",
+        "0.9982940306",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 4.9786562247448944e-05,
+        "SSIM_dimensionless": 0.9982940306065531,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 3.2,
+      "selected_candidate_id": "sit_b_2_caltech256__lerra__alpha_3p2",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__lerra__eval_s0__none/output/result.json",
+        "bytes": 291541,
+        "sha256": "fd95e294498603136179d6048e07cd70882b5ed288d0d34e2bf0ecc61bf5b3e4"
+      },
+      "trial": {
+        "bytes": 543,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__lerra__eval_s0__none/trial.json",
+        "sha256": "bb911546b9f589f815e518226b238a229bae46fb9d78858ee7cec92b68ad8f0d"
+      },
+      "contract": {
+        "bytes": 5686495,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__lerra__eval_s0__none/output/contract.json",
+        "sha256": "0aaab7fc92fa26fa8a733978d379eff2766d87525b031a36419ad5e9530ef9e0"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_caltech256__lerra/selection.json",
+        "bytes": 107624,
+        "sha256": "d9b77b6aa91ab7f59b29eb53241016e11ac366d2654d935eda5cc46cd5bb3e95"
+      },
+      "display_method": "LessMark"
+    },
+    {
+      "condition": "sit_b_2_caltech256",
+      "method": "uchida",
+      "display_row": [
+        "Caltech256",
+        "SiT-B/2",
+        "VanillaMark",
+        "9.788346303e-05",
+        "0.9965124076",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 9.788346302866596e-05,
+        "SSIM_dimensionless": 0.9965124076261196,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.1,
+      "selected_candidate_id": "sit_b_2_caltech256__uchida__lambda_0p1__lr_0p0001__update_256",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__uchida__eval_s0__none/output/result.json",
+        "bytes": 291282,
+        "sha256": "9c08701c63900d54760ff4de8d3dc100e26a12d6acdefceef2ddcadd2f88f94d"
+      },
+      "trial": {
+        "bytes": 545,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__uchida__eval_s0__none/trial.json",
+        "sha256": "a747b08bfc4d9a8fdcba2ddbb4fac85a6a7b90bd5546b321c65e26d8d00fb30d"
+      },
+      "contract": {
+        "bytes": 5686594,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__uchida__eval_s0__none/output/contract.json",
+        "sha256": "73be7b6dae05f4c9e461b7125433d1a499462b7c2caf8938a6c706dc952f479a"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_caltech256__uchida/selection.json",
+        "bytes": 59620,
+        "sha256": "6d360c05c68f2e4e54193a8142d4fe13375e0f7cac7dfdc2539e704098022c37"
+      },
+      "display_method": "VanillaMark"
+    },
+    {
+      "condition": "sit_b_2_caltech256",
+      "method": "greedy",
+      "display_row": [
+        "Caltech256",
+        "SiT-B/2",
+        "GreedyMark",
+        "0.002635072495",
+        "0.9245539008",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.0026350724954023017,
+        "SSIM_dimensionless": 0.9245539007538777,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.003,
+      "selected_candidate_id": "sit_b_2_caltech256__greedy__lambda_0p003__lr_0p0001__update_1024",
+      "selection_quality_tier": 2,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__greedy__eval_s0__none/output/result.json",
+        "bytes": 290800,
+        "sha256": "89020c1c5824bc08dc94de9685e529e3f236ecf76b91efe33b089e3e80601c41"
+      },
+      "trial": {
+        "bytes": 545,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__greedy__eval_s0__none/trial.json",
+        "sha256": "44b0831664c98916d67b93e29bdf8f802fa7e5a9159503c3e702ba41f32ba3c9"
+      },
+      "contract": {
+        "bytes": 5686601,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__greedy__eval_s0__none/output/contract.json",
+        "sha256": "8cc94b84100e5db031f3662615c150d47fb6b885051fd8609f0a24082fff9c4c"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_caltech256__greedy/selection.json",
+        "bytes": 62340,
+        "sha256": "913949bb7082dff0e11e3b6accec11ac1495b7858ed18d82a7817de95a4f4b6f"
+      },
+      "display_method": "GreedyMark"
+    },
+    {
+      "condition": "sit_b_2_caltech256",
+      "method": "neuralmark",
+      "display_row": [
+        "Caltech256",
+        "SiT-B/2",
+        "NeuralMark",
+        "3.921394865e-05",
+        "0.9985090536",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 3.9213948645592045e-05,
+        "SSIM_dimensionless": 0.9985090535658401,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "sit_b_2_caltech256__neuralmark__lambda_30__lr_0p0001__update_2048",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__neuralmark__eval_s0__none/output/result.json",
+        "bytes": 291456,
+        "sha256": "beda58e77eb4c22feabf2fde8e3705d456cf0760f4b9de21c771be866e41357e"
+      },
+      "trial": {
+        "bytes": 557,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__neuralmark__eval_s0__none/trial.json",
+        "sha256": "6c69a1990311e8df069b8871ffd459feafd69a42d253e85565e6bbce07856dac"
+      },
+      "contract": {
+        "bytes": 5686615,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__neuralmark__eval_s0__none/output/contract.json",
+        "sha256": "3980c0110e2ed6234c18147cf8618f568e59e82170de13de81bd4cf5ac8922f1"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_caltech256__neuralmark/selection.json",
+        "bytes": 57514,
+        "sha256": "db1b91ffcdfa9cc9c6b1cfc0e1a9ab314830e277a07440a36e6b350e76c4b0a5"
+      },
+      "display_method": "NeuralMark"
+    },
+    {
+      "condition": "sit_b_2_caltech256",
+      "method": "deepmarks",
+      "display_row": [
+        "Caltech256",
+        "SiT-B/2",
+        "DeepMark",
+        "2.263297761e-05",
+        "0.9991213841",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 2.2632977613557133e-05,
+        "SSIM_dimensionless": 0.9991213840911831,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 30.0,
+      "selected_candidate_id": "sit_b_2_caltech256__deepmarks__lambda_30__lr_0p0001__update_2048",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__deepmarks__eval_s0__none/output/result.json",
+        "bytes": 291396,
+        "sha256": "62a61649f149757926e8275debfe1063f4e66701da83b98334f1931bfde9d89e"
+      },
+      "trial": {
+        "bytes": 554,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__deepmarks__eval_s0__none/trial.json",
+        "sha256": "b6a991a169db00d47fe37604cc93b251efc98c0497bb521dd134ce3cc50044df"
+      },
+      "contract": {
+        "bytes": 5686610,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__deepmarks__eval_s0__none/output/contract.json",
+        "sha256": "e68127ad89bf65808836b220ebb5e24113f70ce0c4f927f1990b4eec2999baf0"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_caltech256__deepmarks/selection.json",
+        "bytes": 59907,
+        "sha256": "2ef44a577f4c43691b78556200ea9160301c6363ad3d6c3006ac738d63ee5fdf"
+      },
+      "display_method": "DeepMark"
+    },
+    {
+      "condition": "sit_b_2_caltech256",
+      "method": "tattooed",
+      "display_row": [
+        "Caltech256",
+        "SiT-B/2",
+        "TATOOED",
+        "0.0002199555309",
+        "0.9927727938",
+        "0.00"
+      ],
+      "metrics": {
+        "MSE_pixel_value_squared": 0.00021995553086267663,
+        "SSIM_dimensionless": 0.9927727937779517,
+        "BER_percent": 0.0
+      },
+      "scope": {
+        "evaluation_split": "test",
+        "evaluation_seed": 0,
+        "RGB_pairs": 64,
+        "pixel_range": [
+          0,
+          1
+        ],
+        "replicates": 1,
+        "three_seed_mean": false,
+        "reference": "pristine_clean_vs_watermarked; equals original_public comparison"
+      },
+      "strength": 0.0009,
+      "selected_candidate_id": "sit_b_2_caltech256__tattooed__gamma_0p0009__lr_0__update_0",
+      "selection_quality_tier": 1,
+      "quality_tier_split": "validation",
+      "source_result": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__tattooed__eval_s0__none/output/result.json",
+        "bytes": 291677,
+        "sha256": "a2a5dac3671e7ee0b85ef11eba441d829a391c14f35ccf7309bc118e88b54d61"
+      },
+      "trial": {
+        "bytes": 551,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__tattooed__eval_s0__none/trial.json",
+        "sha256": "d560bcfb2a4b58978d0670d370ba8209d00da13085ad773e40916fe31548eb59"
+      },
+      "contract": {
+        "bytes": 5686272,
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/trials/sit_b_2_caltech256__tattooed__eval_s0__none/output/contract.json",
+        "sha256": "57486acb95dddf62b67474ccca618f18312ec43a571cb30dabfbebc04091c19a"
+      },
+      "selection": {
+        "path": "/data/lerra_parameter_watermark_protocol/runs/study/selected-robustness-20261113/models/sit_b_2_caltech256__tattooed/selection.json",
+        "bytes": 52556,
+        "sha256": "1a0f724229a795a8fc8b460f7ea51cc67b37fbb4a4206aa1e084999d3767965e"
+      },
+      "display_method": "TATOOED"
+    }
+  ],
+  "display_method_policy": "Current own method is always LessMark; immutable native method IDs and artifact paths remain unchanged.",
+  "updated_at": "2026-11-16T17:42:27+09:00",
+  "revision": "StyleSwin FFHQ LessMark alpha3.84 replaces alpha0.24 only; original other41 rows preserved",
+  "prior_snapshot": {
+    "path": "/home/leejwian1955/LERRA/reports/pre_modification_20261114/archive_before_styleswin_alpha3p84_20261116/SOURCE_ROWS.json",
+    "bytes": 90074,
+    "sha256": "65453b7ae1fa1162bbe7bef0b911156c8de04fa832d8e85259c482a6258aaf42"
+  }
+}

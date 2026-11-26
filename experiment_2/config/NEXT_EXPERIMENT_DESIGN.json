@@ -1,0 +1,3072 @@
+{
+  "status": "Insertion strengths, terminal source-training budgets and selection rule are fixed. Each of seven model/dataset conditions evaluates six methods at five strengths. Main results are pending.",
+  "workspace": {
+    "code_directory_relative_to_this_file": "../code",
+    "results_directory_relative_to_this_file": "../results"
+  },
+  "purpose": "Compare insertion recovery and task quality for a common balanced 256-bit watermark and assess its robustness to pruning, weight quantization and cross-domain fine-tuning.",
+  "method_display_names": {
+    "uchida": "VanillaMark",
+    "greedy": "GreedyMark",
+    "neuralmark": "NeuralMark",
+    "deepmarks": "DeepMark",
+    "tattooed": "TATOOED",
+    "lerra": "LessMark"
+  },
+  "date": "2026-11-22",
+  "last_reviewed": "2026-11-25",
+  "embedding": {
+    "starting_weights": "Use the registered pretrained source checkpoint C0 for each model and dataset. The clean control trains from C0 to the common terminal checkpoint C_T using the native source objective. Each learned candidate starts independently at C0. Each direct candidate receives a separate copy of the corresponding C_T.",
+    "fixed_source_checkpoints": {
+      "mobilenet_v3_large_w1p6_cifar100": {
+        "model": "MobileNetV3-Large, width multiplier 1.6",
+        "selection": "Final unmarked CIFAR-100 checkpoint after 100 epochs of training from scratch.",
+        "checkpoint": {
+          "path": "/data/lerra_parameter_watermark_protocol/checkpoints/baseline_development/81d1f772ce2995a55a46f1972e297185e43a37842bda3de0cc55796ea60c0fd3/base/clean.pt",
+          "bytes": 43591234,
+          "sha256": "2713d4556d7e35e5b2080e4eddd6e9351fbf3a679d8e06e16229fa9175960efe"
+        }
+      },
+      "resnet18_cifar100": {
+        "model": "ResNet18",
+        "selection": "Final unmarked CIFAR-100 checkpoint after 200 epochs of training from scratch.",
+        "checkpoint": {
+          "path": "/data/lerra_parameter_watermark_protocol/checkpoints/baseline_development/c46ae074ae06a2f2fd24673ea2eaa00e673e92fa8ca5d2e45bb761d4a6215b83/base/clean.pt",
+          "bytes": 44985470,
+          "sha256": "0ab23757c6e060f794a262f7a1bdfe7d7d64cb0a5d8148635c6e3885e97f6374"
+        }
+      },
+      "unet_imagenet": {
+        "model": "Unconditional 256x256 diffusion U-Net",
+        "selection": "Public ImageNet checkpoint.",
+        "checkpoint": {
+          "path": "/data/lerra_parameter_watermark_protocol/assets/256x256_diffusion_uncond.pt",
+          "bytes": 2211383297,
+          "sha256": "a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1"
+        }
+      },
+      "sit_b_2_imagenet": {
+        "model": "Class-conditional SiT-B/2 at 256x256",
+        "selection": "Public ImageNet checkpoint with the fixed VAE.",
+        "checkpoint": {
+          "path": "/data/lerra_parameter_watermark_protocol/assets/gen256_20261023/SiT-B-2-256.pt",
+          "bytes": 522090186,
+          "sha256": "0c0a3867c24d5f0606de4177f25f60dc4122d5996b07c39dda11247f891ef0f6"
+        }
+      },
+      "unet_caltech256": {
+        "model": "Unconditional 256x256 diffusion U-Net",
+        "selection": "ImageNet U-Net adapted to Caltech256. First checkpoint attaining the minimum validation loss, at update 1000.",
+        "checkpoint": {
+          "path": "/data/lerra_parameter_watermark_protocol/checkpoints/study_prerequisites/references/unet_caltech256/2aeebefac4a84738f529be7381ec37853f1b92fcf432430aa401d729fa38d76d/clean_selected.pt",
+          "bytes": 2211481606,
+          "sha256": "ee01c95c9e27c8ea7ab6df16c2ddebe9dda462d3f0e9ea597b1f5bbe9aece9af"
+        }
+      },
+      "sit_b_2_caltech256": {
+        "model": "Class-conditional SiT-B/2 at 256x256",
+        "selection": "ImageNet SiT adapted to 256 Caltech classes with the fixed VAE. First checkpoint attaining the minimum validation loss, at update 9000.",
+        "checkpoint": {
+          "path": "/data/lerra_parameter_watermark_protocol/checkpoints/study_prerequisites/references/sit_b_2_caltech256/263f1c29d192e55091d4d88d49f356aa57075efb787bccdd164db22aa5fc7d38/clean_selected.pt",
+          "bytes": 519816234,
+          "sha256": "f055d8d749268ec91540d9bf9555b66b7a84f152db3b3274f424239f1482a06f"
+        }
+      },
+      "styleswin256_ffhq": {
+        "model": "StyleSwin-256",
+        "selection": "Public FFHQ checkpoint. Load the exponential-moving-average generator.",
+        "checkpoint_key": "g_ema",
+        "checkpoint": {
+          "path": "/data/lerra_parameter_watermark_protocol/assets/gen256_20261023/FFHQ_256.pt",
+          "bytes": 241320281,
+          "sha256": "17b38ffa1222b59a997a3bfef73d812d9c6116fb3a90deb6b52b28afb8a7dd55"
+        }
+      }
+    },
+    "direct_methods": [
+      "lerra",
+      "tattooed"
+    ],
+    "direct_rule": "After the full source-task budget, embed the fixed message once into a fresh copy of C_T for each LessMark or TATOOED strength. No additional optimizer update is applied. The W_T checkpoint is the resulting marked copy.",
+    "lessmark_classifier_backbones": {
+      "reference_checkpoint": "C_T",
+      "payload_bits": 256,
+      "conditions": {
+        "mobilenet_v3_large_w1p6_cifar100": {
+          "weight_name": "features.15.block.3.0.weight",
+          "weight_shape": [
+            256,
+            1536,
+            1,
+            1
+          ],
+          "matrix_shape": [
+            256,
+            1536
+          ],
+          "padding": [
+            0,
+            0
+          ],
+          "sample_seed": 3199773557,
+          "q_seed": 1022235315
+        },
+        "resnet18_cifar100": {
+          "weight_name": "layer4.1.conv2.weight",
+          "weight_shape": [
+            512,
+            512,
+            3,
+            3
+          ],
+          "matrix_shape": [
+            512,
+            4608
+          ],
+          "padding": [
+            1,
+            1
+          ],
+          "sample_seed": 2458005299,
+          "q_seed": 3855340113
+        }
+      },
+      "selection_reason": "Choose the last ungrouped backbone convolution before pooling and the classifier that supports the registered carrier dimension (at least twice the 256-bit payload in the flattened input dimension). Both sites survive replacement of the entire task-specific head. MobileNet's subsequent features.16.0 convolution has only 256 input coordinates.",
+      "data_ref": "#/data/source_CIFAR100",
+      "calibration_images": 16384,
+      "sample_rule": "Use the registered proportional class sample without replacement from the 44973 retained training images, with the training dataset's deterministic evaluation transform. Resize to 256, center crop to 224 and apply the checkpoint's RGB normalization. Save the ordered sample identity with the basis.",
+      "spatial_shape": [
+        7,
+        7
+      ],
+      "patches_per_image": 49,
+      "feature_rows": 802816,
+      "features": "Read every input patch at the convolution's output sites in channel, kernel-row, kernel-column order. Both layers have groups=1, stride=1, dilation=1 and zero-padding mode. Use the registered padding per layer.",
+      "directions": "Use the lowest 256 eigenvectors of the uncentered FP64 input-patch second moment, with unit observation weights. Normalize a seeded mean-centered Gaussian vector over the convolution's output channels for q. At fixed alpha and binary signs, the calibration-patch mean squared L2 change in the pre-BN convolution output is alpha squared times the sum of the selected eigenvalues before weight rounding. This sum is minimal among 256-eigenvector choices. Held-out logits and classifier accuracy require measurement.",
+      "application": "For each source condition use one common E, q and pre-insertion carrier weight from C_T across the five strengths and all readouts. Write the message only to the registered convolution weight. Keep those same assets after pruning, QDQ and target FT.",
+      "implementation_from_experiment_root": "code/classifier_lessmark.py"
+    },
+    "lessmark_real_image_calibration": {
+      "photos_per_domain": 1000,
+      "positions_per_forward": 64,
+      "photo_lists": {
+        "imagenet": {
+          "path": "/data/lerra_parameter_watermark_protocol/data/imagenet/protocol_20261017/source.json",
+          "bytes": 251837,
+          "sha256": "8ce868134a6b8b7f21ffaf8ee02994872272a0df3d74ef5af994ce040a72fbc4"
+        },
+        "caltech256": {
+          "path": "/data/lerra_parameter_watermark_protocol/checkpoints/study_prerequisites/caltech_membership/733de8697c04f8ae0014ab6e530fa2d73c3ebfc311e05484c821d9f117b9f077/carrier_source.json",
+          "bytes": 307919,
+          "sha256": "f639fbb8a786c713e1d4c48ef066a4a251c6084e840542aec9b51e830a76e738",
+          "source_training_manifest": {
+            "path": "/data/lerra_parameter_watermark_protocol/checkpoints/study_prerequisites/caltech_membership/733de8697c04f8ae0014ab6e530fa2d73c3ebfc311e05484c821d9f117b9f077/reference_train.json",
+            "bytes": 6378428,
+            "sha256": "5b8cf522f5efe5be5d5dbae16305eb09d010f75b54a35aea82ead704f1b47184"
+          }
+        },
+        "ffhq": {
+          "path_relative_to_this_file": "LESSMARK_FFHQ_TRAIN_1000.csv",
+          "bytes": 71021,
+          "sha256": "991c47ab9e1bb4259c71d65f5b43c79c4e3868acb8dca21881fc5c9dac075f34",
+          "image_directory": "/data/lerra_parameter_watermark_protocol/data/ffhq/images1024x1024",
+          "source_split": "Official FFHQ training IDs 00000 through 59999 inclusive. Order the five-digit IDs by SHA-256 of ASCII lessmark-ffhq-1000-v1/<ID> ascending; take the first 1000. CSV order is the projection and feature collection order."
+        }
+      },
+      "conditions": {
+        "unet_imagenet": {
+          "photo_list": "imagenet",
+          "feature_forwards_per_photo": 4,
+          "feature_rows": 256000
+        },
+        "unet_caltech256": {
+          "photo_list": "caltech256",
+          "feature_forwards_per_photo": 4,
+          "feature_rows": 256000
+        },
+        "sit_b_2_imagenet": {
+          "photo_list": "imagenet",
+          "feature_forwards_per_photo": 4,
+          "feature_rows": 256000
+        },
+        "sit_b_2_caltech256": {
+          "photo_list": "caltech256",
+          "feature_forwards_per_photo": 4,
+          "feature_rows": 256000
+        },
+        "styleswin256_ffhq": {
+          "photo_list": "ffhq",
+          "feature_forwards_per_photo": 1,
+          "feature_rows": 64000
+        }
+      },
+      "sit_sampling": "For each fixed image and class, draw a fresh VAE posterior latent, Gaussian noise and uniform continuous time per forward. For zero-based image j and repeat r, i = 4*j + r. Use input seed 100+i and token-position seed 100100+i; sample 64 token positions per forward.",
+      "unet_sampling": "For each photo, sample a fresh Gaussian noise and discrete diffusion timestep per draw; read 64 final-convolution input patch positions per draw. ImageNet uses the Torch and NumPy streams seeded with 100; Caltech uses input seed 100+i and position seed 100100+i for i=4*j+r.",
+      "styleswin_projection": {
+        "source": "FFHQ aligned RGB PNG resized to 256x256 with Lanczos and scaled to [0,1].",
+        "latent_dimension": 512,
+        "trainable": "latent_z_only",
+        "generator": "Freeze the clean terminal generator C_T in evaluation mode at truncation 1. Optimize one latent vector per listed image.",
+        "optimizer": "Adam",
+        "learning_rate": 0.05,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "steps": 200,
+        "runtime": {
+          "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+          "torch_deterministic_algorithms": true,
+          "cudnn_benchmark": false
+        },
+        "initial_seed_base": 100,
+        "position_seed_base": 100100,
+        "loss": "Pixel MSE between the real target and inverse-ImageNet-normalized generator RGB before clipping. Record the initial MSE as a baseline. Select the lowest-loss z among the 200 post-update states, z1 through z200.",
+        "readout": "Run once on the selected z, sample 64 aligned output locations and read all seven ToRGB branches (2560 channels). No diffusion timestep. Save photo ID, z, positions and initial MSE and lowest post-update reconstruction MSE for every photo. Hash and reuse the actual projected latent and basis artifacts across all strengths.",
+        "scope": "Only the latent vector changes during calibration. Draw it from the standard normal with the registered per-photo seed and retain the lowest-MSE post-update vector. Use independent fixed validation and test seed lists for paired RGB evaluation."
+      },
+      "basis": "For each of the seven source conditions, collect its calibration features from the unmarked C_T and compute the basis once. Cache the insertion-time carrier weights, basis and direction. Reuse them for all five strengths and every extraction from their terminal, pruned, quantized and target-fine-tuned checkpoints.",
+      "reference_checkpoint": "C_T"
+    },
+    "tattooed_spreading_length": {
+      "paper_reference_approximate": 200000,
+      "ratio": 0.00125,
+      "rule": "Use the fixed native implementation ratio. R=floor(N/800) entries sampled with replacement from the ordered eligible N coordinates. Vary only gamma.",
+      "conditions": {
+        "mobilenet_v3_large_w1p6_cifar100": {
+          "eligible_coordinates": 10601024,
+          "spreading_length": 13251
+        },
+        "resnet18_cifar100": {
+          "eligible_coordinates": 11171712,
+          "spreading_length": 13964
+        },
+        "unet_imagenet": {
+          "eligible_coordinates": 552475392,
+          "spreading_length": 690594
+        },
+        "sit_b_2_imagenet": {
+          "eligible_coordinates": 129380352,
+          "spreading_length": 161725
+        },
+        "unet_caltech256": {
+          "eligible_coordinates": 552475392,
+          "spreading_length": 690594
+        },
+        "sit_b_2_caltech256": {
+          "eligible_coordinates": 129380352,
+          "spreading_length": 161725
+        },
+        "styleswin256_ffhq": {
+          "eligible_coordinates": 48791552,
+          "spreading_length": 60989
+        }
+      }
+    },
+    "trained_methods": [
+      "uchida",
+      "greedy",
+      "neuralmark",
+      "deepmarks"
+    ],
+    "trained_rule": "Each learned candidate trains independently from C0 to T using its native source-task loss plus the fixed strength times its watermark loss from the first update. Its matched control uses the same native task and training conditions through T. Use ground-truth cross-entropy for classification and the objectives specified below for generation.",
+    "native_generator_training": {
+      "objective": "native_source_task",
+      "use_clean_outputs_as_training_targets": false,
+      "conditions": {
+        "unet_imagenet": {
+          "architecture": "unet",
+          "train_pool": "imagenet"
+        },
+        "unet_caltech256": {
+          "architecture": "unet",
+          "train_pool": "caltech256"
+        },
+        "sit_b_2_imagenet": {
+          "architecture": "sit_b_2",
+          "train_pool": "imagenet"
+        },
+        "sit_b_2_caltech256": {
+          "architecture": "sit_b_2",
+          "train_pool": "caltech256"
+        },
+        "styleswin256_ffhq": {
+          "architecture": "styleswin",
+          "train_pool": "ffhq"
+        }
+      },
+      "train_pools": {
+        "imagenet": {
+          "available_images": 25000,
+          "represented_classes": 500,
+          "source_class_count": 1000,
+          "conditioning_ids": "Preserve the original model/domain class mapping even when a source class is absent from the available list.",
+          "manifest": {
+            "path": "/data/lerra_parameter_watermark_protocol/data/revised_scope_20261023/imagenet_teacher_train.json",
+            "bytes": 6294263,
+            "sha256": "ac6822d0e53a0345720bace99aa7b391a3714c975f2befa4b49090c6dd4ddc3b"
+          }
+        },
+        "caltech256": {
+          "available_images": 20713,
+          "represented_classes": 256,
+          "source_class_count": 256,
+          "conditioning_ids": "Preserve the original model/domain class mapping even when a source class is absent from the available list.",
+          "manifest": {
+            "path": "/data/lerra_parameter_watermark_protocol/checkpoints/study_prerequisites/caltech_membership/733de8697c04f8ae0014ab6e530fa2d73c3ebfc311e05484c821d9f117b9f077/reference_train.json",
+            "bytes": 6378428,
+            "sha256": "5b8cf522f5efe5be5d5dbae16305eb09d010f75b54a35aea82ead704f1b47184"
+          }
+        },
+        "ffhq": {
+          "available_images": 60000,
+          "official_training_ids_inclusive": [
+            0,
+            59999
+          ],
+          "image_directory": "/data/lerra_parameter_watermark_protocol/data/ffhq/images1024x1024"
+        }
+      },
+      "membership": "Form real-image minibatches from the registered ImageNet training list, the full cleaned Caltech training split or the official FFHQ training range for the corresponding model. The Caltech split includes the 1000 fixed LessMark direction-calibration photos. A training image may appear in multiple updates. Count unique image IDs once and count each training presentation toward cumulative usage. Fix the training image IDs and counts, batch size, order and repetitions before paired runs. Feed the same real-image minibatches to W and C in the same order.",
+      "tasks": {
+        "unet": {
+          "loss": "epsilon_prediction_with_learned_variance",
+          "input": "Corrupt a real training image with a sampled discrete time and Gaussian noise according to the native diffusion schedule.",
+          "target": "Actual sampled noise epsilon in the prediction MSE, plus the original variational loss for the learned variance with its native weighting.",
+          "loss_terms": {
+            "prediction": "mse_to_sampled_epsilon",
+            "variance": "variational_bound_for_learned_reverse_variance",
+            "weighting": "native_guided_diffusion_training_losses"
+          },
+          "source": "https://github.com/openai/guided-diffusion/blob/22e0df8183507e13a7813f8d38d51b072ca1e67c/guided_diffusion/gaussian_diffusion.py#L744-L814",
+          "conditioning": "unconditional"
+        },
+        "sit_b_2": {
+          "loss": "linear_path_velocity",
+          "input": "Encode a real training image with the fixed VAE into the scaled image latent z. Feed x_t=(1-t)*epsilon+t*z with sampled Gaussian epsilon, continuous t and the original source class label.",
+          "loss_terms": {
+            "path": "(1-t)*epsilon + t*z",
+            "prediction": "mse_to_velocity",
+            "velocity": "z - epsilon"
+          },
+          "source": "https://github.com/willisma/SiT/blob/cbde832a40b153ccc79603412409da9c9b0c568c/transport/path.py#L15-L25",
+          "velocity_target": "z - epsilon",
+          "conditioning": "original_source_dataset_class",
+          "vae_trainable": false
+        },
+        "styleswin": {
+          "loss": "adversarial_gan",
+          "latent_dimension": 512,
+          "input": "Each discriminator compares real FFHQ training faces with detached samples from its own generator. Sample real images independently of the generator inputs.",
+          "latent_sampling": {
+            "coordinates": "independent_standard_normal",
+            "training_draws": "fresh_batch_for_each_discriminator_and_generator_phase",
+            "comparison_arms": "identical_latent_vectors_at_corresponding_phases"
+          },
+          "loss_terms": {
+            "generator": "non_saturating_logistic",
+            "discriminator": "real_fake_logistic",
+            "r1": {
+              "penalty": "squared_discriminator_input_gradient_on_real_images",
+              "gamma": 10,
+              "interval_discriminator_iterations": 16,
+              "first_iteration_zero_based": 0,
+              "lazy_step_weight": "gamma * interval / 2"
+            },
+            "bcr": {
+              "penalty": "mse_between_discriminator_scores_before_and_after_augmentation",
+              "real_weight": 10,
+              "fake_weight": 10
+            }
+          },
+          "source": "https://github.com/microsoft/StyleSwin/blob/a7c28b3121ca86f0577696d6f1d699e13d368672/train_styleswin.py#L131-L197",
+          "published_ffhq256_reference": {
+            "scope": "Published reference. The source-insertion recipe registers a global batch of 32, one ordinary discriminator step followed by one generator step with a separate lazy R1 discriminator step at indices divisible by 16. ArtBench FT is separately registered.",
+            "global_batch_size": 32,
+            "ordinary_update_order": [
+              "discriminator",
+              "generator"
+            ],
+            "real_images_per_iteration_in_loss": 32,
+            "latent_vectors_per_iteration": {
+              "discriminator": 32,
+              "generator": 32
+            },
+            "sampling": "Draw each latent batch independently of the real images and of the other latent batch. Match both batches across W and C. Count reused real images as repeated presentations. The author's extra real batch fetch in the G stage contributes no loss.",
+            "author_training_command": "https://github.com/microsoft/StyleSwin/blob/a7c28b3121ca86f0577696d6f1d699e13d368672/README.md#L90-L95"
+          },
+          "generator_objective": "Train G through its own discriminator. Apply bCR at each ordinary D iteration and R1 in a separate D optimizer step when the ordinary iteration index is divisible by 16. For learned insertion methods, add the watermark loss to the marked G from update 1. Direct methods apply the watermark to the clean G after its terminal update.",
+          "discriminator_watermark_loss": false,
+          "discriminator_initialization": "identical_fresh_copies",
+          "discriminator_shared_between_arms": false,
+          "update_unit": "generator_optimizer_step",
+          "checkpoint_key_at_start": "g_ema",
+          "evaluated_weights": "actual_trained_generator",
+          "conditioning": "unconditional"
+        }
+      },
+      "pairing": {
+        "independent_weights_and_optimizer_states": true,
+        "native_task_in_both_arms": true,
+        "watermark_from_generator_update": 1,
+        "watermark_update_scope": "learned_methods",
+        "watermark_in_clean": false,
+        "matched_inputs": "Match image IDs and order, preprocessing, augmentation, timesteps, noise and labels or GAN latents. Match trainable parameters, optimizer configuration and initial state, learning-rate schedules and generator step counts. For GANs also match D initialization, D/G update ratio, regularization schedule and real batches. Each D follows its own generator."
+      },
+      "registered_training": "Use the strength.campaign_training recipe for the registered architecture. Source minibatches follow seeded permutations of the fixed training pool, continuing across epoch boundaries. Within an arm, only the first read hashes each manifest-backed training file. Checkpoint generator, optimizer, update cursor and RNG, and GAN discriminator and its optimizer. Evaluate the raw generator."
+    },
+    "classification_adaptations": [
+      "greedy",
+      "neuralmark"
+    ],
+    "classification_adaptation_note": "Alongside the shared target-message adaptation, report the use of a pretrained C0 in place of the from-scratch joint training in the original GreedyMark and NeuralMark image classification experiments.",
+    "quality_control": {
+      "start": "Use the same fixed C0 and native source training trajectory for the clean control of a model and dataset. A single saved C_T may be shared across candidates with that identical clean trajectory. Learned candidates begin at C0. Direct candidates begin their insertion on fresh copies of C_T.",
+      "training": "Match training data, order, random draws, trainable parameters, optimizer, initial state, learning-rate schedule and full source-task budget across arms. Learned methods add their watermark loss from update 1. For StyleSwin, count generator updates and separately log the matched discriminator schedule.",
+      "direct_methods": "Use C_T as the direct-insertion host and quality reference. Each strength receives one weight insertion after T and zero additional optimizer updates.",
+      "endpoint_rule": "Evaluate the source-validation quality of every terminal W_T against its matched C_T, including candidates with invalid readouts. Use the selected terminal pair for source testing and all three independent robustness evaluations."
+    },
+    "quality_interpretation": "For classifiers report the source-validation top-1 accuracies of C_T and W_T and their difference, accuracy(C_T) minus accuracy(W_T), in percentage points. For generators report mean paired RGB MSE and SSIM over the same 1000 validation inputs. Record these outcomes for every terminal candidate.",
+    "post_embedding_ft": "After strength selection, switch off the watermark loss for the separate target-domain robustness FT."
+  },
+  "checkpoint_schedule": {
+    "unit": "Source-task optimizer updates counted from C0. For StyleSwin count generator optimizer updates and log discriminator updates separately.",
+    "classification_updates_per_epoch": 702,
+    "classification_epochs": [
+      200
+    ],
+    "classification_terminal_updates": 140400,
+    "generation_updates": [
+      2048
+    ],
+    "direct_additional_optimizer_updates": 0,
+    "historical_ber0_evidence": {
+      "path_relative_to_this_file": "evidence/HISTORICAL_BER0_CHECKPOINTS.csv",
+      "sha256": "d1f1147793006ddb2e3277cdfc738e13fae5cc26b27436b0df020cf51c1add31",
+      "distinct_observations": 237,
+      "observations_at_historical_strengths": 82,
+      "quality_failures_at_historical_strengths": 18,
+      "verified_historical_centers": 42,
+      "scope": "The flags in the archived CSV use the experiment 1 winners and their five-point neighborhoods. These counts describe that historical grid and its contemporary quality thresholds."
+    },
+    "observation_rule": "Use only the fixed terminal endpoint for selection. All classifier and generator arms receive their full native source-task budget, including the clean trajectories used by the direct methods. Apply each direct insertion after this training.",
+    "recording": "For each terminal W_T, save its strength, status, returned bit count, valid 256-bit output when available, bit errors, BER, paired quality and matching C_T. Record invalid extraction status with unavailable errors and BER. Keep the terminal checkpoints and readout assets.",
+    "completion": "Complete all five candidates at the common endpoint regardless of intermediate behavior. Rank their valid terminal readouts by the registered selection rule.",
+    "historical_scope": "The latest complete-recovery observations in the archived runs were 140400 classifier updates and 2048 generator updates. The archived learned generators used a teacher-output loss. The current terminal budgets define the comparison under the native tasks."
+  },
+  "strength": {
+    "definition": "The representative strength s0 is a prespecified grid center. Use each comparison method's registered original-paper coefficient across all seven conditions. LessMark uses the architecture-specific alpha values below. The selected strength is a result obtained later by applying the terminal BER ranking to the five grid points.",
+    "separate_center_search": false,
+    "center_source_section": "experiment_2/EXPERIMENT_DESIGN_KO.md#original-embedding-settings",
+    "paper_strength_by_method": {
+      "uchida": 0.01,
+      "greedy": 0.01,
+      "neuralmark": 1,
+      "deepmarks": 0.1,
+      "tattooed": 0.0009
+    },
+    "lessmark_alpha_by_model": {
+      "mobilenet_v3_large_w1p6_cifar100": 0.2,
+      "resnet18_cifar100": 0.2,
+      "unet_imagenet": 0.1,
+      "unet_caltech256": 0.1,
+      "sit_b_2_imagenet": 1,
+      "sit_b_2_caltech256": 1,
+      "styleswin256_ffhq": 1
+    },
+    "candidate_table": {
+      "path_relative_to_this_file": "FIVE_STRENGTH_CANDIDATES_REVIEW.csv",
+      "sha256": "4f61285769f7b420f4f4bdaf3e932e44090f02b484d2dbe52ec830943f5c3b1f"
+    },
+    "historical_centers_source": {
+      "path_relative_to_this_file": "evidence/SOURCE_ROWS.json",
+      "sha256": "cfde3e0c2e350b91aca98625213b13ab4c214982eeb6383cb69d1274c96e5278"
+    },
+    "candidate_columns_ascending": [
+      "s0_div_4",
+      "s0_div_2",
+      "s0",
+      "s0_x_2",
+      "s0_x_4"
+    ],
+    "multipliers": [
+      0.25,
+      0.5,
+      1,
+      2,
+      4
+    ],
+    "model_dataset_count": 7,
+    "architecture_count": 5,
+    "method_count": 6,
+    "combination_count": 42,
+    "candidates_per_combination": 5,
+    "combination_strength_count": 210,
+    "execution": "Run each of the 42 combinations at its five prespecified strengths and fixed endpoint under the common recipient-292 message. Keep the same source training inputs, key, carrier locations and decoder across strengths for a combination.",
+    "selection": {
+      "unit": "one_model_dataset_method_combination",
+      "readout": "At the terminal endpoint, score the decoder output against the registered 256-bit message of recipient 292 in its original bit order. A valid readout requires normal completion and exactly 256 binary information bits.",
+      "required_bit_count": 256,
+      "ranking": [
+        "terminal_bit_errors_ascending",
+        "strength_descending"
+      ],
+      "quality_used_for_selection": false,
+      "decision": "Choose the valid candidate with the fewest errors. Among equal error counts choose the largest numerical strength. Report zero errors as complete recovery and a positive minimum as partial recovery. In either case, the one selected terminal pair proceeds to source testing and all three independent robustness evaluations.",
+      "no_valid_readout": "selection_failure",
+      "failure_handling": "Exclude each invalid readout from the ranking and record its status. If all five are invalid, report selection failure and leave winner-dependent testing and robustness outcomes unset. Retain validation quality and decoding status for all five candidates and report the number of selected models out of 42.",
+      "max_selected_watermarked_models": 42
+    },
+    "historical_notes": [
+      "The archived source records document experiment 1 candidates, outcomes and quality-based selections. The centers above are the registered values for experiment 2.",
+      "The archived MobileNet DeepMark strength of 240 followed prior training at 120. The archived StyleSwin LessMark value of 3.84 followed a range extension informed by previous pruning tests."
+    ],
+    "reporting": "Report the fixed centers, full grids, terminal budget, decoder validity, raw bit errors, BER, measured task quality and final selection for each combination.",
+    "campaign_training": {
+      "path_relative_to_this_file": "STRENGTH_TRAINING.json",
+      "bytes": 1676,
+      "sha256": "c545184a00a6f7a2dadaaf7ee2e30d65c736c755a85026be900f0231c3b26f36"
+    }
+  },
+  "data": {
+    "role_by_domain": {
+      "source": {
+        "train": "Source-model training where applicable, embedding training and insertion-direction calibration.",
+        "validation": "Measure source-domain task quality for every terminal candidate and matched clean control as an outcome. Strength selection uses the terminal message readout.",
+        "test": "After selection, evaluate the original and separately pruned or quantized terminal pairs on the source-domain test inputs."
+      },
+      "FT_target": {
+        "train": "Update the FT weights.",
+        "validation": "Monitor the native target validation task during FT under the common predeclared schedule.",
+        "test": "Post-FT evaluation. For generated-output comparisons use the held-out noise list, with reference to target conditioning when applicable."
+      }
+    },
+    "source_datasets": [
+      "CIFAR-100",
+      "ImageNet",
+      "Caltech256",
+      "FFHQ"
+    ],
+    "source_CIFAR100": {
+      "counts": {
+        "train": 44973,
+        "validation": 5000,
+        "official_test": 10000
+      },
+      "membership": "Use the existing cleaned source training set, original validation split, and full official test split. FT is conducted on FGVC-Aircraft.",
+      "excluded_train_counts": {
+        "test_content": 10,
+        "conflicting_training_labels": 16,
+        "validation_content": 1
+      },
+      "source_files": {
+        "project_root": "LERRA",
+        "retained_membership_and_rgb_hashes": {
+          "path_from_project_root": "experiment_2/config/evidence/data_independence_manifest.json",
+          "sha256": "aac324436aac1ee5b355f57b68e1df5ef23da340a1664bd0e84ec1531ab36df5"
+        },
+        "validation_and_official_split": {
+          "path_from_project_root": "experiment_2/config/evidence/data_split_manifest.json",
+          "sha256": "d4f24ca39c7e3e2390ef00b4b71d6976b37c6955594aa94c63591d1fa1e655d3"
+        },
+        "raw_data_root": "/data/lerra_parameter_watermark_protocol/data/cifar100",
+        "official_python_files": [
+          {
+            "path_from_raw_data_root": "cifar-100-python/train",
+            "sha256": "735e79b04f092ca3d2e6d07f368c0a7d70d48c48d28865950cc24454cf45129b"
+          },
+          {
+            "path_from_raw_data_root": "cifar-100-python/test",
+            "sha256": "4b67687d9933c4db8f0831104447f15b93774f4f464bd0516f0f0f2ac83b7864"
+          }
+        ],
+        "exact_rgb_definition": "SHA-256 of ASCII prefix RGB:(32, 32, 3): followed by uint8 RGB HWC bytes in C order on the original 32x32 pixels."
+      },
+      "history": "The CIFAR-100 official test set was used in prior experiments."
+    },
+    "target_FGVC_Aircraft": {
+      "dataset": "FGVC-Aircraft 2013b, 100 variant labels",
+      "counts": {
+        "train": 3334,
+        "validation": 3333,
+        "test": 3333
+      },
+      "membership": "Use the official images_variant_train.txt, images_variant_val.txt and images_variant_test.txt splits.",
+      "variant_order_reference": "Official variants.txt order, rows 0 through 99 inclusive.",
+      "official_annotation_archive": "https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/archives/fgvc-aircraft-2013b-annotations.tar.gz"
+    },
+    "target_ArtBench": {
+      "dataset": "ArtBench-10, 256x256",
+      "original_train": 50000,
+      "original_test": 10000,
+      "style_count": 10,
+      "counts": {
+        "train": 45000,
+        "validation": 5000,
+        "reserved_official_test": 10000
+      },
+      "per_style": {
+        "train": 4500,
+        "validation": 500,
+        "reserved_official_test": 1000
+      },
+      "membership": "Reserve 500 images per style from the official training split for validation. Freeze identical item membership for clean and all marked arms. The official test artworks remain reserved. The post-FT paired-output comparison uses held-out generator inputs and does not require real reference artworks.",
+      "official_source": "https://github.com/liaopeiyuan/artbench"
+    }
+  },
+  "robustness": {
+    "start_pair": [
+      "W_T",
+      "C_T"
+    ],
+    "branches_independent": true,
+    "used_for_strength_selection": false,
+    "procedure": "First evaluate the selected W_T and matched C_T as the unmodified baseline. For every pruning fraction, quantization precision and target-domain FT run, start with fresh copies of that same pair. Apply the same operation and settings to both members. Include winners with positive insertion BER.",
+    "branches": {
+      "pruning": {
+        "fractions": [
+          0.3,
+          0.7
+        ],
+        "algorithm": "global_magnitude_stable_index",
+        "rule": "Within each model, concatenate eligible coordinates in the registered order. Set the floor of fraction times coordinate count to zero, smallest absolute weights first, breaking ties by flattened index. Compute the mask independently for each member of the pair.",
+        "additional_optimizer_updates": 0
+      },
+      "quantization": {
+        "bits": [
+          8,
+          4
+        ],
+        "algorithm": "symmetric_per_tensor_nearest_even",
+        "rule": "Quantize and dequantize eligible weights. Set qmax = 2^(bits-1) - 1. In each member, compute each tensor scale as its maximum absolute eligible value divided by qmax. Divide eligible weights by the scale, round to nearest with ties to even, clamp to [-qmax, qmax], multiply by the scale and cast back to the original weight dtype. An all-zero eligible tensor is retained as zero.",
+        "additional_optimizer_updates": 0
+      },
+      "fine_tuning": {
+        "settings_ref": "#/fine_tuning",
+        "quality_ref": "#/post_ft_readout",
+        "domain": "Use the FGVC-Aircraft or ArtBench target according to the source condition. Use the native target task and its separate FT training budget."
+      }
+    },
+    "eligible_scope": {
+      "applies_to": [
+        "pruning",
+        "quantization"
+      ],
+      "classifier_layer_lists": {
+        "mobilenet_v3_large_w1p6_cifar100": {
+          "path_from_project_root": "experiment_1/records/runs/test-evaluation-20261028-repair1/jobs/mobilenet_v3_large_w1p6_cifar100/main_config.lock.json",
+          "sha256": "1ba0df967c096130d39738b34820f9702cdc236cebc9ae194bc25c2b6e296543",
+          "tensor_count": 64
+        },
+        "resnet18_cifar100": {
+          "path_from_project_root": "experiment_1/records/runs/test-evaluation-20261028-repair1/jobs/resnet18_cifar100/main_config.lock.json",
+          "sha256": "312e5c0108a446e66b5fc387a6f29bc1dad8647f966d8bac2d7fc21f425b30d0",
+          "tensor_count": 21
+        }
+      },
+      "classifier_layers_pointer": "/config/modifications/nonlearning/0/layers",
+      "classifier_scope": "Use the ordered convolution/linear weights from the inherited classifier configuration for that architecture. All four levels use the same tensor list, including the classifier output.",
+      "generation_tensor_counts": {
+        "unet": 182,
+        "sit_b_2": 65,
+        "styleswin": 105
+      },
+      "generator_scope": "Use the _physical_weights order for convolution, linear and supported EqualLinear weights and the archived output-branch row restrictions. Apply those scopes to the generator in both arms, including the generator alone for StyleSwin.",
+      "generator_output_rows": {
+        "unet": {
+          "out.2.weight": [
+            0,
+            1,
+            2
+          ]
+        },
+        "sit_b_2": {
+          "final_layer.linear.weight": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11,
+            16,
+            17,
+            18,
+            19,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "styleswin": {
+          "to_rgbs.0.conv.weight": [
+            0,
+            1,
+            2
+          ],
+          "to_rgbs.1.conv.weight": [
+            0,
+            1,
+            2
+          ],
+          "to_rgbs.2.conv.weight": [
+            0,
+            1,
+            2
+          ],
+          "to_rgbs.3.conv.weight": [
+            0,
+            1,
+            2
+          ],
+          "to_rgbs.4.conv.weight": [
+            0,
+            1,
+            2
+          ],
+          "to_rgbs.5.conv.weight": [
+            0,
+            1,
+            2
+          ],
+          "to_rgbs.6.conv.weight": [
+            0,
+            1,
+            2
+          ]
+        }
+      },
+      "generation_reference_rows": {
+        "path_from_project_root": "experiment_1/reports/pre_modification_20261114/SOURCE_ROWS_MODIFIED_GENERATION.json",
+        "sha256": "bc1d451ba4ba000f2d6883cf284190d45b1e3f2e623494452fefd2482816c408"
+      }
+    },
+    "readout": {
+      "payload_ref": "#/payload/single_watermark",
+      "required_bit_count": 256,
+      "rule": "Use the insertion-time decoder assets to read the modified marked checkpoint once per condition and level. Compare the recovered information bits in original order with recipient 292. Report raw bit errors and errors/256 on normal completion. Record invalid decoding separately. Report quality even if decoding fails."
+    },
+    "source_domain_quality": {
+      "classification": "At insertion, and after each pruning fraction or QDQ precision, measure both models on the same 10000 CIFAR-100 test images. Report both top-1 accuracies and the clean-minus-marked difference in percentage points.",
+      "generation": "At insertion, and after each pruning fraction or QDQ precision, compare the correspondingly modified clean and marked generators on the common 1000 source test inputs. Report mean per-pair MSE and SSIM on the final RGB images."
+    },
+    "recording": "Link each result to the unmodified selected checkpoint pair, retain both outputs of each modification, and record the level, eligible tensor names/rows, per-arm pruning or quantization diagnostics, decoder status, bit errors, BER and paired quality. Keep missing selections in the denominator of the 42-combination selection report.",
+    "nonlearning_provenance": {
+      "levels_and_scopes": "experiment_1/EXPERIMENT_DESIGN_KO.md#section-6",
+      "classifier_operation": "runtime/comparison/protocol_v2/modifications.py",
+      "generator_weight_order": "runtime/comparison/protocol_v2/generative_comparison.py",
+      "generator_scope": "experiment_1/experiments/selected_robustness_20261113/generation_worker.py",
+      "generator_operations": "runtime/comparison/protocol_v2/generative_comparison_training.py"
+    }
+  },
+  "fine_tuning": {
+    "definition": "Fine-tune the BER-selected terminal W_T and its matched clean terminal C_T independently on the target training split.",
+    "matched_arms": "Within each source-model and dataset condition, use the same target training data, minibatch order, optimizer settings, learning rate, trainable parameters and update budget for the six methods and their matched clean controls. During generator FT, form real-image minibatches from the ArtBench training split. A training artwork may be reused across updates. Each copy trains independently. Match augmentation draws, noise, conditioning and initialization of any new target module where applicable.",
+    "objective": "Use the native target task objective, with no watermark-preservation loss or reference-output imitation.",
+    "models": {
+      "classification": {
+        "dataset": "target_FGVC_Aircraft",
+        "updated_layers": "All layers, including the existing 100-output classifier and the LessMark backbone site. Assign the classifier rows to the target variants in fixed order and retain the head weights at FT start. This run measures full-network fine-tuning on aircraft, with a retained head.",
+        "loss": "Target-label cross-entropy."
+      },
+      "unet": {
+        "dataset": "target_ArtBench",
+        "loss": "Apply the same epsilon MSE and native learned-variance variational term to both arms using real ArtBench training images, matched noise and discrete times.",
+        "loss_terms_ref": "#/embedding/native_generator_training/tasks/unet/loss_terms",
+        "loss_family": "epsilon_prediction_with_learned_variance"
+      },
+      "sit_b_2": {
+        "dataset": "target_ArtBench",
+        "loss": "Both arms regress the same linear-path velocity target by MSE using frozen-VAE ArtBench latents, matched noise, times and artwork style labels.",
+        "loss_terms_ref": "#/embedding/native_generator_training/tasks/sit_b_2/loss_terms",
+        "conditioning": "Initialize the 10 target style embeddings identically in all arms and retain the original null-conditioning embedding.",
+        "loss_family": "linear_path_velocity",
+        "velocity_target": "z - epsilon",
+        "vae_trainable": false
+      },
+      "styleswin": {
+        "dataset": "target_ArtBench",
+        "loss": "Use real ArtBench training artworks and each generator's own samples. For this transfer experiment both arms adopt the FFHQ-256 G and D loss terms, including the same R1 and bCR coefficients and schedules.",
+        "loss_terms_ref": "#/embedding/native_generator_training/tasks/styleswin/loss_terms",
+        "latent_sampling_ref": "#/embedding/native_generator_training/tasks/styleswin/latent_sampling",
+        "discriminator": "Start target FT with each selected generator W_T or C_T and a fresh ArtBench discriminator. Copy identical initial D weights separately into all matched arms; train each D independently. Use the same D/G and regularization schedules in all arms. Decode and evaluate the actual trained G.",
+        "loss_family": "adversarial_gan",
+        "discriminator_initialization": "identical_fresh_copies",
+        "discriminator_shared_between_arms": false,
+        "update_unit": "generator_optimizer_step"
+      }
+    },
+    "before_execution": "Freeze ArtBench train/validation membership, native input preprocessing, optimizer and initial state, trainable parameters, learning-rate schedule, generator T_FT, and shared validation monitoring schedule. Record GAN D initialization, update and regularization schedules. Specify the shared FGVC-Aircraft FT budget and any target-validation checkpoint rule.",
+    "use_clean_outputs_as_training_targets": false,
+    "watermark_loss_enabled": false,
+    "generator_budget": {
+      "unit": "generator_optimizer_step",
+      "shared_within": "source_model_and_dataset",
+      "checkpoint": "fixed_common_T_FT",
+      "decision": "Declare T_FT before comparative generator FT and apply that common terminal budget to the six methods and clean controls for a source condition."
+    },
+    "generator_validation": {
+      "dataset": "target_ArtBench",
+      "real_images": 5000,
+      "updates_on_validation": false,
+      "native_diagnostics": {
+        "unet": "Held-out native diffusion loss on real artworks with matched noise and times.",
+        "sit_b_2": "Held-out native velocity loss on real artwork latents with matched styles, noise and times.",
+        "styleswin": "For FT diagnostics, use the held-out artworks and fixed standard-normal latent inputs shared by the arms. Evaluate each arm's own G/D losses with no weight updates."
+      },
+      "use": "Monitor during FT with real validation artworks. The comparative FT endpoint remains the common pre-set T_FT."
+    }
+  },
+  "generation_evaluation": {
+    "pairs_per_split": 1000,
+    "historical_pilot_records": 219,
+    "precision_planning_required_pairs": {
+      "mse": 919,
+      "one_minus_ssim": 609
+    },
+    "seed_rule": "quality_sampling_seeds(stage, 7698, 1000) uses stage 'development' for validation and 'main' for test to reproduce the inclusive ranges below. The source-validation and test lists are disjoint. Within each model/dataset use the same validation inputs and sampler settings across all six methods and five strengths. In final testing, all methods use the common test inputs and sampler settings. Each matched pair shares the noise and any domain condition (source class before FT or artwork style after FT).",
+    "source": "runtime/comparison/protocol_v2/generative_comparison_data.py",
+    "seed_ranges_inclusive": {
+      "validation": [
+        2769800000,
+        2769800999
+      ],
+      "test": [
+        3769800000,
+        3769800999
+      ]
+    },
+    "pairs_definition": "Pair C_T and W_T on matched inputs at insertion. After each modification, pair outputs of the independently modified clean and marked copies from the same selected terminal pair.",
+    "historical_precision_scope": "Planning sizes of 919 pairs for MSE and 609 for 1-SSIM came from 219 historical source-domain pilot records. Actual precision for the native-task insertion runs and after target FT depends on their measured outputs.",
+    "matched_input_by_architecture": {
+      "unet": "same_initial_gaussian_image_noise",
+      "sit_b_2": "same_initial_latent_noise_and_source_class_or_target_style",
+      "styleswin": "same_standard_normal_z_512"
+    },
+    "training_input_isolation": "Keep source and target training draws separate from validation and test seeds. Measure source-validation outcomes on every terminal candidate. Use the same reserved test seeds for the selected pair, each pruning fraction, each quantization precision and the FT pair. Apply source conditions for the initial, pruned and quantized models, and target conditions after FT.",
+    "validation_and_test": "Compare every terminal W_T with its matched C_T on the source-validation inputs regardless of decoding. For the selected pair and each pruning and quantization level, use the source test inputs. For FT, evaluate using the same test seeds and the target conditions. Sample in evaluation mode and average per-pair MSE and SSIM on final 256x256 RGB in [0,1]. Monitor native target FT validation losses on held-out artworks."
+  },
+  "post_ft_readout": {
+    "classification": "On the official FGVC-Aircraft test split, report accuracy(watermarked FT) minus accuracy(clean FT) in percentage points.",
+    "generation": "On 1000 paired test inputs, report mean MSE and mean SSIM between the independently fine-tuned clean and marked generator outputs. SiT uses the same artwork style for each pair. These metrics describe paired output differences.",
+    "watermark": "Extract the common 256-bit message from each fine-tuned marked model and report BER and decoder status. This is one model-level readout irrespective of the number of test images."
+  },
+  "payload": {
+    "schema_version": 2,
+    "single_watermark": {
+      "recipient_id": 292,
+      "selection": "First member of the pre-existing randomly ordered 32-recipient list, stored in codebook_validation_sampling. The recipient and the physical bit order are fixed for the whole single-watermark study.",
+      "physical_bitstring_reference": "payload.physical_payloads_by_recipient.292",
+      "hex_msb_first": "0bf6401f4dffb413c1a1fdff6950d0575de0e2b892c0c3f596121209a1ff3e05",
+      "zeros": 128,
+      "ones": 128,
+      "application": "The same BIBD-derived balanced 256-bit information string, in the same physical order, is the target for every method, candidate, terminal readout and post-modification readout.",
+      "targets": {
+        "lerra": "Map the common bits to -1/+1 for their respective basis directions.",
+        "uchida": "Use the common bits as the projection loss target.",
+        "greedy": "Common-message adaptation: set the residual signs from the common target in place of the native copyright signature.",
+        "neuralmark": "Common-message adaptation: retain the key and its hashed filter; set the embedding target to the common bits instead of the key hash.",
+        "deepmarks": "Map the common bits to the fingerprint coefficients before applying the fingerprint transform.",
+        "tattooed": "Pass the common 256 bits to LDPC. Score the recovered 256 information bits after valid decoding."
+      },
+      "scoring": "For an extraction with valid status, BER = incorrect bits divided by 256. Record invalid decoding separately. The single-message findings concern this fixed target."
+    },
+    "message_length_bits": 256,
+    "recipient_count": 336,
+    "index_origin": 0,
+    "generator": {
+      "bit_generator": "NumPy PCG64",
+      "numpy_version_used": "2.2.6",
+      "gf4": "GF(2)[x]/(x^2+x+1); element values 0,1,2,3 encode polynomial coefficients. Sum is XOR.",
+      "block_order": "Lexicographic GF(4)^3 point order. For every direction with first nonzero entry 1 take all affine lines; sort each set of four point indices, deduplicate, and sort the resulting tuples lexicographically. Recipient ID is the row index.",
+      "logical_prefix": "64 positions, zero at the four points in the recipient's line, one elsewhere.",
+      "logical_tail": "192 positions. For each recipient ID in ascending order, consume one permutation of [0]*124+[1]*68 from the same continuous filler RNG.",
+      "filler_seed": 20261122,
+      "permutation_seed": 20261123,
+      "permutation_rule": "physical[p] = logical[physical_to_logical[p]]; logical[i] = physical[logical_to_physical[i]]. Both coordinate orders use indices 0 to 255, left to right."
+    },
+    "digests": {
+      "algorithm": "SHA-256",
+      "serialization": "payloads: uint8, 1 byte per bit, C-order rows by ascending recipient and columns by index; permutation: uint8, 1 byte per coordinate.",
+      "logical_registry": "2250eb2f94fd65320ebad71415d948da0f140329b9f4b2409fd1082a759cc9dd",
+      "physical_registry": "1675e38e31dd8091ed08374c5032f2d42b87fd5b0580df709182f8e9c29e17aa",
+      "physical_to_logical": "cb2109e6669456fe9c0390f5581f3733b6dba8ad749d392fbecea87a1e99466b"
+    },
+    "verification": {
+      "scope": "Noiseless LDPC-symbol experiment with shared systematic LDPC matrix; no CDMA spreading, neural weights, training, or real-model coalition errors measured.",
+      "unique_messages": 336,
+      "balanced_messages": 336,
+      "counts_per_recipient": {
+        "zeros": 128,
+        "ones": 128
+      },
+      "listed_trace_positions_by_physical_quarter": [
+        20,
+        17,
+        14,
+        13
+      ],
+      "pyldpc_version": "0.7.9",
+      "ldpc": {
+        "matrix_seed": 8,
+        "n": 384,
+        "d_v": 3,
+        "d_c": 12,
+        "k": 290,
+        "systematic": true,
+        "padding_zeros": 34,
+        "encoded_symbols": 384,
+        "payloads_recovered": 336,
+        "encoding_snr_db": 1e+16,
+        "decoder_assumed_snr_db": 10,
+        "decoder_maxiter": 1000,
+        "parity_valid_all": true
+      },
+      "coalition": {
+        "participants": "All pairs and triples from payload.codebook_validation_sampling.final_coalition_ids.",
+        "registry_searched": 336,
+        "weights": "uniform",
+        "scores": "mean of BPSK symbols at the first 64 logical message coordinates after recovering the systematic physical coordinates and reversing the BPSK sign so that 1 maps to +1",
+        "unanimous_one_rule": "score > 2/3",
+        "exact_sets_by_coalition_size": {
+          "2": 496,
+          "3": 4960
+        },
+        "exact_sets_total": 5456,
+        "coalitions_total": 5456
+      }
+    },
+    "physical_to_logical": [
+      141,
+      174,
+      190,
+      19,
+      30,
+      228,
+      61,
+      126,
+      162,
+      63,
+      16,
+      80,
+      154,
+      36,
+      10,
+      248,
+      172,
+      196,
+      237,
+      198,
+      90,
+      155,
+      70,
+      147,
+      211,
+      171,
+      238,
+      241,
+      47,
+      84,
+      73,
+      168,
+      124,
+      128,
+      152,
+      253,
+      20,
+      229,
+      112,
+      163,
+      7,
+      43,
+      34,
+      233,
+      3,
+      6,
+      44,
+      35,
+      55,
+      31,
+      26,
+      93,
+      222,
+      92,
+      252,
+      254,
+      202,
+      224,
+      158,
+      170,
+      195,
+      106,
+      76,
+      1,
+      111,
+      17,
+      156,
+      114,
+      205,
+      203,
+      157,
+      4,
+      101,
+      164,
+      145,
+      132,
+      243,
+      176,
+      194,
+      137,
+      250,
+      57,
+      58,
+      183,
+      15,
+      115,
+      66,
+      28,
+      8,
+      153,
+      97,
+      40,
+      122,
+      22,
+      236,
+      46,
+      159,
+      25,
+      225,
+      193,
+      107,
+      140,
+      239,
+      119,
+      191,
+      139,
+      169,
+      39,
+      110,
+      206,
+      244,
+      108,
+      60,
+      177,
+      85,
+      197,
+      187,
+      134,
+      166,
+      105,
+      75,
+      94,
+      23,
+      49,
+      104,
+      2,
+      150,
+      12,
+      77,
+      219,
+      240,
+      182,
+      246,
+      18,
+      129,
+      32,
+      179,
+      135,
+      24,
+      113,
+      214,
+      149,
+      100,
+      69,
+      200,
+      52,
+      11,
+      210,
+      208,
+      81,
+      242,
+      117,
+      160,
+      144,
+      72,
+      62,
+      216,
+      215,
+      127,
+      230,
+      133,
+      221,
+      201,
+      50,
+      251,
+      161,
+      142,
+      138,
+      59,
+      103,
+      223,
+      231,
+      91,
+      109,
+      130,
+      78,
+      212,
+      178,
+      67,
+      245,
+      87,
+      192,
+      9,
+      37,
+      226,
+      56,
+      38,
+      95,
+      27,
+      14,
+      249,
+      136,
+      33,
+      118,
+      151,
+      204,
+      123,
+      96,
+      213,
+      199,
+      218,
+      232,
+      83,
+      102,
+      82,
+      143,
+      86,
+      121,
+      186,
+      209,
+      89,
+      189,
+      188,
+      79,
+      207,
+      181,
+      235,
+      99,
+      65,
+      217,
+      165,
+      131,
+      255,
+      247,
+      116,
+      234,
+      220,
+      227,
+      148,
+      146,
+      64,
+      173,
+      29,
+      5,
+      41,
+      54,
+      185,
+      53,
+      48,
+      13,
+      125,
+      88,
+      180,
+      175,
+      42,
+      21,
+      45,
+      120,
+      167,
+      98,
+      184,
+      68,
+      74,
+      0,
+      71,
+      51
+    ],
+    "logical_to_physical": [
+      253,
+      63,
+      125,
+      44,
+      71,
+      233,
+      45,
+      40,
+      88,
+      182,
+      14,
+      146,
+      127,
+      239,
+      189,
+      84,
+      10,
+      65,
+      133,
+      3,
+      36,
+      245,
+      93,
+      122,
+      138,
+      97,
+      50,
+      188,
+      87,
+      232,
+      4,
+      49,
+      135,
+      192,
+      42,
+      47,
+      13,
+      183,
+      186,
+      107,
+      91,
+      234,
+      244,
+      41,
+      46,
+      246,
+      95,
+      28,
+      238,
+      123,
+      163,
+      255,
+      145,
+      237,
+      235,
+      48,
+      185,
+      81,
+      82,
+      168,
+      112,
+      6,
+      155,
+      9,
+      230,
+      218,
+      86,
+      178,
+      251,
+      143,
+      22,
+      254,
+      154,
+      30,
+      252,
+      120,
+      62,
+      128,
+      175,
+      213,
+      11,
+      149,
+      204,
+      202,
+      29,
+      114,
+      206,
+      180,
+      241,
+      210,
+      20,
+      172,
+      53,
+      51,
+      121,
+      187,
+      197,
+      90,
+      249,
+      217,
+      142,
+      72,
+      203,
+      169,
+      124,
+      119,
+      61,
+      100,
+      111,
+      173,
+      108,
+      64,
+      38,
+      139,
+      67,
+      85,
+      224,
+      151,
+      193,
+      103,
+      247,
+      207,
+      92,
+      196,
+      32,
+      240,
+      7,
+      158,
+      33,
+      134,
+      174,
+      221,
+      75,
+      160,
+      117,
+      137,
+      191,
+      79,
+      167,
+      105,
+      101,
+      0,
+      166,
+      205,
+      153,
+      74,
+      229,
+      23,
+      228,
+      141,
+      126,
+      194,
+      34,
+      89,
+      12,
+      21,
+      66,
+      70,
+      58,
+      96,
+      152,
+      165,
+      8,
+      39,
+      73,
+      220,
+      118,
+      248,
+      31,
+      106,
+      59,
+      25,
+      16,
+      231,
+      1,
+      243,
+      77,
+      113,
+      177,
+      136,
+      242,
+      215,
+      131,
+      83,
+      250,
+      236,
+      208,
+      116,
+      212,
+      211,
+      2,
+      104,
+      181,
+      99,
+      78,
+      60,
+      17,
+      115,
+      19,
+      199,
+      144,
+      162,
+      56,
+      69,
+      195,
+      68,
+      109,
+      214,
+      148,
+      209,
+      147,
+      24,
+      176,
+      198,
+      140,
+      157,
+      156,
+      219,
+      200,
+      129,
+      226,
+      161,
+      52,
+      170,
+      57,
+      98,
+      184,
+      227,
+      5,
+      37,
+      159,
+      171,
+      201,
+      43,
+      225,
+      216,
+      94,
+      18,
+      26,
+      102,
+      130,
+      27,
+      150,
+      76,
+      110,
+      179,
+      132,
+      223,
+      15,
+      190,
+      80,
+      164,
+      54,
+      35,
+      55,
+      222
+    ],
+    "trace_physical_positions_in_logical_order": [
+      253,
+      63,
+      125,
+      44,
+      71,
+      233,
+      45,
+      40,
+      88,
+      182,
+      14,
+      146,
+      127,
+      239,
+      189,
+      84,
+      10,
+      65,
+      133,
+      3,
+      36,
+      245,
+      93,
+      122,
+      138,
+      97,
+      50,
+      188,
+      87,
+      232,
+      4,
+      49,
+      135,
+      192,
+      42,
+      47,
+      13,
+      183,
+      186,
+      107,
+      91,
+      234,
+      244,
+      41,
+      46,
+      246,
+      95,
+      28,
+      238,
+      123,
+      163,
+      255,
+      145,
+      237,
+      235,
+      48,
+      185,
+      81,
+      82,
+      168,
+      112,
+      6,
+      155,
+      9
+    ],
+    "physical_payloads_by_recipient": {
+      "0": "0011101101110110000000100001111011101000111101111111100101001010111001011001110011111101100101110101100000010000101010010011100101100101011001111110000000010100010100011010111001011011011111101000000110000010110010010010011000100001111101110001111000011001",
+      "1": "1101111001110110001110010101100011101000111011111110000110100001110000100110101001111101001101010100100101110000100000000111011011111101101001010110000110010111000100001101010000100111011011101001110010011000101000010001010000100100111101110101111001001011",
+      "2": "1001101001100101001101100100101000001001111011111110101000010101010011110010100101100011101111110100001000010000110100001011010101001111101011000111000011111100000101011100001101000111011011101001001101100110000010100001000101100101101101111101111111000001",
+      "3": "1001101001111111010010001111101100101100111010111111000100110101010011010010000101101101111101010100000010010010100100111011110100101101001000000100011010010000110101111011100100000011011011111100111101001100010110001001001000000001111101100011111010100001",
+      "4": "1011101001100110001000010100100100111001011011111110010100011101110000011000010001111001110111010110011000010110110000101011110100111101001010011110111100010010111111001000001000110101111110001010010011010011100100100000111010000100111101110010111000001001",
+      "5": "1011111001001110100001000000100000001111111011111110100001010111110111010000000001101111100111010111101011110001110101100011111110000100011000001110101010110010001110001100000000101011111011101111010001000101010100100100010010101100111111010001111000000001",
+      "6": "0001111001100110000100111001111100111100110111111110000101001011100111110000001001101001101101010100100111010101100000000111010110100111001010100111010010111100011101011110010100000011011011111000010010000100010000011101110100001001111111111000111000001000",
+      "7": "0001101011101110101110001010110001001001111011101110101101001001010101110000010001111001110101010111101111010010111000010010110101101001001000100111100011010001110101101000011000010011011011001101001010000000011000100001011000010001111101110111111000011011",
+      "8": "1000101101111111101101001111100000001011111111111110010100000011010110010100000011101101110111110100010010011001100001010111011110010101011010100110000011010101011000001111001000101011111011000010100000011011000101001010100001010000111101110000111010001001",
+      "9": "1101101011111110001001010000111110000010111011111111010000000001010001011110011101111011100001011100000000011000001000100011110100011101101000011110000001010000001110101100000011001111011111001100110011010100110000110101001111100101111101111101111000000011",
+      "10": "0001111110100111000010100000110110101000111011111111100101010001010001011001010101101111110101110100100011010100101101100111111100101111001111000110000000110000110101101001100101000011011011011000101001001010000101000000000010010101111111110100001111010001",
+      "11": "0001100011100110110000010000111101101000101111111111011001000111110010011001100011101001111110010100000110010010100101001111111110001101001000000110000001111001110100011000110010000011011111011000001010100100110110111100010001100010111101110110111000101001",
+      "12": "0011111001100110110101101101100101011011111111111110001011111101111000010000000001101101111101111100000011010000110000000001110110010101001110011111000101001100000101001001000001110011011011001001000000000000101111010011001001001111110111110101111000000001",
+      "13": "1111101011110110000100101100101110111010111011011110001110101001011011010000100011101101111101010100010000111100100011000011010100100101000000001010001001110111100101001011100001100111111111011110001100000100000000101010000001100000111101111110111000101001",
+      "14": "0011101011100111010000000000101000001100111111110111001101010011010000111001010101101111110101000010010000110001100011010111110100000111111010110110011110110000001100001100110000011011111011011000101000100101000101010000000110000001111101111101111111011001",
+      "15": "1001111101101111100011000101001110001001111011111100011100001001011100010000001011101001100101010111001000010110101001000011110100110111101000001111001110110100101111111100001100100011111011011000100011100011001010000010000001001000111100110010111100011001",
+      "16": "0001101101101111010001100010100010101000111111111110010001101011011000111000001001101001111101110110000010110010101010010011010111110111011001100110001001010011001101001000000101011011011001101100100001001001100011001000100011110100111001110010110000111011",
+      "17": "1011101001100010011110100000111110001000111111111110111101100011010100010010110101101000100101110100001010010001111100101111110110000101111000110111001010111100000110001100010000001111101011001000100100010101011000011100010000001000111101110010111110010001",
+      "18": "0001111001100111001000010110101100001100111111111110100100000001011011011110101101111101101111010100001000010101100000111111011101010101011010101110100111010010100111010110101100101011010011101000110010000010011000100010100000001000011101110000111001000011",
+      "19": "0011001101101110000010011001110101011010111111111110100000000111010010011000001110101101111111111101001010001010110010001011010100000111101000000111000110010110101100011100000001100111011111001000111100100101010010000000100110100001111101110111111100000001",
+      "20": "1001101001100110000101000110110100111110111111111010001001000101110001010111001001001101111101011111010001010001110000010111110100111111011001001111110100010000011110011000000011100110011011001000010000100101001001000100000111001000111101110110111100001001",
+      "21": "0101101001110110010010100101110100001000111011111111010000101000110001000100111011111001101111110100101111111001110000110011010101100111001010001101111001010010100100101001011101000111011110101101000000100000010000100010001110100000111111110000111100000101",
+      "22": "0001101011101110111100001001101001101000111111111110001101110100110111010100100101101111101101111101000000011010101000001111110101001111001101000110100100110000010111001100001100111001011011001000100100000001100100000100000010110000101101101000111101011101",
+      "23": "0011101001110111010010010010100011001100111110111110000100100100010101110011001011110111000101111100100000010000100111010011010100010101101100100111100110110000011110001100010001000011111111011100100010010010001110000111100001010110111101111000111000011101",
+      "24": "0111111101110100000000000100101000001111011011111111000100100100010000011111001011101101100101010100010111110100100010000111111001111101101111110111010010011000010101001111100100100011011011001001000010000000110100110000001010010100111101110011111001100101",
+      "25": "1001111011001110100010000010100001011001111011101111000101001100110100010110101001111111100111010100001101010010110100111111110100101111111001101110100110010000000011001000110100000011011011011010100000001001100110000001010010010000111111110001111001001101",
+      "26": "1001101001110110001000100110100100001011111111111110000000001010100000110010110001111001100101111100100000111001110110010110010110000101111100000110110100110010000110011110001010000111011111000000110110000010010110000100110011011000111111111001111001101111",
+      "27": "1001101001111111000001000001110100001001111011111111010001100000010110110100000001101011100101011101001100110000110101100011111101100010011010110111111010010100010100101010010101101111011011001100011010001000000010011001001010100010111101110001111110000110",
+      "28": "0000101111100111101000000000101100101001110011111111010010000000011000110010010101101001101111010111000010010001101000000011110100001101001101111111001011111100000111001001100001110111011011101110010000001110001110001100010001110110111101011001111100000111",
+      "29": "0001111101100110000101111101100000110001101111111110010110100000010000011000000001101011110111110100000000010001111000000011011101000101111110100110110011000000100100001111000010011111011011001010101000111111100110000001100100101001111101111011111110000111",
+      "30": "0011110101100110000001010100101100001001111011111111000000010110010001111001010101111101101101110101101010010110110001000011011100010101101100000110011010010001011100011111110010000011011011011010010001010010001110100011101101010000110101111100101100000101",
+      "31": "1011101010101111010010001110100111001010111011111110101000000000110000111000100001101001100010110100101000111100100000100011010100001111011010100111100010010100110101011001000110010111011111011000100001100100010101101100011100010100111101110000111010111111",
+      "32": "0111111011101111010001110000110000101100111011111110101010000000110101110111010011101101101101110110100001010110010011011001010100000111111000000110101101010001111100101001101100000011111011101000110010000001000010000001001010001001111101110011011000000101",
+      "33": "0011101111110110010110010000000001001000111011111110110010001010010110111001100001101101100101110110001011011111110001100011011111011101000100010110101100011110110101111110000000000111111011011000000100000110101010000000001000110000111011110010111010000101",
+      "34": "0011111001111110010000100110100000001010111011111110001010110000111000110000100001111111100111010001011111010000100000001111010101000101111100000111001000110000100100011101101000010011111111001110010011000001100010001010100111010110111110110100110101101101",
+      "35": "0011111101101110001010000111111000011000111011010100000100111000110101011010100001101111101101010110100000010001101100010011010101000111111100100110110000010010010100011011110101110111111011001001001001010010100000100000110000110010111101110100111010001111",
+      "36": "0011101001111110001100010000110000111000111011111110010001101100110010010011000101101001100111001100001000011011110101001011111100011111101100100010010100010010010110011110000010010111011001111000110111011100000000100000001000111110111101110110111100000101",
+      "37": "0001111001101111010011000111110010101110111011111110000001000000011011010000100011001000100111010110100100000001100110100011110110011111101011000111011000010110000101001100110000101111011111011010001011001100110000100100110011001000111101110000111101100101",
+      "38": "0111101101101111101011111100100101001101111011111111000010000100011001010011110100101001100101010101101000010000110110011011011100010111011010111111010111010010001100001110001000000010011011001100010010011001010000101001001010000100011101110010111000001101",
+      "39": "0111001001100010101011011000101100001100111111111110011101110010010010010010011001101101110101010101000000111100111110100011010100000111011110101110101100011000011101100100011100111011111011001000100101001000000000000110011001000010111101110000111000101101",
+      "40": "0001101001101110010011000000100100101000111011111011001111111010010100010100000001101011100111110101011101011001100100010011110101010101001010000110010101111010011100101000011011011011000011001100011011100000111000100000001001011110111111110001111101000101",
+      "41": "0001111001100111100111010101100011011010111011111110001100111101110000000110000101110111110101010111000000110101110101101111000111000101001101011110000001010000000101111100000110000101111011001001010000100000100100011010000110010010111111110000111100001101",
+      "42": "0101111001100110001000111111100010101100111111111111001000001001010001010010101101111011111101010100100100010010111011000011001000000101101100110100101100010101001100011010001100001011111011001100000001001101011111100000110010010100101111110000111001010101",
+      "43": "0101101011100100000100010110100001001000111010111110010000100011110000111011011001101101101101110101001000110010100000011111100110001111111001010110001000010010011110011000010110010111111010001000000110110100010101000011001110100110111111110010111010001111",
+      "44": "0011101111111110010010100100100100001110011011111111000000100101110000110010100001101111010101111100000000111110111010000111001111010101011110010110011011011100011100001101111000000011111011101100010000000100011000110001001001000000111101100101111000010101",
+      "45": "0101101111010110000001110100110100001001111011111111000010000001110010010000000101111101100101110100000010010001100100111011001111000101001001000110001100110010100101111000010011101111111111000110100101011110100000100011001100111000111111110001111111000100",
+      "46": "0101111001110111010001110111100101011011111011101110100101000011000000111000011101101101100101111101001100110010101100010111100100101111011000000110000010011000001101001010000011110011011011001010001100010100000010000101001001000001111101010110111001011111",
+      "47": "0001101101100110111000001000100110111011110011111110000001010101110100111011011001111001100101010111000000110110100011100111100100111001001001110110000000011000001000101101001000000011011011111111000100110101000001111110010000100100111101110000111111000111",
+      "48": "1000111101111111001000010010101110101001111011111110001010100001110001010010110011101001110101011110010001111001101001000010000111100100111000000111001101011001101110011010101000000011011011001101101010010001000011011000001001010001111101110000111101000101",
+      "49": "0101111100101110010000001011100100000010111011111110010010100001110100110000011001101011101101010100100110010011100000001011000101011101011011100110001001110000110110111010000110101111111011011001000110000001011010000000111110000010110111110011111011001101",
+      "50": "1001101011100111000001001010101001001000101011111110110001010101110111011000000001101101100111010101010010010110010101010011000111011101001110101110100100010010011110111000010001000011111011101101000110010000010100101001100100110100111101111000101001011101",
+      "51": "0001111011110111100010001101100011001000111011111110000100010101011010011000110011101001100110110100000010110001111010110011000101011111001000011111010011000001000110011000100001110011111111001100110001000001110110010001100010000011111111111000011100001101",
+      "52": "1001100001101110001001110001111000101000111011111111100110000101111100011100000011111101100011011100001101110010100011000001000110001101011000010110010001011000100110001010010010000011011111101100010100101010001100010110110100011110111111110100111001100101",
+      "53": "0111101101100110010000010000100000101000111011110110100001001101110001110100100101101001110111010100000101111111101000110011000111101101010010011110100111110111000110001011000000001011011011011101010011001000101100000001000100101101111101111000110110001101",
+      "54": "0111101001101111110000001000001100101001111011111110001111100001010100010000000001111111101111010011101100111000111110000111000110010111001010001011000001010010101110001011101000011011111011001100011000110010000001100011100010010000111101110001111000101101",
+      "55": "1101111111100111000000000111100001011101111011111100001001100001011001111000100011111001101101001110011000110001101000000011000111000101011011101110100101010000000101001101010000100011011011001010000001010110110000110110010001010011111001111001111101101101",
+      "56": "0001101111101111001010000101110000001010111111011110110000100011011010010000110101101101111111010100101001110011111100001111001100110101101000000110101000011000001101101001101000000011111001111010100000100001110000000011000000100101111100110100111111001111",
+      "57": "0101111101100111100100000101100110001011111011111110101000001111110000010010100011111010100101110110011101010100100000000011000110110101001110100111000100011110011110000000010000110110011111001100110111001101010000000101001000101100111111111000111001000101",
+      "58": "0101111101110111010100000101101000001000111011111111011010111001110001110110001001111111110101010100011000001000100010010111000111100101001000110110101000010110000100101010100000000111001011001010101110010000101001001011001001000000011101110111111100111111",
+      "59": "0111011011110111110000100001100000111000111011111110011001000001110011111000110111011001100111010111000001011000101100000011001110000111101100000111000001010001101100001101001100010111110011011110111010000000010001101010000101010010111101110000111100010111",
+      "60": "0001101001110010101000010111101010001001111111111010000011100011010010011000100010101001101101011100100000010101100000101011100100011101011000010111111100011111000101001110000101000011011011101010010100110100010000100110101111100001111101111001111010001111",
+      "61": "0001111001100101111001100100100100011001111001111110001011110011010110001001100011101111110111011100000000010011100100100011010111011101011000000111110100010000010101101001000001110011011011001000001110101000100100101111111100001000111101100110111000000111",
+      "62": "1101111101100110001111101000100101001001111101111110100101100001011110011100111001111001000101110110000000010110110101001111010110000111111011111111000000110000001110111000000100000011011010001010001001000100000011000001001101010000101111111000111110001101",
+      "63": "1111101001100110001100110000111001001010111000111110011000000111110001010000100001101001100111011110100011110001110000111011110001010111001001110110100000010110010110011000000011011001011111101100000010100010000100110010001101010110111111111010111000011101",
+      "64": "1001101001101110011000000110100010001000011101111110000100101001010110011001011001100001111101010110001011110000101010001011110101110101111001101101100000010100011110101000101001000011011111011010000100100100011000010001110110001100111111111110111001000111",
+      "65": "1011101001001111101001100010111000001100110101111110100110100001010001110000110111101001100111010111000111110000110011001110110111000111001110011110110011111000000100011001000100111011011011101000011100001000000100000000000000101101111101111001111000000111",
+      "66": "0011101011100110101000111001101000001110111001111110011000100111000100110101000101101011101101010100011101010000110011000111011101110100011011110110000010010011000011001001011100001011011011001010110011011010010000100000000011001010111111110000111001100111",
+      "67": "0001111001100110100110000000100000011010111101111110010110101001011001011100100011111001110111110111000111111011101100000011010110010011101001000111011001010000010110101001011101100011011011100010110000001000001100000011000011000100111111011001111001001101",
+      "68": "1100111001101110001100110001110110101100111001101111011010000101110001011000000111101011100101110101101000010100100101010011010101000111011111100111110000010011100100001101100010101011011111101001010011000100000010001000100000011110111101110000111000001110",
+      "69": "0001100111100111001110111000110100000001111001111110111000101101110011011001001001111001100101111100000000010001101000001111110101000111101100101111000000010101100100001110001001001111111011011000111000111010000100100100100100001010111101110011011011000101",
+      "70": "0001101001100110001000000000100000001000111001111110101111000111010010010010110111111111100001110100001001011011110011110011110100000101001101100111101001100100100110011000000010100111111111001101110001110100110000101000011010101000111111110000101001110111",
+      "71": "1111101011100111001011001100101010111000111001111110110000111101111000111001000001111101100110111101011010011101001101010011010100010101001000010110001100110010000100001000000001001011111111111000100010000010001001110011000100110001110111110001111000000101",
+      "72": "0011101010111111100001100100110011001001101001111110001100001001011001110100001001101101110111011100100000010100100000010001011101101111011001100110100011010010101101001001001000000011011111101001011001110001110101000100111001110000111101111010111100000101",
+      "73": "1101101001101111100000101101100000011001111001111110110000010001010111110111001001111101101111001100001111010001100111000011110100110101000000001111110000110000000111101100001010011011011011001000000000011100000101100001010100010100111100110111111100011101",
+      "74": "0101111101100110100111001111111000111100111001011110000011001001011101010100101001111001100111011011100001010010100100010011010100010111101000101111000000110110111111001101100000001011011011011001001100100010000000001010101101001001111001110000111000100101",
+      "75": "0001111011100110010001111101111001001001111001111101001000010011010000110000111101111101110101010101100001110000100111110111010100001101001001010010010100011110000101011110000000100111111111001001100101100010010100001100000000001010111111111000110000011111",
+      "76": "1101111111110110011000100000001010101011111101110111000010101111011000010110101101111001100111010100100000010011100100000111111101011111001000000110000000110010100101011001110101011011011101001000001001100110001000010000011001011000111101110010111001100101",
+      "77": "0001101011111110011000101000100000111000111001111110001010001001010001110010110110111000110111011111101010010000100011000011010110000101011000000110110011011100100100001000111111000111010011101101100101110011101010010000010001101000111111110000111000101111",
+      "78": "1101101001100010011001000000100001001100111001111110000001011111110111010111001111011111101101010110011110110010100101011011010100000111011001100110000000110010000110111100000101001011011011001000100110000100000001101000011111000101011111110010111000100111",
+      "79": "0011001011110110001000010100100000011011111001111110010100000101111000110110110001111011100111011101100010010001100110110111110100100101001110000111001100110010100101101010110000000110101011101101110010010010001000100101000100000001111111111000111001010111",
+      "80": "0001101001100110001001001100111000011110111001111011110001001101011001110000100011111111110101011101010010001110110000110111111110100101001001000111001000011101000111000010100011000011111011001110000010000011000000100100000011011101111111110100111010000101",
+      "81": "0111111001111110111000000100101010001000011010111110110000010101111011001001000001111001111101011100000000010010100010000111011110001101011100100110000010111110001101101000111000010011111011101111011010000010100000100110001100011100101111110100111100001101",
+      "82": "1001101111001111100010100010100010001101111011011110000100001101011010000110110001111101101111010100100101010001101101001011010110001101111100001110001000011100001101011000011000100111101011001001010000001011000001011011010011010000111101110000111110001111",
+      "83": "0011111011100111101101010001111010101000111111111110001100010011001100000010010011101011110101000100010000011100100100010011010100100101101010010111000101010010101101110001001000001011011011011110010110011000010001000010100010000110111101110011111010011111",
+      "84": "0001111011110110101001100010011100001010111011111110001001000001010110101101101100101101100111111101100111111000100010100011111110000011001001111111110111010010010100001101100001000011111011001001010000101000000101000000000001000010111111111000111000010101",
+      "85": "0000101001100110000111010011100010001010111111111110000100011001111000100101001001001001100111010101001110111010110101010111111100000101001010100111001110111000110100111010010000001111111011111100110000100000111000010100001100010100111111110000110000100111",
+      "86": "0011101111110011101101000000101100110001111111111110001010001101010010000000100001111101101101110110100101011000101000000011010111110101001010111010011010010011001101101000000101011011011011001011110110001100010010010100101000000000111101111000111000010111",
+      "87": "0011101111101110001100010011100100001011111011110111000011001011011000000000110111101101100101111100101011010001100000100011010101001111111100110110000000010111011110001010100000000011110111101000011001000000001001101110010011000001111101111010101110001101",
+      "88": "1011101111100111000100000000111101111001111011111111000110101111010110000110000101111011110100010100100100001010111000111111010100000101001000000110001000110010010100001101010111111011011111101101001110001110011000000110100000000000111100110000111010000111",
+      "89": "1011101111101110000000000011101100001101111111111110100010001001110100100001000001111101110101011110110000110000101000101001011110110101011000001110001110110100010101111110001100100010011011001110001010111001001010010010000010011000111001110101111100000101",
+      "90": "1011101111111111000100100101100000001110111011111110000101001001110010000100001011111011110101010110111001010000000001011011010110011100010000000111100000010100110101001010000100110111111111101110100000001000010000101100110110000101111111110001111000001111",
+      "91": "1011101000100110011000100000100010111100110111111110110010001011011000100000010011101101101111110011001011010001100011011011010100001111001000000111001011110001111101001000100000010011011111101011011110110000011000000001001001100001111111110000111001110101",
+      "92": "0001110101100110110010001100110011001100111011101100010000101001110010000010000011101011101101010100111100011010100001110011111100010101101001001111011000010000100100101001001000101011111111001010111011000000011000000100010101101010111101110100111011111111",
+      "93": "0001101001110111110110000001100111001001111011111110000000101001011000101111000011101101101101111101100000110011101110001111010110101111111011100110110100100000010101011000101010100011011001000000000001010010001010100000000010100001111101110010111110110101",
+      "94": "1001101011101110000100000000100001111010111011111110100000001111010001100011000101101010100001010110011011010101101011110011110101100111001001000111010010010010000100001000110000000111011111101000110100011101100011000011101101011010111101011011111001010101",
+      "95": "1011111111111110100010100000110010011011111011111110110010010001010010100010001111101001100101111100000001110000101011001011110111101101001100101110101000011100110100101010001000000011111111111000000001010110000001000100011100100000011101111010011100010100",
+      "96": "0011001011100110000100101000101110001001101011111111000000001101111011000011000101101101100111111111010001110000100111000110110100001111001000011110010010110111000100101110010001000011011011111100100110011100100110100000000101101100111101110101111000000101",
+      "97": "0011111001101110010000000000110001001100111011111010101111100101010101101000011111101001110101110100111000111000111001000011110101001101111001110110000000111000010010001011000010111011011011111110000010010000000000001001100000110110110101110100111111100101",
+      "98": "1001101101000111100001010011010001001100111011111110100110000001111011111010010001001001110111010101011110110001111000011011011101000101101110000110010110010001010101001010011001011011011011001011000000100001100110101001110100000100101111110001111000000101",
+      "99": "0111111101111111010000000100101100101110111011111110000110001011100001110100101100101101101101011100010100010001111000000011010101100101111000001111000010010001010111011101000101000111011011101010000001011000010100100000001000010101101111110010110011011101",
+      "100": "0101111101101110001000100010110000001110111111011111101110010011011100010011100111111101101101110100011010011001110000010111010110010011101000011110100001110010000101010110000000000011111011111000000100110010000010000101100000001011101101110000111100101101",
+      "101": "0000111011110110001001001110100000001010111111111110100000111101010110010101100001111001111101100100000101011100110000101011011100101111111010100111110110010000000100101100010100100011001111001001100011111100011000000111001001001100101101110000111000000111",
+      "102": "1101101101100111000001101000110010100010111011111110000000010111011001010010110001111011100101110100001100001000100001110111010111010111001001010110100100011100000100111010011010000011111011101001010000110100000010000011001100011111101011110001111010111101",
+      "103": "0111101001100110001110000000100000011100111011111111101100011001011110011000110001101011110111011110010000010100100010100111010110011101001100100110010010010001100101011001001100011010011011001001000010100000010111101010011111001100101110111001101110010101",
+      "104": "1111111011110010101000000000100100001000111011110110101001101001110110010100010011111011111100010101011001010000100110001111110100001101101100000110011000110100001110001000001001010011011111001011010101010110011000110101100110100000101101111011111000001101",
+      "105": "0011111011100110010010001100101100111101111111111110100011011001010000010000100001101111100101110110101010110100100100000001010100001111101010000011000000011001100110001001100000110111010111001101011100000000000011101010010111000010101111110110111011101111",
+      "106": "0111111001100111100010001010101110011001111011101110100000100001110010010100000011101001100101110100000100111001101011001111010100000111000110000110001100001001000111101010100001000111111111111110001111001001001010100011100011011110101101110001111000000101",
+      "107": "1011110001100110111000110001110101011001111011111110010011101101111000010010000001101101100111010011001100110000101000111011011101110101001110001110001000111001110101001010000101010111011011010000000000100110001100001000000100010101101101110011111000110101",
+      "108": "0101101100100110100110001101110111001001111111111101100011010011110001111100101101101001111101110110001000111000100010100011110101000100001000100110011110011001111110011101010000000011011011111110001000101001000000000000000001000100101101111101111000001101",
+      "109": "1001101011101111010100110000111001101100110011111111100000110001110010111011001001101011101101011100000001011001000000000011111100111101001001001110010010011000001100011000000101110111111001011000110000100000110011101001100011000010101101111100111010011101",
+      "110": "1001101011110110000000000110101100001111101111111110111111000001011100110000001001101110110101010111100000111101111010000011110100001111001000000110001010010001101000101000100100100111011011001001000001110000110000110000100011010101101111110110111110110101",
+      "111": "0111101101100110010000100101100010011001111011111111010000100011010000110001011011111001111101010100100000011000110010011010010100110111101001001110100011010001000101101100011001111111011111001100100001001011111100001001001000000010000111111010111010001101",
+      "112": "0001011001101110100100100010100001111000111111111110001101010011010101010000000101111001111001111100100001010001100000100111010100101101111011011110101011110100001100011100011101000011011111011000100111000000001000010110100010101001101111111000111110000100",
+      "113": "1001101001100110011001000111100001001000111111111011000111100001110011110100100001101011101101011110100010111101110101000011111100011101101000111111000001011000000100011000100101010111011111001010100000001000010001101011110001000010101101011001011000011101",
+      "114": "0011101011010110011010010000110000001000111010111111110011110001110000111000000001101111100101010100110010010010100100111011010101011111111010001111000110010011010111110001101011000111111011101000100011101010000011000000111000000000111101110010110001100101",
+      "115": "0001101001110110111110110000011100001010111110111111001001011101000000011000100011101011101101110110101000010010100001100111010100100101111100000110100011010000111101011001100100110111001111011101000001000001000001000010000110111011111101111101111000000101",
+      "116": "0101101001110110111100000110100100001010111010111110001101001011110010011100111001001001101101000100100001010011101011100011010111001001001100101111000100010011100100011100101110010011111111001011001010010001000110000010010101100000111101110001111101010101",
+      "117": "0010101011100110000010101000100001001011111110011110000110000101010001010100010010111011110101010111000000011011100001001111111110101101001101110111001100010110000101001000000111100111011111001001000101010000100001000101111010000011111101111001111110011101",
+      "118": "0001101001101111000000000101100000100000111110110111010001110111110000111100100001101101101111011110000001010010111010101111010100110111111100000111001101110100100101001111000000000010011011111000000001110001001000011001000110001000111101110111111001011111",
+      "119": "0001101111110110010100100010100100111010111010111111000110010001010010110001101001101011110101111101000010100000111100000111011111110111001011001010000110010000000111101100101000001011111011001001100011100100000100000010011100110100111101110010101000111101",
+      "120": "0111111111100110011001111000100001111100111010111110000010001011110000010100101001111011100100010101100010110000100000010011010100001101101000000110000001110101010111101100010111001111110011101100001000010011111011010110100000100000111001110011111100110101",
+      "121": "0001101011100010100000100010100000001000111010111110101000101001010110110001111011101101110111010111100000110011111001000001011100100101011100101110111000011011010111001000100011100011011011011010001101001010100111000001001000111010111110110000111010100111",
+      "122": "1101101000100111100111000100110101001101111010111110110000100001010000110101010001101111100111011101001000011100100101010111111100000101100110010111110110111111000110011100000100100011011111000000000010100001001000110000010100000001111111111000111101100101",
+      "123": "0101101001110110011011010001100110011001111110101110011110100011010111110000001001101011100101111001010000011101011110000011010100000111101000110111010110011100100111001011100101000011011111101000000110011001000000100000100000110001111101110100111100000101",
+      "124": "1101101111110110010011101010111000111110110010111100100100000101110001110001000001101101100101010110010010111000111010000111011101111111101000100110000000001101110100001000100100000111111011101100010000001011110000000100010010100000111111110011111000011101",
+      "125": "1111100101101110000100100001100100011000111110111111100000010001110110011000101001101111101111011100001100110100101010000011010101101110001100001111110100111010000110001110001100011011011001001010000001100110100011000001001010110000111111110100111000011101",
+      "126": "0001111001101110101101000100101000111001111010111110101010000011111001011000011001111010110101010110101000110001100010010011011100101101001011101110000000010010000110011011100010011011011011101100000000110100111100001010100011000110110101111010111010011100",
+      "127": "0001101001100110101001010000101110111000101010111111000100010001010010011001110001111111101101010101000010010000101111000011110100100111101001011110011001011000101101111001010000011011011111001110011001011111001000010010000011000100011111010001111000101101",
+      "128": "1011001001101110000101010100100000011101111110111110100101000011010010110010010011101001111111010100001001011101100000011011111100101101001100110110101000010001000010101001110000000011111111001010001011100010100101010000010101110000111111110101011000011111",
+      "129": "1001101011110111010001000000101000001101111110111010111001110101110100111001000001101001110011010100101000011000100010000010010111000101001111000111101110110001000110101011000101000011111111101000011111000011010110000100000001111100111111111010111000000101",
+      "130": "0101101111010110000101110110101011001101011111111111001110010011110100010000000100111101100101000100111000010101110010010011010100000101001001000110001101010001010100101010000011011011011111011000001001100001000100001111011000100101111101110100111101001111",
+      "131": "1111101001100110001100101000101110001100011111011110100000110011100000010000000001011101100101010100000000011000101110111011010111111101101111000110000001011111011101001001001000110011111011001010100000010110010001011010001010001101111111110101111100001101",
+      "132": "0001111111101110010110010000110101101010011011111111000000011101010000011111010111101001101111011111000010011000100011011011010101000001001000110110100001011000100100101001001000100011101111101011001000110001000010001010101100001100111101111010110101100101",
+      "133": "1110101111101111000110100001000101001000011011111110110010000001111000110110011001111111101101010111010100011100110011010011110101000101001010100111010001010100011100010000001001000011011011101001001010001101001001110000011100000100111111110001111001000101",
+      "134": "0011111101110111100000001100111011000000011011111110100010011101011011011000001111101111100101011111010010010110110010001011110100000101001011000110100001110010000110011110101110000111110111101000010011001101001000110000001000000001111100110001111010000101",
+      "135": "1101111001110010100010110010100001011110011011111110100001001001110100011010110101101101100101010100111100110110100101001011110110011111001001111110110010010000000100001101001010111011111011001010010000110011010010000110000100010000111001110000101100010101",
+      "136": "1011111011101110011100000011100000011100011111111110110011001101110100111000100001111101100100010101111000010000111111000111110111000101001010001011011010011111000110001011111010000010011011101001001000100000000010000100000010100100111101110100111010000111",
+      "137": "0001101101100110001110001100101110111011011011110110011010100111011100010001000011111101100111110100000000100000101001000001010110001101111011000111001100111101010110101001100110001011011011001000101000000101010100001101000100100011111101111100111100100101",
+      "138": "0001110101111111101101010010101001111110010011111110001000100001011011011001011101101001111101011101100100010001100010100011111100100111000001000111100001010011011100101001000010000011111011011100010000000101100000000010000001100011111111111000111010001111",
+      "139": "0001101101101110000001110001110001011001011111111111110011011011010001111000001011101001111101011011001011011000101000000011110100010100011110100111000010000011000111011000100101010011111011101000010010101000010000100100010001110101111101110000111000100111",
+      "140": "0001111101111111010000000101101000001101011011111100011000000001111010111010110011101011110101011100101111010100000101000111010110011101011010100110110101010011000100001001000111011111011011000010010000001100010010100110001100000001111101110001111100010101",
+      "141": "0001101100100110011110100001110000011011011011101111001000001001011000010111110111101011100111010111100010010011100101000111011110000111011011011110101001110000100100001000101000100011011001001010001110100110110010100001000100010010111101111001111010010101",
+      "142": "0011101011100110010110010001100010001010011011111111000110111001010011110000100101101100101101111111010001010100111110100010011101000111001101000110000001011100010100011010101100010011111011011110000010111000000101010000000110010100111111110000011010011101",
+      "143": "0011101011100111010000011110101001001001011011111110001000111111111100111100000101101101110001110101010000010100110001100011010100000111101010010111100111010000100000101001000110100011111011011000110101100001000101010100010000011010011101111000111100110101",
+      "144": "0101011101100111001110001001100101001010011011111110111000100001010001011000001101111001110101110100010001111010100001010011011111001101011111100110010000010010000101001110001000110111111111011000111000000000010010010000011001111100110111011010111000100101",
+      "145": "0111101001100111011000111011110010001100001111111010000101001101010011010001011001111011100101110100001110010011100011100011010100010101001011100110001010111100011110001100110000010011111111001100000000010110001110010010101100000010111101110000111100001110",
+      "146": "1001101001111100000000100001100100101100111111111110011100100001111100110000000101101011010101110100000101010110100010011011010111001111111101100101100101010010110110011010000110100001011011011000110000000101101000000101001101101011111101110010111000000111",
+      "147": "0011101111001010001000100100101110001011111011111111100001101111010100111010100001101001000101111110111111010000000101000111110101100101011010000110000100011001000101001000100010000011011011001001110011010101000001011010010010010010111101111100111001100111",
+      "148": "0011101000111111000101010000111001111010111011111110000000110101101100010010010111101001000101010101000010011100110010000011010101000101111010000110000010010100111110001000101001001011010111011001110000101001000100101000111000110110111111110100111011011111",
+      "149": "0001100001110111001001010000110010001011111011111110001001110111110000011001100011101111000101011111000111000000110001000011110100110001011011110110000000011000100101001011000110011011111011001101011000000100001101000001110000000101111111110010111110011111",
+      "150": "1000111011100110100111010001101100001001111011111110010010000101110010010000101001111001000101010100001110011000110111000111011100100101001000010111010000001010000101011011000010000010011111101001110001010011111011101110000100001110111111110100111100001111",
+      "151": "0001101001110111010010000001110111000000111111011111001000100101011111011001100111101101010101110111100100010010110010100111110100000101101011111110101100110001000100101000000010100111111011001000010010110100011101010010001100011000111101010000111000010101",
+      "152": "0101101101100110010000001010101100011000111011111110000100000101010000010111100001111001000101000100100011010000111001111011010100001101101100100111001000010000111110011000101110001011011011011010011011011111010110110100101011001010111101111001101101001100",
+      "153": "0001101001100110000101100000011110001000111011111110010000000001010011110100101001101101011110010110111010110100100101000010011101110101011001101111111010010100101101011010001001001111011011001100000011100000111011010000100101001000111111110010111101000101",
+      "154": "0101101011111111101000111001111000101010111011111111000000010001010000010110101101101011000101010110101011011011110010001101110110000101011010001111001111111001000010001000001010000011011111101100001000100100010000000100100101100101111101110011110001000101",
+      "155": "0001101111110111010010110010100000001010111111111111101000011001111101011110000001111001000011111110010101010010101010011011110110010101010000000110100000111111001111001000000000101111001011001000001011101010000010100111011000000100111101110100111100000101",
+      "156": "0011101011101110000010000010100101101001111011111111001000010011011010111010000011101111001111110010000001110000111111000011010100000111011001010110111010110001000101000101101100100011011011111100100000100110110000000010110000001010111101110010011010101111",
+      "157": "1001111101110111101000010110101010111110101011111100010110011101011101010110100100111101000101111100000011011001100000000111010100001101101001100110010000110010000100001010000100100111011011111100010001110101000001000000010100000000111101111011111001111101",
+      "158": "1001111111110110110010000000110011011111111111111111110001110001110001010000001001001001001101011100110000110010100101000011010100000101111111010110001000111000000100101000111011110011011101001101001000101000010001010010110000000100110111110100111110001101",
+      "159": "0101111101100111000010000001100010111111111111111111010000101011111000011000000001101100000101011110001011010110110101000011010110000100101001100011000011010000010100111100001111010011011111001100110111001011001000001000000001010101111101110010111001110101",
+      "160": "0111101001111111101000010000100001001100110011110111000101000011010100010010110011101001011111111100000101011110100000000011111111100101011001010110110010110001001100001001011000010111011111011101000000000101110010001110100111011000011101110000111000100111",
+      "161": "0001001001110111000111001100111010101001111111101111001000101101010110010010001101101101010101110100000000011010100110101111010100001111101001000111001000011010000110101000110000001011011111001100010000010100000011101001101010000110111110111001111010110111",
+      "162": "0001101101110111101010011100100010001010111011111011100110010001110000110100010111101101001101010110101111011100100110010111110100101101101110000110000001010010110110111000011101000011011011010100100000000000000000100101000100101110111001110001111110001101",
+      "163": "0001101111001111001000001001111111101000111011111110000110010001011101010100110111111011101111011101001100000000100000010011010100110101111000000110000010000010010110011101001100110001011111011110101001110000101001000010101010000001111111110101111000000101",
+      "164": "1001110101100110100110101111110100101000111111111111000111001001001100010000001011101001100101010100000010011000101110100111010100110111011001011110010101110000100101011000000101110100011111101010001000000100101001110010011011000010111101110010111010000101",
+      "165": "0101101000111011000101000100100000101000111011111110010001010101010110111010000001111001110101011101001001010100100100010011111101010001001001000110000100110100010110111011100010010001111011001010010111001000111101001101000111010110111101110011111010001101",
+      "166": "1010101101100110001101011111101000001010111111111110110110110011010110111101001001101001110101010100100010110010010000101011010100001111001111000111100011010001110100001111001011001001010111001011001000000000001000001000011001000010111111110010111000010101",
+      "167": "0101111111101110100000001100010011100000111011111110001001110001010110111001101001111011100111110100111100010011101011110011111111001101001110001111001011110000001000011000100000000101011111001001000010000101010010000000001000000000111111110110111000101101",
+      "168": "0001101111110110001110100111111100111000111011111110110000011101011000110000010011101111100111011110000010011000101010100010010111001101101011110110011000110100101100001000000100000001111011001000010001000000001001100100111000010110111101110101100011101101",
+      "169": "0101101111110110001010011001110111101001111011011110000111000011010100011010000001101001100100010101011000110010110100001011011101100111011000101110011000111100011110001011000010100001111111101001001011110000000010000010010000001010111101110110111000111100",
+      "170": "1101111101110110010001010001111010101101111111111110000000100101010000010110100111111101101111001100101001011000100010001001010111010101011010110110000000110010001100011100101100000001011111111001000001010000001001101001000000101111111101011000111000110101",
+      "171": "0001101001101110010100010011100100011001101011111110000000100011011010011100111011001011101101011110101010010110100111100011011100110111110001000110100110010110100100101111100011000101011011001010000000101000101110001000101010000000111111111100111010000101",
+      "172": "0001101001101111111000111000100000011100111111111110101100000111010000110101010000101011111111011000001001010010100011000111111100001101001000111110000010111100110100101111010000000001011011101001010000100101100001101100010010100101110101110011111010100101",
+      "173": "0011111011100111010000100010110000001011111111111100000000011011110001011001010011111111101001010111000110011000100000010011111101000111001101000111010110010111001110000100010011010101111011001001010000111110010100000001100101000100111101111000111001000101",
+      "174": "0001111011100110010100000001110001101000111111111111001010010011011001010000000011101101100101010100100101011110101001101011010100101101011000010111111010110100000100001001101000010001001101001000011111110001010001100010010010001011111111111000011101011111",
+      "175": "1101101101100111100000101000100101101100111011101111010011001101110000010010100001111000100101110101100010011000101111001111011111001101101110100111010101110010101101001101000101000001011011001100011000000000010001100100001011000010111011110000111000111101",
+      "176": "0001101111100110011001000010100011011001111111111111110101010001110011110000010101101101100101010100110000110010100000111111010101010101001110011110101010110001010100101000001010000001011011100000100111101000101110101100010001000110011100110100111100001101",
+      "177": "1101011101111110000010010001111100001000111111110110100001000011010001010111101011101001100101110101010100010011101110000111110100110110001010000110000100010110000101001011101000000001111111111000000011010001010101101011000010000101111111111000111001001101",
+      "178": "0001111001100110100000010000110110011011110011111010001101111111011101010000000001111001100111110100010000110100100001000111111110100111101110110010010100110000000110011100110001000001111011001100101010001101001000001011100001000011111101110100111011100111",
+      "179": "1111101000000100000010110100100100111100111011111111100011100101010000110000001001101101111111010100000100010111110000010011010110010111011000011110100010110011001110001010001100001010111011011010001000111010111000101001001110110000111111110001111000100101",
+      "180": "1011111011101100010011001100110000011010111011111111000000100101000010111001001001111001100101011110010011100100001000110011111110000111001010110111011001010000010101001010010101100011111111111101011000010001000011001100000000000011111111110000111000010101",
+      "181": "0101101001101100000010010111110000101100111111111111000000001011011101011010000111101001101111111110100001010101111011000011110110100001101111010110000000100010010100101110110110100011110111001101100000000110010100000000001000001010111101110010111101000101",
+      "182": "0010100001100001110010000001100000101010111011111110101100010001010101010001111111101001101111110100011000011001100010100011111111000111011110110110100100110010010100001000000010100011011011101000100100101001010001000000011011100111111111111100111000111101",
+      "183": "0001111101100100001110010110110101000101111011111110100011000101010100111010000011111001101111010101101010010001111001100011010101000101001010001110000001010110100100111000001110001011011011001110000001100000100101110000001000111010111111110001110011111100",
+      "184": "0101101101101100101010001000000100001000111111111111100000011101010000111100000011101101100101110110011000010000110000111011011110010101001001000110000000010110101100011110110010011111111011001100011111001010111110100010010010101100111101010100101001100101",
+      "185": "1101101011100101011000011110101010001100111011111110110011100101010010011101111001101011110100100100111100010000100110011011011100110101111001101110010010010000010000001001000000111011011011111000011111000000000000000001000010011100111111110100111001001101",
+      "186": "0001101011100100010100111001100011101000111011011110000101100101010000110111101011101001100101111101111010110010100000000000010101000111001000001110011100110011101101101100100000000111011011001111111000000001101111010010110000011010111101111011111000000101",
+      "187": "1001101001110100010000000101100100011010111111111110000010000011110001011001000001101101101111110110111000011011110001110011110111110101000010000110100110011110001110100001000101100011011011001110001100001101000001001110111011011000110101111000111000000101",
+      "188": "0001101011100101010111100000100100001100101011111111011000111001010110011000100111111111100111110000100000011010100100000011011110000101001000101111111000010010100101001011011010011111101111011000010001100000001010000100000111000111111111110101111010000101",
+      "189": "0011111001100100101000101001110000011000111011111100001010110011010100010001110011001111101111010111100011010011100001000011011100100101011011011110100000011100000100111110011010000011111111101110001000000001001010100010010100110100111101111010011110000101",
+      "190": "0101101001100101100001000100101100101011111111111110100010101011010001010100001010111001100001011101100111010110100110001111011100100101001011010110110100111010111101011110100010000111011001001001010000000000000001001010100101010001111101110100111100011101",
+      "191": "0111111001100100010000010001101100011010111011110111101000011101010111010101000001101110101101010100100000110000100011010111011100010111001000000110010010110000110100011101000010010011111111100111001001100010100000011101001000101011111101111010111100110101",
+      "192": "0001111001111100001000000100110110011110111111101111010101100101010000110010000001101101100101011111101101010000110000010011110100000101001000010010010000111110010100001010001011000011111111111100001000110010011001111001001010100010011111110111111010010101",
+      "193": "1011011101100100100100100010100010101101110011111110100000101011010101011100100011111101101111110111010000010001111010000111011110110101001101100110100001010000100110101010000001101111011011011000010100000001010001000000100110011000111011110011111010100101",
+      "194": "0011111001100100101001000001110110111010111011111011000010000111011010011100111001101011101101011100101001010001100001000011011111001110011001101110110011010011000101001110011010110111011111001000000000000000000001100001001110001001111100110100111010011101",
+      "195": "1011100011010110000000100010111000011111111111111110001000011111110000010000000001101001100111011110001100010001100110000111111100001101101001010100010001011001110100101001100100001111110011011111100100000100100101001110000010001101111111111000111001100101",
+      "196": "1011101101110011110110101000100000011000111011111110010100011101100000110000010101111101100111010101100100010100110110000011110100010111001000110101100111100000000111101010000100001011111111011000100001100100010001101111100001100100111111111000111000000101",
+      "197": "0011101001101111101110101000101000001000111111111110110100011001110110110000011001111111101111010100001010110011010000000111011110000001001000010100010010111010100101001101010100010010111111001000001101100001100000101100000010010000111111111100111000101111",
+      "198": "0000101100101110010010100001100100011101111011111110100010100111010100110000100011111001111101010110001100101111111011100111010100011101001011010100011000010011000100111100100110100011111011001000100100000000001100100010001100100111111111110010111000001101",
+      "199": "0001111011100111001010001000100000010100111011111110010100000111010010011110000011101101100101100101001000010010101001010110010100111101101011000100001010011100000100001110100100101111011011011010110000110100001111001001110010001001111101110110111100111111",
+      "200": "0011101101100110100001100101100000011001111011011110010001101101011001011101000011111111111101010101001000111111101001000011010100100101001110000100000100111100001011001100000001101011011011111001011111000000010000000001110011001000111111110000101101010111",
+      "201": "0001101011100110000010100100101010111111111111111111001011010001010010110010010111101101100110010100100000010101100000000011010100001101001100110100001010110110100100111101010001001111011011101111011100010000101011000000000001001111111101010111110000101101",
+      "202": "1111101111101111111000000011010100101000111011111111000000010001010000010111010001101101100101110100011010010011111110001001010110000101011010000100000010111010100111001100110001101111011111111000010000000010100110100110101000000101111101110000111001010110",
+      "203": "0011111101110111000110111010110010001000111011111110011101001111010000010000010000101101101111111110001000110100100110001011010101100101010101011101000001010000000110101000011011100011111011001010101100001000011100000001100000110010111101110001011111010101",
+      "204": "0001111001110110000100100110110100101101111111111110100110011101010110011101000001001001101011010001100000010110111011110011010101010101101000000100001110110001000100001100000001110011111011001010000000011101000001100011001010001101111101111010111110100111",
+      "205": "0001101011100111000111010011100000001001111011111101101000000101010100010101000011111011100101011110011010010000100110110011111100110111001000011101101000010001000100011010110101100011001111001100010000010010001011101011010101011101110111110101111000000101",
+      "206": "0111101011110110101011111110100001111101101111111110010001000111010000010101000001101001100101011100100011110010100000001011110101011101011000110100000000110100010101100101111010001111011001001100010000000001000011111000100110000001111101110001111100001111",
+      "207": "1101101101110110001110001110100100111001110011111111110100101011011101010110010001111000100111010110000000110000100100100011010110001101101000000100100010010011000101111011110010101011011111001000000001000111010100101010000101100001111110111000111001000111",
+      "208": "1011101101110110100011001001110000111000111011111111001011010011110100010000000011101001101101011100111010110010110000100011111101010110101000010100001000111010100110101100010000000011011111011100110000010000101000011000101100001001011001111110111011000111",
+      "209": "1101001101100110000000000000100001111001111011111110101111101001111010010000100011101101100101010110101011010001100110001011010100101101011101010001000011011011001100011010000001000011011111110000000000011101000000011111010101110110111101110100111011010101",
+      "210": "0101101011101111000000100111100101011011111111100010000111001101010101010001100001101001100111111111100011011010100000001111011101011111101100100100000000010010011100001010100000011011011011001101000000111000110000100011000111000001111101110001111000011111",
+      "211": "0101101101111110111110001001111011101000111011111111100000000001011000010001010111110001111111011101000010110000100011001011110000011101011100010110101000011101100100001011010010100011111010001000101000000000010001010110001110100010111101101011111100000101",
+      "212": "0001101001011110110110100000101100111010111011111110000011101001011001010110111011101011100011111101001100010110111100000011010011110111001000100011010000011100011100111100000011000011011011001011000001000010001101100011000000000011111101110010111000110101",
+      "213": "1001111001111110010010000001111100111101111011110110001110111101001000010000000101101111111111111110001000011001101000010111011000001101001000100111000001010110010101111000011100010111011011001010001101000010010011011100001000000011111101110000011000001101",
+      "214": "0001101001111110010110001011101010101010101011111111100010000011011000111110110001101001100101110101000111111110101110100011010000010001011110011111010011110101001101101001000000001011011111001000100000000000010010010000110010110100111100110000111100001111",
+      "215": "0000101001100110000010100101101000001111111011111110000000110101011010111110000011111001111111010101100000011000110000001011011010001101001000010111000101110011010100011100001000000011011011101000100111000011011100100111010100111101110001110011111101011101",
+      "216": "1101101001110110100010110001110000000111111111111110100000100011010101110000101001101011110101110100100011110000101000100111010000110100001001100110101001110000010100001010000001100011001011011100000100100001110110011100011001100111111101111110111000011111",
+      "217": "1001101101101110010100001111100001001001110011111110110110010001011001111010101001101111100101111100110000010101100011011011010001000101111010100110010010110010101101000110100000001011111011001001010100000010100100010001000000011010111111111110101100000101",
+      "218": "0011101011110110001000100000100000101000111011101110101111010011011000010110000000101011110100010100001101111100101001001111110001000101011001010110110000111010100111101001110001100011011111001000100111110010000000100000001110101000111111111101111011000111",
+      "219": "0101101001100110001001110001101001001100111011111110010100100001110011110111110001001101110111011101100100011100100101011001011011000101101101101110000000010100111110001011010010101011011011000110000000001011000110110100100000100010111101110000111000100111",
+      "220": "0111101001100010001011101000110010001100111111111110101000000101010000010010101001101101101101010100010001011000101001100011010011111101010101000110001101111100000110011110101100001011011111001010011000101100001011110010001011000100111101010010111101100101",
+      "221": "0001101001110110101100100101111001111110111111111111100001000011110000111100000001101111111111010000000010111001101111000011010000000101001110001110001010010010110101001011001001001011010111001010100011011010000101001001000110011000111101110001111010000100",
+      "222": "1101111011100110011001000111101001111001111111111100110001001011010001011010000011101101110111010100010000100010101010110010111000010101111000000110101001010000000101011000010001101111011111101000000100000000100000110110010110011010111101110001111001110101",
+      "223": "0001101101110110000010000100101111011010111011111111000110101011010010010010100001101001100101111111000000111011100001000111111000100111111110010110010000011001010000001110100100000110111001011001110110110101010000010000001000000010111101111100111010110111",
+      "224": "0101101001100111001011010100100100011101111011011110010001100001011000110001000001111000100101010111100000011000000011000011010011000101101000110111001101011001110111011000100010100111011111101001001001010011111100010010100101001001111111110110111011000101",
+      "225": "1101101000101110010110010001101001101101111011111110111011110011110001010100000001101111110111100100101000110000100000000011010011100101001011001110000100010100000100111101010110010011011111011000101010011100000100000100100001111101011111110000111010000111",
+      "226": "0101000001100110000000110101001100011001111011111110000010100101110011011010000001101101110101010110001111111001110001100011110010001101101000100110001100010101111101101111000101100011011111001100011000001100000011100000000001101100111111110001111100100111",
+      "227": "0001101101101111011111001000111110001010111011111010100101110001110001010100011011101101110101011100010001010000111000001111010000000111001100100110101110000000101100001100011010010011011111001011111000001010100000000110001011100101111111110000110101000101",
+      "228": "0001101101001111010000100110111000001010101111111111001100100111111101010111100011101001101101010100000000010100101110000111011111100101101110010110101100110000000100101001101000001011011011001101101010011110111000000001011000010110111001100100111000000101",
+      "229": "0001111101100110010010001100101100001110111111111111000000111001000010010010000101111101101101011100011100111000100111000011010100000101001101101110010100110001010111011010010000001011111011101100101110010001111110000000100000010110110110100010111010110101",
+      "230": "0011101001110110010010000100111010011010111011110111010101100101011010110000100011111001100011110101111000010000100110110011010110110001011000000110100011011000000101111010010111101111011011111001010101010110000011100000010100100001111111100000111000000101",
+      "231": "0000101111101110000010101000110000001001111011111111000000101011110101110010100001111101101101010101000100110100100100000011110110101111001110110011001100010001001101001010110100111111111111101000011000100000000001000011111000110100111111100010011001001101",
+      "232": "0011101001100111100100011001110001100010111011101111101001011111110110010000010001001111100101110101001100010100101001000011110100001101111001000110011000011000011101001111010000100111011111111100100010001000101100100000001011101000111101101010111000010101",
+      "233": "1011101101100111010011101100101100001100111111111110100010110101110011010000100110111011101101010111101000010100100010010011011110001101101111000111000001010000010100001000000110100011011011000001000100001000010111100011011001011101111101100010101011000101",
+      "234": "0001111001101110110010001100110110001010111011111110110100101001110100011000000011101001100100010111111001010011111111110111010101110100011001001110001000010110010110110100100000000111011111001110001000001000010100011000000100000100111101101010111001101101",
+      "235": "1011101011100111000100001100100001001110110011111110110001001101010001010010000011101001101101111110100010110000111010101101011100000101111101010110100000011000010100001010100111011011001111001000000001110000011011010010100011010001111111101100111000110111",
+      "236": "1101101101111111100100010000110000001100111111111110001000001111010000111110100011111101100101011101010001100011100001000011010101100111010100101111010001110001010000011001100001000011111011111000011000000100010010000000000110011000111101101001111110101111",
+      "237": "0101101101111111010100011101110001001000111011111110000001001001111110010000000001101111100101011001110000110011100010110010011100001101011100100110011110010000000101111010001110001010011011001010011000110010000101001000110000111101111101100100111100011101",
+      "238": "0101111101110010000001010110100010111000111011111100001101000101011001110010000101101001110111011100010000011111100011010111011101000111001110000110100100010100011100101001100001001011011011011010010100100000111000010010001111100000111111100011111110001100",
+      "239": "1101101001100110000111000110101100001101111011111111000010001001010000010011010111101011111101110101011100010100111011011011010110010101011001000110001110110010000101001000001011000111110101001110000101101101000000000001000001001110111111001000111001101101",
+      "240": "0001111101100110011100100101011000001111111111111110000100100011111001110111000001101000100111011111000101010100111111000011010101001101001101010110001001000000010100011000100110111011011011011001000000100111110000000000000111011000111111100011111000000111",
+      "241": "0011110101100110100000001100110100011001111011111111010000011001011010110001001111111001100101011100001101010100100010000011110110010101001001100110000001011100101100001000111011111011111011011001101100000000010101010111000110000011011111100011110100010101",
+      "242": "0011011100101110000001111000101101101100111111011110010011001001010010011000110111101101110111010101000000010101110011011011110101010101001000110111000010011101001110101100000001001011011011111000000101100000101000010000011100000000111101101001111011100111",
+      "243": "0001111111100110101000010000110000001110111011111010100111001001011100010000001011101001100111100110000100110110010010100111010110010101001000001111100010011000001100111011001001011011111011111000011000110000010001101011111100000010111111100011111000110101",
+      "244": "1001111001010110000000101010101000001101111011110110011010000111110110011111001001111101110101010100010001010100100001011011011100100111011111001111110000010000010111011000010101000011011010011000100010000001011110100001000010000110110111110100111110100111",
+      "245": "0011111001101111001000110010101001011100101011111110000000000101000100011110000101111101110101010101001000110001100110011011110111100101111010011010001100010010100111011000101010000011011010111010000011100011000101000011100101001100111111110001111000010101",
+      "246": "1011111001100111110000001101100001011010111111111111000100000001111000110111001001101011100101110111010010010001111100000111010100000001111000101111001110010000000110111000001100010111011010101000110010100011100111010100110010010100111001111000011000010101",
+      "247": "0010101001100110010001000010111010101110111011111111000000100011010101010000010111111011100011011101100100110111100011100111110100000111101101101110111110010000110100001000001010000011011010101100101000000100000101010000010110101001111110111001111001000111",
+      "248": "0001101111100111000000000000110001000101111111111110110110001101010000111001010001111001100101010110011000110000111011011111110101000101001100000110010111010101110100010100110000010011111010000011100000101000101110100001010000011011111111110010111010101101",
+      "249": "0111111001110110011111010010110000001000111011101110011010000011110011011000101101101001100101010101001010010001100110100011111111011101001001011111000010010010001100001001001100010011001110001001110000001101011011010100010000101011111101110000101010010111",
+      "250": "1101101011100110100001000010110100011011110011111110111000101001111000010110000001001101100100111110010000111000110001101011110100100101101000000111101010110110100100001010001000001011011110101001010101110010101001111001000010100001111111110110111000001101",
+      "251": "0001101011110111001100100100110011011010111011111111001101001111010001011001000000111011100101110101010000110100110100101001010100101110011010110111100000010101100100001000100010000011111110111101000010011011000110000010010110000110111101110000111000001111",
+      "252": "0101111001100110001000001101100100011011111011111110001011100011011110110010010101111101110101010100011001011000100010101011010110111101000110010111100001011011100100101000111000011110011010111011000001100000000110000110001000000110111101110110111000000100",
+      "253": "0001101101100110110100100001110001011101111011111110101010111101011110111000010001111111111101010000100100000001100011101011011101100101001101101111000100010010001100101111000111100111011010101000000000000011101001000000010000100000111101011000111100001111",
+      "254": "1011111001101111101000000110110001101000111111111100010010100001110011010100011011101011110101010111001111010001100101000111011100110101001010001110000011010000100001101101001000001011110010001010001100101000001100111100100100011100111111110000111000010101",
+      "255": "1001101111111011000011001011100000001010111111111110110000001111110001110010001001111101111101010100000000110100110010101010010100101101011001011110010110010101100100011110001000000011111000001010010000000100000011000110010000101111111101111110111100000111",
+      "256": "0001101010101110011010111110100001001111111111111110101000101011110000010000000011111000110111010100000010010100100010100011111101011101101000100110010100011010001100111011110011000011111110011000001011000011011001000000001011111001111101110000110000001101",
+      "257": "0111111011101110000100111000000000001010111011111110100000111011011111110011100001101001100101110110000110010000000110011111010100000111001001001110100010010000101111111001000011010011011010111000011010001000110110110101000100100100011111111000111101000101",
+      "258": "0111001011100110000100101111110000001000111011111110001001100101111001111000000001101101111101001100001011011000101100101111011101100101011000001110000011000011111100011110000110010111011010011001100000100001001001000010100001000000111111111101111000011111",
+      "259": "0011100101110110101000101001100000101000111011011011000000001011011001111000101101111111110111010110000000010000100000101011110100110101101000011110100100111111010101011010001000001111011110001110010001001011000100101010001001001110111111110011111000010101",
+      "260": "1011111001010110000010111010110100101000111111111110111010010101011011010100100001100011100101110111111000011000101000100011111100001101001101000111000010010110001100011000011001010011011011111000101001000100000100001110100100101110111100111000011100001101",
+      "261": "1001111001100110010101011011111000001000111011111110000101010011000000111100010011110101100001010100010101110000101110111011010101010101001100101111100100010101101101101010010100010011111011011001010001000100001100101000000001001010111011110001111110000111",
+      "262": "1011101001110111001111100100100110001110111111111111101100000001011001110000010001100001100101110111011000010010111000111011111101000001011000110010101110110110000101001011100011000011011111101100001000010000000000000010100010001100110101110000111111001111",
+      "263": "1010111001111110000010010100110100001100101111110111110011100101010000010000010001100101100101011110011010011011101110000011010101000101011110000110001001010111111100011110101001000011011011001110101100010100000010000010001000010000111101111101111011011101",
+      "264": "1101111101100110000000101010111001010001110111111111000010000101010001111000001010100101111101010100001110111010111101100011010100011101101011011110100011010110000100001001100000100011111011001010000010010100000011000001110000110101111101111010111100001101",
+      "265": "0011101001101110000100110010110010011110111011111110001100000001010110110000110001000111100101010111000101110101101110100111010101001100101010110111110110010001010110101000010000110011011111001101010110000100101100100001001000000000111111110101101000100111",
+      "266": "0001101001110111001000100010101101011000111111111110000000011001010100110000010111100001110110010110111011011010100001001111110110110111001100001110000101010000101100101000010110101011101011000011010100110010001101110010100010000101111101110001111100010101",
+      "267": "0101101111101111000110010000110010101000111011101110000111010011111101010000001011100101110101010111000000110011101000000001010100100111001001010110110000110110010100010001000111101111111111111100001000000011001101010001000010101000111111110000111001110101",
+      "268": "0011101011100111100011001000101010111100111011111110111110101001011001010111000001110011111101111100000010110010111000000010110100111101000100000111011000010001110110011000101000000011010011001001010011111100010100011100001010000100111101111000111000000111",
+      "269": "0001111001100010011011110000110101011101111111111110000000011001110011011111100011100111101101011000000000111000100010010011011110110111001100001110010000010100000000001110100000100011111111001011111000001011111000000000010100010110111111110000111001110101",
+      "270": "0101101111100110110000000001101101001010111111111100110111010001010010011000001001100101100101110100100100010110100001011011110100100101011001010110100001111000100101101010110111010010111011001111101000100111000000010001010000001011111101011001111010000111",
+      "271": "0111101011100111001001110101100010001110111011111110010000100101011100010111000001100001101111010101000000001101110001101011110111100101001001100111111000010000100110101110000100010011111001001011100000011000001011000000100000001110111101110110111101110110",
+      "272": "1101100101111110100010001110100000111101111011111110110001000111110001110010010101100010111101001101011000010100100011011011010110000101001110101110001000110001010111001000000011100011111011001110000111000001000100001000101101000000111101111010111001001101",
+      "273": "0001101001110110010101100000111110001100111011011111110010111101010000110100101101100001100111011100000011111000110000000111111100101111001010001111100010100010000100001111000111110111011111101000010010010010100010000010010000000010011101111010111011010101",
+      "274": "0001001001111110000000100110101100011100111111111110100010010011010001110100100001100001101101110101000100011110000000000011011100010101101011000110110010011010011101001011011000101011011011011110001000010000101111100111010001010100111111111010110101100101",
+      "275": "1001101100110110100101000000001000011100111111111011011100011101010100010101011011110101100101011100111111110001111000110111010101101101011100010110100100111100000101101001000010000011111111001011010010100011000010000000000001010000111101110000111100000111",
+      "276": "0000101011000111000100011010111011011010111011111110110001101101100010111000001111101001101101110101100000110101110100011011010110100011101100011111001001010100001100001001110001001111011011001010000001001000000100010000110000011100111111111000111000100111",
+      "277": "0101111011001110001001000100101001010000111011111110111100001101111000110010001001111000111101111100001001111000100001001011111101000111010000001111001001011000010100101010001100010111111011001111000001001010110010000000011101000000111101110010111101001111",
+      "278": "0001111011010110010010110011110010001110111011111001000000010011011110110000010101111011100101011100110100010110101110001011110101101101001010011110010010011100001100001000000000010111111011001001100010001110100110010101010000010000111101111001101010101101",
+      "279": "0001101101000111001101001000101010101110111011111111111000000111110100010001001001101001101100110100001000011011100101010111010100010101001010000110100110011010001101001110001010010011111101001001001000011001101101111010011001000011011111111001111000000101",
+      "280": "0011001011001110010010000011101100011000111011111110100010100011011001110000100001101011111111010010010000110001100011010101111110000101001011011111000000111001110101001011111011000011011011111001011000100000101000010000000001100001111101111010111100001111",
+      "281": "0011001001110110111000010010110001100101111111111110000000001001100100111100100101111111101101010110011100011100110001101011010111010101001110001110000000010100010110011110011001100111011101001000000101000101100001101001000100011000111111110000111000010111",
+      "282": "1111111001101110001000000100111100011001111011111110100101000101000100010000101111101011110101010001100010010110110010000011010101000111011100000110000000010010011111001011100000010111111011011010000011001110101100000010001111000101011101110101101110110101",
+      "283": "1001111001110110001110101100111010011010111011111011111000000001000000111001111001101001101110110100000000111110101001010011010110010101100110000111000100010100010100001010001100011111111111001100001001000010011110000100101001110010111111110010111000000101",
+      "284": "1101111101101110011000010011110100001010111011111100100001000011001100010001000011101000100111110101000010111011100000100001010111100111111101000110001101010100101110011101000011000011011011011111110100000000000100101000010000000111111101111110111001001101",
+      "285": "0001101011100110000010000100101000010001111111111010001000010001010001011111000111111001110111110000000001010000100001111111111111000011111100011111010011011000111101101110011001110111111011101010001001010000000100000000111001000000111101110011111100000101",
+      "286": "0101111111101111111000000000111100101100111011111110001000111101010100010100000101101000101101011110000000011001111001000011110100001001101110100111110101110010000110101100111100000111011001011000000001110010000100110100000000011101111111110000101010011101",
+      "287": "1101001101110111001101010101101001101001111111111100011000000001011110110100010011101001100100010101011100010011100000010111110101100011011001100111001110011001110100101000010000110111011011011000000001000100000100001100000001000011111101110111111001101101",
+      "288": "0011101011101110101101000001101000001001111111111110001010110101010101011110111101101001110101111100010110010001101010011101010100010011010000001111010001111011010110001001100001000011011111111110000010010001100010000000000010010110011101110000111100000101",
+      "289": "0100101101110110000001010001111101000110111011111101001000001111010100010100101101111001111111111100100100010011100000001011010101100111001110000110011001110011010100101010001000100011011111011111000000101011001001010001110001010000011101110000111101000101",
+      "290": "1100011001100110011011000011110000101110111111111110010100101101010011110011000101111001100101111101000000010000100000100011010111100101110010000111010001010000100100011110101100110011011011101000100010101110001101000001100010111001111101111000101011000101",
+      "291": "1010101001110111000100000000101000011101111111111110100000001001010000111110001001111110101100010000101001010101100000010011010110011101001111100110100001010010000110011011011000100011111111011000100100001000100001011110011010101011111101111011111010000111",
+      "292": "0000101111110110010000000001111101001101111111111011010000010011110000011010000111111101111111110110100101010000110100000101011101011101111000001110001010111000100100101100000011000011111101011001011000010010000100100000100110100001111111110011111000000101",
+      "293": "0001101001101110111110001100110010000110111011111110011010101111010010010011101111101001100110110100000010011011100000001001111101101101011000110110001000110001001111001010000011110011011011101001011100000100101000011100100000000010111101110010101001100101",
+      "294": "1001101011100110110100000101110100101000111111111101000000011111011000111100001001101011100101010011011100010000110101101011110100011101000110000111001000110000110100001000001100100011011101001100011000101100111100010001011001110010111111110100111001100101",
+      "295": "0101011011100110000001000010111001001101111011111010100000110101111110110000000011101000100101110100101010010010110100001111010101010101001100101111001010110000101110111001000000101011011011011010101110110001011000011001001100000101011111110001111010010101",
+      "296": "1001101001110110110100000010111101101000110011101110001101000101110100010100000011101101101101110100110101010000100100100011111100001100001001010111001000110110100101111001010111100011111011100000000010001110000010010001100010001111111101110100111110011101",
+      "297": "1101101001101010100001110000100011011000111111011110000000100001010011011110110001111001100011011100000100010110100110111011010111100100011011110110011001011000010100101101110011001011011011101000001001000100101011000110111000000000111111110001111000100111",
+      "298": "0011101111100110100101000000010100011101111011111111010101100001111011011000111011101001100101111100101000110110100000011011010110001100001000011110110000010000000100001010001000100110011111001110011100110010100000001110010010000001111101111001011111110111",
+      "299": "0101111111101110001100100010100001001000101011111111110110000011010011111001001101101101100101111100000000111111100010100011011100100100001001010111010100110011111110001101100100000111010011111000101000001100000000010100000000110100111111110100110000011111",
+      "300": "0001111001110111001000001111100000001001111011111111100011000001010001111001100001111001111101100100000001100000100010001111010100100110001001100110100101010000010111001001100101100111111111011101010001001001001111010100100000101110110111110101111000100111",
+      "301": "0001111001100010000100000000111100011001101111111110001000000101110101011001001001101011100101000100100000011001101101011111110101100101001000000110111001011000101110111001100000011011011011000010001011100011111110110011110000110001111101110000111011010111",
+      "302": "0101101001100111010110100101100100001000111111111110001110000111111000110000001011111001101101010100101010011100100110010111010100000101001000000111000110010010010111001110100110000110111111110011100010011000101110100001101100001000110111111010110010000101",
+      "303": "0101101011100110100000100011000000011110111011111111100101000111110011110011011011111101101001011100101001010110100000101111011110000111001000001110011100110000001100101011001101001111110111000010000000000000101000001010011001000100111101111001111000001111",
+      "304": "1001101101100110011001001011110011111111111011011111000110001001110010010010000101111101110111010110010000100010100000100011010101100101011001101110011100011001001100001100000110110011011011100010100010010000000001101001111100001100111101111001011001000101",
+      "305": "1001111001110010000000010010000100011010110011111110010111011001010010110111000101101111100101010100100101010000110000100011111100100111101100000110010111010000001101101010100011101011011011001100001010011000100000010111010110010101110111110000111111101101",
+      "306": "1001111011110110001110010000101001001100100111011110100001101001010001111000100101101011100111110100001010111011100001001011010110111111101100010110010100010000010100101111001100000110111111001101000010000010001000000001101001100001111111110000111011110101",
+      "307": "0111101011100111000111000001100000011100110011111111100100000111010010110001000101101001110101100101001001110010100101111011010110000101101100010110000000111010110100001101101000011111010111001001010100101001000001011101011001011100111101110001011100001101",
+      "308": "1001101011110111100110011001110001011001110011111110100000101101011011011110010111111101100001011101001010000100100001010011010110100101001100000110010000110100011100111111101000001011011011001000010001100101000010100000010001110100111101111010110010000111",
+      "309": "0101111011101010010001100000100001001000111011101110001000110101010111110010110101101001110101010100001100010000100101111011011101001101011000000111000011011111101101011000111100000011111111001000001001001100010000000001000011100111111111110101010100111101",
+      "310": "0001101001100111100011001010100001001010111111101110011000101011010011010000110001111101100011001100001100011000100000000011011110100101111000011111101010110010100111011100001110001010011011101101010100100011010000011010011011000001111101110000111110101101",
+      "311": "1001111101100110111110000000100011111000111011001110110000110101011000110001000011111001111101010100000010010101110100010011011100010101011100001110010001110010101100001000110101001011010111001010100001001010101000011011110110010001110111110011111000100101",
+      "312": "1011101001101110000011011011000111101001101111101110000001011101010001011001000011111001110111010111100000001110110001000111110110000101001100000110000001011100001101111110101110010111011011001000101000000100001010010000100001100101111111110100111000010111",
+      "313": "0011101001101011101010001000100010001110111111111111001000111101010000011010001101111001111101011100000000001000101000011011111111101101011110001111000010111011000111011111010011100010010011001001000100000101000001000100001100010011111101110010111000100101",
+      "314": "0101101101110110100100000111100100111000101111111110101010010111110011110001010111101001100001110100011101010010101000101011011101001101101001101110010001011000010110001010100011000111111111001100101011000100001000100000101010000100110101110100011010000101",
+      "315": "1011101101110111010110001001000001001110111011011110011010100101011100010110000101101101100101101110000111011100100000001111010110000111101010000111000000011110000100011000100110001111111011001000001000111100101001110100100010100000111111110100110100101101",
+      "316": "1011101111110110000110000010100011101001111011111110010000000001010111111010100001111011100111011110011110011000100100000110010100100101011000111110000111011000100000001001101001000011111011011000011010000110101111100000011010100010111101011001111011000100",
+      "317": "1111101011100110000000000111110000101100111111111111000010110101011111010010010001101101100101111110111000011001000001001011110100000111111000000010101000010010010101101001000110011011001011001010101000011100000000110100111111001000111101010000111010011111",
+      "318": "1011101010111110001110101001100100101101111111111110000100000011110000011000001011001011101101010111000000010000100010100111110101101111101111001111110000010001010100001000011001000111111111101011010100101000000011110001011000100000111100010000111011100101",
+      "319": "0111100001110111000000101100100000111010111011111110100000011001010000010010000001101101110111110101000011010010100001101111110100100111001001110111110001111011110111000001101000000011011011101000010110001100100001100001101010010000111011010011111100011111",
+      "320": "0111101111101111100000001110101010011111111011110110000000010101010000011010110100101001101101010100100000010100110010100011011110110101111001001111111000100100110100001100000011000011111111011110001100000000010111010010000000000101111101010110111110010101",
+      "321": "0001101001100111110001011000110101011000111011111111000000000001010000110000000111101001110101011100010011010110111100001010011100101101001111100011010000100011000100010110100010011111011011011111001100000100110001100111000011100000111101110011111110010111",
+      "322": "0001100001100110101110110001110000101101111111111110000111100001011101010000001000101001100101010100000010111100101100000110010100000111111001110110010110010111101100011100001001100011111011101001001101000010010101000101110100101101111110111000111100000101",
+      "323": "0111101100100111001010000100100001001100111011111111001011001001110010011011100011111001100101011101001010111110100100101010011111100111001111000111001010010001010101101010000100000111001111001110100010110100000000000001110001010101111001110001111000010101",
+      "324": "1101101011110110000000100010110000001101111011110110101000000101111010011110010011001111100101111111100100010011000011011110111101101101001000000110100100010111101100011000100000000011011011011000010111001010100000011100011111100000111101110100111000010101",
+      "325": "1001101000110111110000010100100010001000111011111110001110001111111000111000000100101101110101010100000000110100100100110011010101110101101110010011100101011010011001111101001000101111111011101110000010110100000001100010000100000100111101110001111011101101",
+      "326": "1001111101100110000000000010110010001010111011111111100110111111110000011000100101101011111101110110111000010101010010000111011111110101011111101110100100010100000001110010001001110011011011001010101000011000010000010000011001000000111110110000111100100101",
+      "327": "0001101001100110001111001100100100001100111111111111100001101101010100010010110001001001100101110110001011111000110101000111011110110111001111100110000100000010010011101111111000010011011011111011000001010100010100110000100001000000111011111000111010000101",
+      "328": "1011100001101111010110000011101001111001111111110111010110001011010100111000000101101011111101010110000011011100101001100011010100010101111000010110010100010001100000001001000100101011001011001011010000011110000111110110000000001010111101110000111010011111",
+      "329": "0101110001100110100100111011100111001010111011111111000110011001010000011110000011001001101101010100100111010001110001001011010100001101001100000010000001110101000101001100100001110011111111001001111110001100101001001000000011011111111101110110111001000110",
+      "330": "0001101001111110000110000110110010001000111111111110010100000011111000010100011001111011101111011100001010110001100001101011011100011101111001001110011100000101000111001010100010000111001011011010000000000110011010000001001110011110111110111010111001110100",
+      "331": "0001101101111110010100001001111110101010111111111110000000100111110001010001000000101001111111010100010011111000000000100111010101000111011100010111010000110110010100101001100000111011011011001101011001101001001101000011000001000111111001110010111101100100",
+      "332": "0011111010110110110011100000101000001011111011110110010001000011011001011001000001101001111101010100100001010010111101001111010100010111001001110111000100010000001100000001110011010111011111001010111010001100000011100011111000100000111111111001111100001110",
+      "333": "1001111011100110001001001100101011111100111111110111010000001001010100011001000001101111100111010101010100010101100011001011111100000111001011001010111000110010000100101111100000100011011011011000101101101000010010100011000100101001111010110000111010010111",
+      "334": "1011101001100110010100010010100101101100111111111110110001010001111100011001011100001111100101111111010011110100110010110011010101010101001001100110001000010000110101010000000000001011001011011000100001000010110110001000100100110000111111111011111011010101",
+      "335": "1001110000101111101011001110100111101010111011111111001000100111011110110001000001111001101111111100000000011001000100000011010110000101001010010110000010100000100111101001111011000011011111011110000001001100001010010011000001110000111101111001111001010101"
+    },
+    "codebook_validation_sampling": {
+      "scope": "Provenance of the registry draw and the earlier symbol-level verification. Multi-recipient and coalition experiments on trained models are outside the accepted single-watermark evaluation.",
+      "historical_id_draw_seed": 20261124,
+      "historical_id_draw_rule": "Independent permutation of IDs 0..335 from split_seed. First 3 are development; next 32 are final coalition recipients; first 3 of these 32 are also final single-model recipients.",
+      "development_ids": [
+        153,
+        149,
+        85
+      ],
+      "final_coalition_ids": [
+        292,
+        215,
+        222,
+        15,
+        48,
+        286,
+        249,
+        333,
+        2,
+        209,
+        19,
+        194,
+        192,
+        242,
+        10,
+        110,
+        70,
+        224,
+        150,
+        118,
+        320,
+        324,
+        18,
+        156,
+        46,
+        73,
+        140,
+        113,
+        295,
+        103,
+        206,
+        310
+      ],
+      "final_single_model_ids": [
+        292,
+        215,
+        222
+      ],
+      "prespecified_coalition_cases": {
+        "sampling_seed": 20261126,
+        "cases_by_size": {
+          "2": [
+            [
+              2,
+              15
+            ],
+            [
+              2,
+              19
+            ],
+            [
+              2,
+              140
+            ],
+            [
+              2,
+              156
+            ],
+            [
+              2,
+              192
+            ],
+            [
+              2,
+              194
+            ],
+            [
+              2,
+              206
+            ],
+            [
+              2,
+              249
+            ],
+            [
+              10,
+              46
+            ],
+            [
+              10,
+              48
+            ],
+            [
+              10,
+              215
+            ],
+            [
+              10,
+              222
+            ],
+            [
+              10,
+              224
+            ],
+            [
+              10,
+              286
+            ],
+            [
+              10,
+              292
+            ],
+            [
+              10,
+              333
+            ],
+            [
+              15,
+              19
+            ],
+            [
+              15,
+              73
+            ],
+            [
+              15,
+              113
+            ],
+            [
+              15,
+              140
+            ],
+            [
+              15,
+              192
+            ],
+            [
+              15,
+              206
+            ],
+            [
+              15,
+              249
+            ],
+            [
+              18,
+              73
+            ],
+            [
+              18,
+              118
+            ],
+            [
+              18,
+              150
+            ],
+            [
+              18,
+              215
+            ],
+            [
+              18,
+              224
+            ],
+            [
+              18,
+              242
+            ],
+            [
+              18,
+              310
+            ],
+            [
+              18,
+              324
+            ],
+            [
+              19,
+              110
+            ],
+            [
+              19,
+              156
+            ],
+            [
+              19,
+              192
+            ],
+            [
+              19,
+              194
+            ],
+            [
+              19,
+              249
+            ],
+            [
+              19,
+              320
+            ],
+            [
+              46,
+              48
+            ],
+            [
+              46,
+              215
+            ],
+            [
+              46,
+              224
+            ],
+            [
+              46,
+              286
+            ],
+            [
+              46,
+              292
+            ],
+            [
+              46,
+              324
+            ],
+            [
+              46,
+              333
+            ],
+            [
+              48,
+              209
+            ],
+            [
+              48,
+              222
+            ],
+            [
+              48,
+              224
+            ],
+            [
+              48,
+              286
+            ],
+            [
+              48,
+              292
+            ],
+            [
+              48,
+              333
+            ],
+            [
+              70,
+              103
+            ],
+            [
+              70,
+              110
+            ],
+            [
+              70,
+              156
+            ],
+            [
+              70,
+              209
+            ],
+            [
+              70,
+              222
+            ],
+            [
+              70,
+              292
+            ],
+            [
+              70,
+              295
+            ],
+            [
+              70,
+              320
+            ],
+            [
+              73,
+              113
+            ],
+            [
+              73,
+              118
+            ],
+            [
+              73,
+              140
+            ],
+            [
+              73,
+              150
+            ],
+            [
+              73,
+              206
+            ],
+            [
+              73,
+              310
+            ],
+            [
+              103,
+              110
+            ],
+            [
+              103,
+              156
+            ],
+            [
+              103,
+              194
+            ],
+            [
+              103,
+              209
+            ],
+            [
+              103,
+              222
+            ],
+            [
+              103,
+              295
+            ],
+            [
+              103,
+              320
+            ],
+            [
+              110,
+              156
+            ],
+            [
+              110,
+              194
+            ],
+            [
+              110,
+              209
+            ],
+            [
+              110,
+              295
+            ],
+            [
+              110,
+              320
+            ],
+            [
+              113,
+              118
+            ],
+            [
+              113,
+              140
+            ],
+            [
+              113,
+              150
+            ],
+            [
+              113,
+              206
+            ],
+            [
+              113,
+              249
+            ],
+            [
+              113,
+              310
+            ],
+            [
+              118,
+              140
+            ],
+            [
+              118,
+              150
+            ],
+            [
+              118,
+              206
+            ],
+            [
+              118,
+              242
+            ],
+            [
+              118,
+              310
+            ],
+            [
+              140,
+              206
+            ],
+            [
+              140,
+              249
+            ],
+            [
+              140,
+              310
+            ],
+            [
+              150,
+              215
+            ],
+            [
+              150,
+              242
+            ],
+            [
+              150,
+              310
+            ],
+            [
+              150,
+              324
+            ],
+            [
+              156,
+              192
+            ],
+            [
+              156,
+              194
+            ],
+            [
+              156,
+              320
+            ],
+            [
+              192,
+              194
+            ],
+            [
+              192,
+              206
+            ],
+            [
+              192,
+              249
+            ],
+            [
+              192,
+              320
+            ],
+            [
+              194,
+              249
+            ],
+            [
+              194,
+              320
+            ],
+            [
+              206,
+              249
+            ],
+            [
+              209,
+              222
+            ],
+            [
+              209,
+              286
+            ],
+            [
+              209,
+              292
+            ],
+            [
+              209,
+              295
+            ],
+            [
+              215,
+              224
+            ],
+            [
+              215,
+              242
+            ],
+            [
+              215,
+              324
+            ],
+            [
+              215,
+              333
+            ],
+            [
+              222,
+              286
+            ],
+            [
+              222,
+              292
+            ],
+            [
+              222,
+              295
+            ],
+            [
+              224,
+              242
+            ],
+            [
+              224,
+              324
+            ],
+            [
+              224,
+              333
+            ],
+            [
+              242,
+              310
+            ],
+            [
+              242,
+              324
+            ],
+            [
+              242,
+              333
+            ],
+            [
+              286,
+              292
+            ],
+            [
+              286,
+              295
+            ],
+            [
+              286,
+              333
+            ],
+            [
+              292,
+              295
+            ],
+            [
+              295,
+              320
+            ],
+            [
+              310,
+              324
+            ],
+            [
+              324,
+              333
+            ]
+          ],
+          "3": [
+            [
+              2,
+              15,
+              206
+            ],
+            [
+              2,
+              19,
+              249
+            ],
+            [
+              2,
+              70,
+              249
+            ],
+            [
+              2,
+              73,
+              118
+            ],
+            [
+              2,
+              103,
+              192
+            ],
+            [
+              2,
+              110,
+              249
+            ],
+            [
+              2,
+              113,
+              140
+            ],
+            [
+              2,
+              150,
+              310
+            ],
+            [
+              2,
+              156,
+              249
+            ],
+            [
+              2,
+              192,
+              194
+            ],
+            [
+              2,
+              192,
+              295
+            ],
+            [
+              2,
+              192,
+              320
+            ],
+            [
+              10,
+              18,
+              46
+            ],
+            [
+              10,
+              46,
+              224
+            ],
+            [
+              10,
+              46,
+              310
+            ],
+            [
+              10,
+              46,
+              324
+            ],
+            [
+              10,
+              48,
+              150
+            ],
+            [
+              10,
+              48,
+              215
+            ],
+            [
+              10,
+              48,
+              242
+            ],
+            [
+              10,
+              48,
+              333
+            ],
+            [
+              10,
+              70,
+              295
+            ],
+            [
+              10,
+              103,
+              110
+            ],
+            [
+              10,
+              209,
+              222
+            ],
+            [
+              10,
+              286,
+              292
+            ],
+            [
+              15,
+              18,
+              242
+            ],
+            [
+              15,
+              19,
+              206
+            ],
+            [
+              15,
+              73,
+              118
+            ],
+            [
+              15,
+              103,
+              249
+            ],
+            [
+              15,
+              110,
+              206
+            ],
+            [
+              15,
+              113,
+              140
+            ],
+            [
+              15,
+              150,
+              310
+            ],
+            [
+              15,
+              156,
+              206
+            ],
+            [
+              15,
+              192,
+              249
+            ],
+            [
+              15,
+              194,
+              249
+            ],
+            [
+              15,
+              249,
+              320
+            ],
+            [
+              18,
+              48,
+              286
+            ],
+            [
+              18,
+              73,
+              242
+            ],
+            [
+              18,
+              113,
+              150
+            ],
+            [
+              18,
+              118,
+              150
+            ],
+            [
+              18,
+              140,
+              242
+            ],
+            [
+              18,
+              150,
+              206
+            ],
+            [
+              18,
+              150,
+              249
+            ],
+            [
+              18,
+              215,
+              324
+            ],
+            [
+              18,
+              224,
+              333
+            ],
+            [
+              18,
+              242,
+              310
+            ],
+            [
+              19,
+              70,
+              192
+            ],
+            [
+              19,
+              73,
+              118
+            ],
+            [
+              19,
+              103,
+              194
+            ],
+            [
+              19,
+              110,
+              192
+            ],
+            [
+              19,
+              113,
+              140
+            ],
+            [
+              19,
+              156,
+              192
+            ],
+            [
+              19,
+              192,
+              209
+            ],
+            [
+              19,
+              194,
+              222
+            ],
+            [
+              19,
+              194,
+              295
+            ],
+            [
+              19,
+              194,
+              320
+            ],
+            [
+              46,
+              48,
+              286
+            ],
+            [
+              46,
+              70,
+              103
+            ],
+            [
+              46,
+              118,
+              333
+            ],
+            [
+              46,
+              150,
+              333
+            ],
+            [
+              46,
+              209,
+              295
+            ],
+            [
+              46,
+              215,
+              333
+            ],
+            [
+              46,
+              222,
+              292
+            ],
+            [
+              46,
+              242,
+              333
+            ],
+            [
+              48,
+              70,
+              103
+            ],
+            [
+              48,
+              110,
+              320
+            ],
+            [
+              48,
+              209,
+              295
+            ],
+            [
+              48,
+              222,
+              292
+            ],
+            [
+              48,
+              224,
+              286
+            ],
+            [
+              48,
+              286,
+              324
+            ],
+            [
+              70,
+              103,
+              209
+            ],
+            [
+              70,
+              103,
+              292
+            ],
+            [
+              70,
+              110,
+              320
+            ],
+            [
+              70,
+              156,
+              194
+            ],
+            [
+              70,
+              222,
+              295
+            ],
+            [
+              70,
+              286,
+              295
+            ],
+            [
+              70,
+              295,
+              333
+            ],
+            [
+              73,
+              113,
+              192
+            ],
+            [
+              73,
+              113,
+              194
+            ],
+            [
+              73,
+              113,
+              206
+            ],
+            [
+              73,
+              113,
+              249
+            ],
+            [
+              73,
+              118,
+              140
+            ],
+            [
+              73,
+              150,
+              310
+            ],
+            [
+              73,
+              215,
+              324
+            ],
+            [
+              73,
+              224,
+              333
+            ],
+            [
+              103,
+              110,
+              222
+            ],
+            [
+              103,
+              110,
+              286
+            ],
+            [
+              103,
+              110,
+              295
+            ],
+            [
+              103,
+              156,
+              320
+            ],
+            [
+              110,
+              156,
+              194
+            ],
+            [
+              110,
+              209,
+              320
+            ],
+            [
+              110,
+              292,
+              320
+            ],
+            [
+              113,
+              118,
+              310
+            ],
+            [
+              113,
+              140,
+              156
+            ],
+            [
+              113,
+              215,
+              224
+            ],
+            [
+              113,
+              242,
+              324
+            ],
+            [
+              118,
+              192,
+              310
+            ],
+            [
+              118,
+              206,
+              310
+            ],
+            [
+              118,
+              215,
+              224
+            ],
+            [
+              118,
+              242,
+              324
+            ],
+            [
+              118,
+              249,
+              310
+            ],
+            [
+              140,
+              150,
+              310
+            ],
+            [
+              140,
+              192,
+              206
+            ],
+            [
+              140,
+              194,
+              206
+            ],
+            [
+              140,
+              206,
+              249
+            ],
+            [
+              140,
+              206,
+              320
+            ],
+            [
+              140,
+              215,
+              324
+            ],
+            [
+              150,
+              215,
+              224
+            ],
+            [
+              150,
+              242,
+              324
+            ],
+            [
+              156,
+              194,
+              209
+            ],
+            [
+              156,
+              194,
+              292
+            ],
+            [
+              156,
+              222,
+              320
+            ],
+            [
+              156,
+              286,
+              320
+            ],
+            [
+              156,
+              295,
+              320
+            ],
+            [
+              206,
+              242,
+              324
+            ],
+            [
+              209,
+              215,
+              222
+            ],
+            [
+              209,
+              222,
+              286
+            ],
+            [
+              209,
+              222,
+              333
+            ],
+            [
+              209,
+              224,
+              295
+            ],
+            [
+              209,
+              292,
+              295
+            ],
+            [
+              215,
+              224,
+              242
+            ],
+            [
+              215,
+              286,
+              292
+            ],
+            [
+              215,
+              310,
+              324
+            ],
+            [
+              222,
+              224,
+              292
+            ],
+            [
+              222,
+              292,
+              324
+            ],
+            [
+              224,
+              310,
+              333
+            ],
+            [
+              224,
+              324,
+              333
+            ],
+            [
+              242,
+              286,
+              292
+            ],
+            [
+              286,
+              292,
+              333
+            ]
+          ]
+        }
+      }
+    }
+  }
+}
